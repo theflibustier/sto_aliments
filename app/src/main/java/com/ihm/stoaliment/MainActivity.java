@@ -2,7 +2,12 @@ package com.ihm.stoaliment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
+import com.ihm.stoaliment.consommateur.accueil.AccueilActivity;
+import com.ihm.stoaliment.producteur.produit.AjoutProduitActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,5 +15,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    /** Called when the user taps the Send button */
+    public void sendMessage(View view) {
+        Intent intent = new Intent(this, AjoutProduitActivity.class);
+        startActivity(intent);
+    }
+
+
+    public void accueilConsomateur(View view){
+
+        Intent intent = new Intent(this, AccueilActivity.class);
+        startActivity(intent);
     }
 }
