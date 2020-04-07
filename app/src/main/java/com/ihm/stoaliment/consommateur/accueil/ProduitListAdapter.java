@@ -54,4 +54,12 @@ public class ProduitListAdapter extends ArrayAdapter {
 
         return rowView;
     }
+
+    @Nullable
+    @Override
+    public Object getItem(int position) {
+        return produits.get(position);
+    }
+
+
 }

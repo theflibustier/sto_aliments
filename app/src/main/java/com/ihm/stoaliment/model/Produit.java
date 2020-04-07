@@ -2,9 +2,10 @@ package com.ihm.stoaliment.model;
 
 import android.media.Image;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Produit {
+public class Produit implements Serializable {
 
     private String label;
     private Producteur producteur;
@@ -15,6 +16,26 @@ public class Produit {
     public Produit(String label, Producteur producteur, int image) {
         this.label = label;
         this.producteur = producteur;
+        this.image = image;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public void setProducteur(Producteur producteur) {
+        this.producteur = producteur;
+    }
+
+    public void setDebut(Date debut) {
+        this.debut = debut;
+    }
+
+    public void setFin(Date fin) {
+        this.fin = fin;
+    }
+
+    public void setImage(int image) {
         this.image = image;
     }
 
@@ -37,4 +58,6 @@ public class Produit {
     public int getImage() {
         return image;
     }
+
+
 }

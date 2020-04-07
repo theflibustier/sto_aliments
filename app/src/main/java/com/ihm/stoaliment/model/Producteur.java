@@ -1,6 +1,8 @@
 package com.ihm.stoaliment.model;
 
-public class Producteur {
+import java.io.Serializable;
+
+public class Producteur implements Serializable {
 
     public String name;
     public String codePostal;
