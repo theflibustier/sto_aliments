@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "876686780354",
+    "firebase_url": "https://stoaliment.firebaseio.com",
+    "project_id": "stoaliment",
+    "storage_bucket": "stoaliment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876686780354:android:7fb1404a6c090a599a985b",
+        "android_client_info": {
+          "package_name": "com.ihm.stoaliment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876686780354-o22tins37ls9r5ffkosva3h3uqknmi77.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ihm.stoaliment",
+            "certificate_hash": "2e944760f61e190b4d5ab5211777150146b17480"
+          }
+        },
+        {
+          "client_id": "876686780354-cs9i84a9lnm7239odh62m8a1iqdmibao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCZGVijsPbCM9cYOYUzivL4sbc8zsAwk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876686780354-cs9i84a9lnm7239odh62m8a1iqdmibao.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

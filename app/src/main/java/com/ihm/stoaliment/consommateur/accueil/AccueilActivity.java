@@ -12,37 +12,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.produit.ProduitActivity;
 import com.ihm.stoaliment.model.Produit;
+import com.ihm.stoaliment.model.ProduitList;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class AccueilActivity extends AppCompatActivity {
+public class AccueilActivity extends AppCompatActivity implements Observer {
+
+    private AccueilControlleur accueilControlleur;
+    private List<Produit> produits;
+    private ProduitList produitList = new ProduitList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
 
-        AccueilControlleur accueilControlleur = new AccueilControlleur();
-        List<Produit> produits = accueilControlleur.chargeProduit();
-
-        System.out.println(produits);
+        produitList.addObserver(this);
+        AccueilControlleur accueilControlleur = new AccueilControlleur(this, produitList);
 
         ProduitListAdapter produitListAdapter = new ProduitListAdapter(this, produits);
         ListView listView = findViewById(R.id.listViewProduit);
         listView.setAdapter(produitListAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        listView.setOnItemClickListener(accueilControlleur);
+    }
 
-                Produit produit = (Produit) parent.getItemAtPosition(position);
+    @Override
+    public void update(Observable o, Object arg) {
 
-                Intent intent = new Intent(getApplicationContext(), ProduitActivity.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("PRODUIT", produit);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
+        produits = (List<Produit>) arg;
     }
 }
