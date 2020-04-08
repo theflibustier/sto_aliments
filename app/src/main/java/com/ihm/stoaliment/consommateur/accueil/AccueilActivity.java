@@ -21,7 +21,6 @@ import java.util.Observer;
 
 public class AccueilActivity extends AppCompatActivity implements Observer {
 
-    private AccueilControlleur accueilControlleur;
     private List<Produit> produits;
     private ProduitList produitList = new ProduitList();
 

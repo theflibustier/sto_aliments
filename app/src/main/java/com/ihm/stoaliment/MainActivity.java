@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ihm.stoaliment.consommateur.accueil.AccueilActivity;
+import com.ihm.stoaliment.producteur.abonneList.AfficheAbonneActivity;
 import com.ihm.stoaliment.producteur.produit.AjoutProduitActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    /** Called when the user taps the Send button */
     public void sendMessage(View view) {
         Intent intent = new Intent(this, AjoutProduitActivity.class);
         startActivity(intent);
@@ -27,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
     public void accueilConsomateur(View view){
 
         Intent intent = new Intent(this, AccueilActivity.class);
+        startActivity(intent);
+    }
+
+    public void AfficheAbonne(View view){
+
+        Intent intent = new Intent(this, AfficheAbonneActivity.class);
         startActivity(intent);
     }
 }
