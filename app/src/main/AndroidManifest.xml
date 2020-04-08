@@ -11,6 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
+        android:name=".producteur.produit.CreateChannel"
         android:theme="@style/AppTheme">
         <activity android:name=".consommateur.produit.ProduitActivity"/>
         <activity android:name=".MainActivity">
@@ -25,6 +26,7 @@
         <activity
             android:name=".consommateur.accueil.AccueilActivity"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".producteur.produit.NotificationSenderActivity"/>
     </application>
 
 </manifest>

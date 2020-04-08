@@ -8,8 +8,6 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.PermissionInfo;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,12 +18,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.ihm.stoaliment.R;
 
-import java.net.URI;
-import java.time.Instant;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,4 +110,12 @@ public class AjoutProduitActivity extends AppCompatActivity {
             btnCam.getBackground().setAlpha(64);
         }
     }
+    public void createAlert(View view){
+        Intent intent = new Intent(this, NotificationSenderActivity.class);
+        intent.putExtra("Produit","Pomme");
+        intent.putExtra("Quantité", "10");
+        intent.putExtra("Jours restants","3");
+        startActivity(intent);
+    }
+
 }
