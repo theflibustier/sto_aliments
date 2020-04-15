@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -112,8 +113,8 @@ public class AjoutProduitActivity extends AppCompatActivity {
     }
     public void createAlert(View view){
         Intent intent = new Intent(this, NotificationSenderActivity.class);
-        intent.putExtra("Produit","Pomme");
-        intent.putExtra("Quantité", "10");
+        intent.putExtra("Produit",((EditText) findViewById( R.id.productName)).getText().toString());
+        intent.putExtra("Quantité", ((EditText) findViewById( R.id.edit_quantity)).getText().toString());
         intent.putExtra("Jours restants","3");
         startActivity(intent);
     }

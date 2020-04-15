@@ -9,11 +9,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Demo Notification n°2"
+        android:text="Envoi d'une notification"
         android:textColor="#042CFF"
         android:gravity="center"
         android:layout_gravity="center"
         android:textSize="24sp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp" />
 
 
@@ -21,20 +22,24 @@
         android:id="@+id/edit_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="type your notify title here" />
+        android:layout_marginTop="30dp"
+        android:hint="Entête de la notification" />
 
     <EditText
         android:id="@+id/edit_text_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="type your notify message here"
+        android:hint="Message supplémentaire"
+        android:text="Cliquer sur la notif pour plus d'informations"
         android:layout_marginBottom="30dp"/>
+
     <Button
         android:id="@+id/buttonNotify"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Channel1 - priority LOW"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginTop="100dp"
+        android:padding="100dp"
+        android:text="Envoyer l'alerte"
+        android:textSize="20sp" />
 
 </LinearLayout>

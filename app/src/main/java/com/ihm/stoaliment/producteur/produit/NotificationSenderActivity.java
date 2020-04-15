@@ -1,13 +1,18 @@
 package com.ihm.stoaliment.producteur.produit;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.consommateur.accueil.AccueilActivity;
+import com.ihm.stoaliment.consommateur.produit.ProduitActivity;
 
 import static com.ihm.stoaliment.producteur.produit.CreateChannel.CHANNEL_ID;
 
@@ -16,6 +21,9 @@ public class NotificationSenderActivity extends AppCompatActivity {
     private int notificationId = 0;
 
     private void sendNotificationOnChannel(String title, String content, String channelId, int priority) {
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, AccueilActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(title)
@@ -23,7 +31,8 @@ public class NotificationSenderActivity extends AppCompatActivity {
                 .setStyle(new NotificationCompat.BigTextStyle()
                         .bigText(content))
                 .setPriority(priority);
-        notification.setSmallIcon(R.drawable.cerises);
+        notification.setSmallIcon(R.drawable.abonne);
+        notification.setContentIntent(contentIntent);
         NotificationManagerCompat.from(this).notify(notificationId, notification.build() );
 }
 
@@ -44,8 +53,9 @@ public class NotificationSenderActivity extends AppCompatActivity {
                     joursRestants = extras.getString("Jours restants");
                 }
                 String title = ((EditText) findViewById( R.id.edit_text_title)).getText().toString();
-                String message = ((EditText) findViewById( R.id.edit_text_message)).getText().toString() + "Il ne reste plus que "+ joursRestants + " jours pour choper mes " + quantite + " " +produit+"s";
+                String message = "Il ne reste plus que "+ joursRestants + " jours pour choper mes " + quantite + " " +produit + "\n"+ ((EditText) findViewById( R.id.edit_text_message)).getText().toString();
                 sendNotificationOnChannel( title, message, CHANNEL_ID, NotificationCompat.PRIORITY_LOW );
+                Toast.makeText(getBaseContext(), "La notification a été envoyée à tous vos abonnés", Toast.LENGTH_SHORT).show();
             }
         });
     }
