@@ -1,32 +1,42 @@
 package com.ihm.stoaliment.consommateur.accueil;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.consommateur.produit.ProduitActivity;
 import com.ihm.stoaliment.model.Producteur;
 import com.ihm.stoaliment.model.Produit;
+import com.ihm.stoaliment.model.ProduitList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class AccueilControlleur {
+public class AccueilControlleur implements AdapterView.OnItemClickListener {
 
-    public AccueilControlleur(){
+    private Activity activity;
 
+    public AccueilControlleur(Activity activity, ProduitList produitList){
+
+        this.activity = activity;
+        produitList.loadProduit();
     }
 
-    public List<Produit> chargeProduit(){
 
-        Produit p1 = new Produit("Tomate de saison", new Producteur("Didier le producteur", "31 300", "Toulouse"), R.drawable.tomates);
-        Produit p2 = new Produit("Super cerises à bon prix", new Producteur("Tout a 2€", "06 600", "Antibes"), R.drawable.cerises);
-        Produit p3 = new Produit("Les bon légume du terroire", new Producteur("Frank et les légume", "75 000", "Paris"), R.drawable.legumes);
-        Produit p4 = new Produit("Le meilleur miel de tout le Gers", new Producteur("Gersois et fier de l'être","32 000", "Auch"), R.drawable.miel);
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        List<Produit> produits = new ArrayList<>();
-        produits.add(p1);
-        produits.add(p2);
-        produits.add(p3);
-        produits.add(p4);
+        Produit produit = (Produit) parent.getItemAtPosition(position);
 
+        Intent intent = new Intent(activity.getApplicationContext(), ProduitActivity.class);
 
-        return produits;
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("PRODUIT", produit);
+        intent.putExtras(bundle);
+        activity.startActivity(intent);
     }
 }

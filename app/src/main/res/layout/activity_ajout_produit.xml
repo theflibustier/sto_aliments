@@ -151,7 +151,7 @@
         app:layout_constraintVertical_bias="0.655" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/edit_quantity"
         android:layout_width="67dp"
         android:layout_height="42dp"
         android:ems="10"
@@ -270,7 +270,19 @@
         android:text="Valider"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.93" />
+    <Button
+        android:id="@+id/createAlert"
+        android:onClick="createAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Créer une alerte"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.93" />
