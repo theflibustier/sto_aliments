@@ -23,7 +23,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -37,6 +37,9 @@
             android:name=".producteur.abonneList.AfficheAbonneActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".producteur.produit.NotificationSenderActivity" />
+        <activity
+            android:name=".consommateur.autour.AutourActivity"
+            android:parentActivityName=".consommateur.autour.AutourActivity" />
     </application>
 
 </manifest>
