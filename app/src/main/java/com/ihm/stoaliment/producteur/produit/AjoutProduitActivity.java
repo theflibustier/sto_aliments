@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,7 +20,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.model.Producteur;
+import com.ihm.stoaliment.model.Produit;
+import com.ihm.stoaliment.model.ProduitModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +38,15 @@ public class AjoutProduitActivity extends AppCompatActivity {
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
     Button btnCam;
+    Button btnValid;
     ImageView imgView;
     Spinner spinner2;
+    EditText editTextQuantity;
+    EditText editTextLabel;
+    Spinner SpinnerType;
+    EditText prix;
+    EditText heureDebut;
+    EditText heureFin;
 
     Uri image_uri;
 
@@ -41,6 +57,13 @@ public class AjoutProduitActivity extends AppCompatActivity {
 
         imgView = findViewById(R.id.imageView);
         btnCam = findViewById(R.id.btnCapture);
+        btnValid = findViewById(R.id.valide);
+        editTextQuantity = findViewById(R.id.edit_quantity);
+        editTextLabel = findViewById(R.id.productName);
+        SpinnerType = findViewById(R.id.spinnerProduct);
+        prix = findViewById(R.id.prixProduit);
+        heureDebut = findViewById(R.id.heureDebut);
+        heureFin = findViewById(R.id.heureFin);
 
         btnCam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +86,24 @@ public class AjoutProduitActivity extends AppCompatActivity {
             }
         });
         addItemsOnSpinner();
+
+        btnValid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Produit p = new Produit();
+                p.setQuantite(Integer.parseInt(String.valueOf(editTextQuantity.getText())));
+                p.setLabel(editTextLabel.getText().toString());
+                p.setTypeProduit(SpinnerType.getSelectedItem().toString());
+                p.setPrix(Integer.parseInt(prix.getText().toString()));
+                p.setHeureDebut(Integer.parseInt(heureDebut.getText().toString()));
+                p.setHeureFin(Integer.parseInt(heureFin.getText().toString()));
+                ProduitModel produitModel = new ProduitModel();
+                produitModel.addProduit(p, image_uri);
+            }
+        });
     }
+
+
 
     //add items into spinner dynamically
     public void addItemsOnSpinner() {
@@ -73,8 +113,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
         list.add("Product 1");
         list.add("Product 1");
         list.add("Product 1");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(dataAdapter);
     }

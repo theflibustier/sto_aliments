@@ -7,23 +7,35 @@ import java.util.List;
 
 public class Producteur implements Serializable {
 
+    private String id;
     private String nom;
     private String cp;
     private String ville;
     private List<Produit> produit;
     private String imageUrl;
     private Bitmap image;
+    public static Producteur curProducteur;
 
     public Producteur(){}
 
-    public Producteur(String nom, String cp, String ville, List<Produit> produit, String imageUrl, Bitmap image){
+    public Producteur(String id,String nom, String cp, String ville, List<Produit> produit, String imageUrl, Bitmap image){
+        this.id = id;
         this.nom = nom;
         this.cp = cp;
         this.ville = ville;
         this.produit = produit;
         this.imageUrl = imageUrl;
         this.image = image;
+        curProducteur.cp = cp;
+        curProducteur.id = id;
+        curProducteur.image = image;
+        curProducteur.imageUrl = imageUrl;
+        curProducteur.nom = nom;
+        curProducteur.ville = ville;
+        curProducteur.produit = produit;
     }
+
+    public String getId(){ return id; }
 
     public String getNom() {
         return nom;
