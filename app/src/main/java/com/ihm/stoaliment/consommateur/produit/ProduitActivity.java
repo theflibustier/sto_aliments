@@ -25,8 +25,6 @@ public class ProduitActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.textViewLabelProduit)).setText(produit.getLabel());
 
-        Producteur producteur = produit.getProducteur();
-        ((TextView)findViewById(R.id.textViewProducteurProduit)).setText(producteur.getName() + " - " + producteur.getCodePostal() + " - " + producteur.getVille());
-        ((ImageView)findViewById(R.id.imageViewImageProduit)).setImageResource(produit.getImage());
+        ((ImageView)findViewById(R.id.imageViewImageProduit)).setImageResource(R.drawable.cerises);
     }
 }

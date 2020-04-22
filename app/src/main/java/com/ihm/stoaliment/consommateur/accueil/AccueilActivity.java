@@ -1,18 +1,15 @@
 package com.ihm.stoaliment.consommateur.accueil;
 
-import android.content.Intent;
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ihm.stoaliment.R;
-import com.ihm.stoaliment.consommateur.produit.ProduitActivity;
+import com.ihm.stoaliment.model.Producteur;
+import com.ihm.stoaliment.model.ProducteurModel;
 import com.ihm.stoaliment.model.Produit;
-import com.ihm.stoaliment.model.ProduitList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +18,10 @@ import java.util.Observer;
 
 public class AccueilActivity extends AppCompatActivity implements Observer {
 
-    private AccueilControlleur accueilControlleur;
-    private List<Produit> produits;
-    private ProduitList produitList = new ProduitList();
+    private ProducteurModel producteurModel = new ProducteurModel();
+    private ProducteurListAdapter producteurListAdapter;
+    private ProgressDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,18 +29,24 @@ public class AccueilActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
 
-        produitList.addObserver(this);
-        AccueilControlleur accueilControlleur = new AccueilControlleur(this, produitList);
+        dialog = ProgressDialog.show(this, "Chargement", "Un instant...", true);
 
-        ProduitListAdapter produitListAdapter = new ProduitListAdapter(this, produits);
-        ListView listView = findViewById(R.id.listViewProduit);
-        listView.setAdapter(produitListAdapter);
+        producteurModel.addObserver(this);
+        AccueilControlleur accueilControlleur = new AccueilControlleur(this, producteurModel);
+
+
+        List<Producteur> producteurs = new ArrayList<>();
+        producteurListAdapter = new ProducteurListAdapter(this, producteurs);
+        ListView listView = findViewById(R.id.listViewProducteur);
+        listView.setAdapter(producteurListAdapter);
         listView.setOnItemClickListener(accueilControlleur);
     }
 
     @Override
     public void update(Observable o, Object arg) {
 
-        produits = (List<Produit>) arg;
+        producteurListAdapter.add((Producteur) arg);
+        producteurListAdapter.notifyDataSetChanged();
+        dialog.dismiss();
     }
 }
