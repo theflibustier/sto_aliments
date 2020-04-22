@@ -2,14 +2,13 @@ package com.ihm.stoaliment.consommateur.accueil;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.model.Producteur;
-import com.ihm.stoaliment.model.ProducteurModel;
-import com.ihm.stoaliment.model.Produit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +17,7 @@ import java.util.Observer;
 
 public class AccueilActivity extends AppCompatActivity implements Observer {
 
-
-    private ProducteurModel producteurModel = new ProducteurModel();
     private ProducteurListAdapter producteurListAdapter;
-    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +25,8 @@ public class AccueilActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
 
-        dialog = ProgressDialog.show(this, "Chargement", "Un instant...", true);
-
-        producteurModel.addObserver(this);
-        AccueilControlleur accueilControlleur = new AccueilControlleur(this, producteurModel);
+        AccueilControlleur accueilControlleur = new AccueilControlleur(this);
+        accueilControlleur.addObserver(this);
 
 
         List<Producteur> producteurs = new ArrayList<>();
@@ -47,6 +41,8 @@ public class AccueilActivity extends AppCompatActivity implements Observer {
 
         producteurListAdapter.add((Producteur) arg);
         producteurListAdapter.notifyDataSetChanged();
-        dialog.dismiss();
+
+        View load = findViewById(R.id.load);
+        load.setVisibility(View.GONE);
     }
 }

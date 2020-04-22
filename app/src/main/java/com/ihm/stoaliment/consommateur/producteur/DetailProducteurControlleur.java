@@ -1,5 +1,6 @@
-package com.ihm.stoaliment.model;
+package com.ihm.stoaliment.consommateur.producteur;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -10,35 +11,45 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.ihm.stoaliment.model.Producteur;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
-public class ProducteurModel extends Observable {
+public class DetailProducteurControlleur extends Observable {
 
-    public void loadProducteur(){
+    private Activity activity;
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String TAG = "DATABASE";
 
-        db.collection("producteur").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    public DetailProducteurControlleur(Activity activity, String producteurId){
+
+        this.activity = activity;
+        loadProducteur(producteurId);
+    }
+
+
+    private void loadProducteur(String id) {
+
+        db.collection("producteur").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
                 if (task.isSuccessful()) {
 
+                    DocumentSnapshot document = task.getResult();
 
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d("DATABASE",document.getId() + " => " + document.getData());
-
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         final Producteur producteur = document.toObject(Producteur.class);
+                        producteur.setId(document.getId());
 
                         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
                         StorageReference islandRef = firebaseStorage.getReference().child(producteur.getImageUrl());
@@ -58,7 +69,6 @@ public class ProducteurModel extends Observable {
                                 Bitmap bitmap = BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath());
 
                                 producteur.setImage(bitmap);
-
                                 setChanged();
                                 notifyObservers(producteur);
                             }
@@ -69,10 +79,10 @@ public class ProducteurModel extends Observable {
                             }
                         });
                     }
-
                 } else {
-                    Log.d("tag", "Error getting documents: ", task.getException());
+                    Log.d(TAG, "No such document");
                 }
+
             }
         });
     }
