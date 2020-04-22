@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".consommateur.autour.AutourActivity">
+
+
+    <Button
+        android:id="@+id/filtre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  Filtre"
+        android:textSize="20sp"
+        android:layout_gravity="end"
+        android:drawableLeft="@drawable/search"
+        />
+
+
+    <TextView
+        android:id="@+id/titre"
+        android:layout_width="238dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="top"
+        android:text="Autour de Moi"
+        android:textSize="24sp" />
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</LinearLayout>
