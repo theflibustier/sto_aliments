@@ -8,24 +8,34 @@ import java.util.Observable;
 
 public class Producteur extends Observable implements Serializable {
 
+    private String id;
     private String nom;
     private String cp;
     private String ville;
     private List<Produit> produit;
     private String imageUrl;
     private Bitmap image;
-    private String id;
+    public static Producteur curProducteur;
+
 
     public Producteur(){}
 
-    public Producteur(String nom, String cp, String ville, List<Produit> produit, String imageUrl, Bitmap image, String id){
+    public Producteur(String id,String nom, String cp, String ville, List<Produit> produit, String imageUrl, Bitmap image){
+        this.id = id;
         this.nom = nom;
         this.cp = cp;
         this.ville = ville;
         this.produit = produit;
         this.imageUrl = imageUrl;
         this.image = image;
-        this.id = id;
+
+        curProducteur.cp = cp;
+        curProducteur.id = id;
+        curProducteur.image = image;
+        curProducteur.imageUrl = imageUrl;
+        curProducteur.nom = nom;
+        curProducteur.ville = ville;
+        curProducteur.produit = produit;
     }
 
     public String getNom() {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.ihm.stoaliment.consommateur.accueil.AccueilActivity;
+import com.ihm.stoaliment.consommateur.autour.AutourActivity;
 import com.ihm.stoaliment.producteur.abonneList.AfficheAbonneActivity;
 import com.ihm.stoaliment.producteur.produit.AjoutProduitActivity;
 
@@ -34,5 +35,12 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, AfficheAbonneActivity.class);
         startActivity(intent);
+    }
+
+    public void mapDisplay(View view){
+
+        Intent intent = new Intent( this, AutourActivity.class);
+        startActivity(intent);
+
     }
 }
