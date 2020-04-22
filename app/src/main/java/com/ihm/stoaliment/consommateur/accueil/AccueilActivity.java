@@ -18,10 +18,10 @@ import java.util.Observer;
 
 public class AccueilActivity extends AppCompatActivity implements Observer {
 
+
     private ProducteurModel producteurModel = new ProducteurModel();
     private ProducteurListAdapter producteurListAdapter;
     private ProgressDialog dialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
