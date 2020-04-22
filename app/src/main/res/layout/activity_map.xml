@@ -16,7 +16,7 @@
         android:textSize="20sp"
         android:layout_gravity="end"
         android:drawableLeft="@drawable/search"
-        android:padding="@android:dimen/dialog_min_width_minor"/>
+        />
 
 
     <TextView
@@ -33,7 +33,7 @@
     <org.osmdroid.views.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </org.osmdroid.views.MapView>
+        android:layout_height="match_parent"/>
+
 
 </LinearLayout>
