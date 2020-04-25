@@ -26,6 +26,8 @@ import com.ihm.stoaliment.R;
 
 public class AutourActivity extends AppCompatActivity {
     private MapView map;
+    private double lat;
+    private double lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,22 +65,26 @@ public class AutourActivity extends AppCompatActivity {
         mapController.setZoom(18.0);
 
         Bundle bundle = getIntent().getExtras();
-        double lat = bundle.getDouble("latitude");
-        double lng = bundle.getDouble("longitude");
+
+        if (bundle != null) {
+            lat = bundle.getDouble("latitude");
+        }
+
+        if (bundle != null) {
+            lng = bundle.getDouble("longitude");
+        }
         GeoPoint startPoint = new GeoPoint(lat, lng);
         mapController.setCenter(startPoint);
-
-
 
 
         //create a new item to draw on the map
         //your items
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(lat,lng));
+        OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(43.132988,5.993595));
         Drawable m = home.getMarker(0);
 
         items.add(home); // Lat/Lon decimal degrees
-        items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(lat,lng))); // Lat/Lon decimal degrees
+        items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(43.131459,5.994371))); // Lat/Lon decimal degrees
 
         //the Place icons on the map with a click listener
         ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items,
@@ -119,6 +125,4 @@ public class AutourActivity extends AppCompatActivity {
         //Configuration.getInstance().save(this, prefs);
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
-
-
 }

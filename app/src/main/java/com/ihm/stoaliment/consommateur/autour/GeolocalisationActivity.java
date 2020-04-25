@@ -44,7 +44,7 @@ public class GeolocalisationActivity extends AppCompatActivity {
             public void onSuccess(Location location) {
                 if (location != null){
                     currentLocation = location;
-                    Intent intent = new Intent(getBaseContext(), AutourActivity.class);
+                    Intent intent = new Intent(GeolocalisationActivity.this, AutourActivity.class);
                     intent.putExtra("latitude", currentLocation.getLatitude());
                     intent.putExtra("longitude", currentLocation.getLongitude());
                     startActivity(intent);
