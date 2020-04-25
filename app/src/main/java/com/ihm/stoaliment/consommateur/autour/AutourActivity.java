@@ -2,6 +2,9 @@
 package com.ihm.stoaliment.consommateur.autour;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 
@@ -91,6 +94,16 @@ public class AutourActivity extends AppCompatActivity {
             OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(43.132988,5.993595));
             Drawable m = home.getMarker(0);
 
+            Resources res = getResources();
+
+
+            Drawable iconMap = res.getDrawable(R.drawable.icon);
+            Drawable iconResized = resize(res, iconMap, 20);
+
+            OverlayItem curPosition = new OverlayItem("Vous etes ici ", "votre position", startPoint);
+            curPosition.setMarker(iconResized);
+
+            items.add(curPosition);
             items.add(home); // Lat/Lon decimal degrees
             items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(43.131459,5.994371))); // Lat/Lon decimal degrees
 
@@ -132,5 +145,13 @@ public class AutourActivity extends AppCompatActivity {
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //Configuration.getInstance().save(this, prefs);
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
+    }
+
+
+    private Drawable resize(Resources r, Drawable image, int newSize) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, newSize, newSize, false);
+        BitmapDrawable drawableBmp = new BitmapDrawable(r, bitmapResized);
+        return drawableBmp;
     }
 }
