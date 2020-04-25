@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent( this, AutourActivity.class);
         startActivity(intent);
+        Intent intent2 = new Intent( this, GeolocalisationActivity.class);
+        startActivity(intent2);
     }
 
     public void geolocalisation(View view){

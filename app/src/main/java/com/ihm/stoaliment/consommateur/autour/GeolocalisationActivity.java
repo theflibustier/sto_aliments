@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -26,10 +27,6 @@ public class GeolocalisationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_geolocalisation);
-
-        locationTV = findViewById(R.id.location);
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
 
@@ -47,7 +44,10 @@ public class GeolocalisationActivity extends AppCompatActivity {
             public void onSuccess(Location location) {
                 if (location != null){
                     currentLocation = location;
-                    locationTV.setText("Latitude: " + currentLocation.getLatitude() + "\n Longitude: " +currentLocation.getLongitude());
+                    Intent intent = new Intent(getBaseContext(), AutourActivity.class);
+                    intent.putExtra("latitude", currentLocation.getLatitude());
+                    intent.putExtra("longitude", currentLocation.getLongitude());
+                    startActivity(intent);
                 }
             }
         });

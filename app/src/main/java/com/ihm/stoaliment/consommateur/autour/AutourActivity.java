@@ -1,6 +1,7 @@
 
 package com.ihm.stoaliment.consommateur.autour;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 
@@ -60,7 +61,11 @@ public class AutourActivity extends AppCompatActivity {
 
         mapController = map.getController();
         mapController.setZoom(18.0);
-        GeoPoint startPoint = new GeoPoint(43.65020, 7.00517);
+
+        Bundle bundle = getIntent().getExtras();
+        double lat = bundle.getDouble("latitude");
+        double lng = bundle.getDouble("longitude");
+        GeoPoint startPoint = new GeoPoint(lat, lng);
         mapController.setCenter(startPoint);
 
 
@@ -69,11 +74,11 @@ public class AutourActivity extends AppCompatActivity {
         //create a new item to draw on the map
         //your items
         ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(43.65020,7.00517));
+        OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(lat,lng));
         Drawable m = home.getMarker(0);
 
         items.add(home); // Lat/Lon decimal degrees
-        items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(43.64950,7.00517))); // Lat/Lon decimal degrees
+        items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(lat,lng))); // Lat/Lon decimal degrees
 
         //the Place icons on the map with a click listener
         ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items,
