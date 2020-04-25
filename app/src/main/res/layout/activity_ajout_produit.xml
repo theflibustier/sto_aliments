@@ -63,7 +63,7 @@
         app:layout_constraintVertical_bias="0.577" />
 
     <EditText
-        android:id="@+id/editText7"
+        android:id="@+id/heureFin"
         android:layout_width="43dp"
         android:layout_height="52dp"
         android:ems="10"
@@ -89,7 +89,7 @@
         app:layout_constraintVertical_bias="0.655" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/heureDebut"
         android:layout_width="42dp"
         android:layout_height="49dp"
         android:ems="10"
@@ -139,7 +139,7 @@
         app:layout_constraintVertical_bias="0.499" />
 
     <TextView
-        android:id="@+id/prix4"
+        android:id="@+id/heureRetrait"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Heure de retrait"
@@ -177,7 +177,7 @@
         app:layout_constraintVertical_bias="0.577" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/prixProduit"
         android:layout_width="56dp"
         android:layout_height="45dp"
         android:ems="10"
@@ -273,7 +273,10 @@
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.93" />
+        app:layout_constraintVertical_bias="0.93"
+        />
+
+
     <Button
         android:id="@+id/createAlert"
         android:onClick="createAlert"
