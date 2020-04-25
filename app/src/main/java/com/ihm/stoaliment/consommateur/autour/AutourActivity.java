@@ -28,13 +28,16 @@ public class AutourActivity extends AppCompatActivity {
     private MapView map;
     private double lat;
     private double lng;
+    IMapController mapController;
+    ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        IMapController mapController;
-        ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
-
         super.onCreate(savedInstanceState);
+
+        Intent intent=new Intent(AutourActivity.this,GeolocalisationActivity.class);
+        startActivityForResult(intent, 2);// Activity is started with requestCode 2
+
         //load/initialize the osmdroid configuration, this can be done
         Configuration.getInstance().load(   getApplicationContext(),
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext()) );
@@ -64,46 +67,52 @@ public class AutourActivity extends AppCompatActivity {
         mapController = map.getController();
         mapController.setZoom(18.0);
 
-        Bundle bundle = getIntent().getExtras();
 
-        if (bundle != null) {
-            lat = bundle.getDouble("latitude");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==2)
+        {
+            lat =data.getExtras().getDouble("latitude");
+            lng =data.getExtras().getDouble("longitude");
+            System.out.println(lat);
+            System.out.println(lng);
+
+            GeoPoint startPoint = new GeoPoint(lat, lng);
+            mapController.setCenter(startPoint);
+
+
+            //create a new item to draw on the map
+            //your items
+            ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+            OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(43.132988,5.993595));
+            Drawable m = home.getMarker(0);
+
+            items.add(home); // Lat/Lon decimal degrees
+            items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(43.131459,5.994371))); // Lat/Lon decimal degrees
+
+            //the Place icons on the map with a click listener
+            ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items,
+                    new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                        @Override
+                        public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                            //do something
+                            return true;
+                        }
+                        @Override
+                        public boolean onItemLongPress(final int index, final OverlayItem item) {
+                            return false;
+                        }
+                    });
+
+
+            mOverlay.setFocusItemsOnTap(true);
+            map.getOverlays().add(mOverlay);
         }
-
-        if (bundle != null) {
-            lng = bundle.getDouble("longitude");
-        }
-        GeoPoint startPoint = new GeoPoint(lat, lng);
-        mapController.setCenter(startPoint);
-
-
-        //create a new item to draw on the map
-        //your items
-        ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-        OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(43.132988,5.993595));
-        Drawable m = home.getMarker(0);
-
-        items.add(home); // Lat/Lon decimal degrees
-        items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(43.131459,5.994371))); // Lat/Lon decimal degrees
-
-        //the Place icons on the map with a click listener
-        ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items,
-                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                    @Override
-                    public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                        //do something
-                        return true;
-                    }
-                    @Override
-                    public boolean onItemLongPress(final int index, final OverlayItem item) {
-                        return false;
-                    }
-                });
-
-
-        mOverlay.setFocusItemsOnTap(true);
-        map.getOverlays().add(mOverlay);
-
     }
 
     @Override

@@ -47,7 +47,8 @@ public class GeolocalisationActivity extends AppCompatActivity {
                     Intent intent = new Intent(GeolocalisationActivity.this, AutourActivity.class);
                     intent.putExtra("latitude", currentLocation.getLatitude());
                     intent.putExtra("longitude", currentLocation.getLongitude());
-                    startActivity(intent);
+                    setResult(2,intent);
+                    finish();//finishing activity
                 }
             }
         });
