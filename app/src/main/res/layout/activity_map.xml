@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -12,28 +13,39 @@
         android:id="@+id/filtre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="  Filtre"
-        android:textSize="20sp"
         android:layout_gravity="end"
         android:drawableLeft="@drawable/search"
-        />
-
+        android:text="  Filtre"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.002" />
 
     <TextView
         android:id="@+id/titre"
-        android:layout_width="238dp"
-        android:layout_height="wrap_content"
+        android:layout_width="168dp"
+        android:layout_height="31dp"
         android:layout_gravity="top"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
         android:gravity="top"
         android:text="Autour de Moi"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
 
     <org.osmdroid.views.MapView
         android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_width="432dp"
+        android:layout_height="593dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.898"
+        tools:layout_editor_absoluteX="-5dp" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
