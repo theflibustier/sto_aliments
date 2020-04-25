@@ -82,6 +82,9 @@ public class AutourActivity extends AppCompatActivity {
         OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(43.132988,5.993595));
         Drawable m = home.getMarker(0);
 
+        OverlayItem curPosition = new OverlayItem("Vous etes ici", "Votre position", new GeoPoint(lat,lng));
+        items.add(curPosition);
+
         items.add(home); // Lat/Lon decimal degrees
         items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(43.131459,5.994371))); // Lat/Lon decimal degrees
 
