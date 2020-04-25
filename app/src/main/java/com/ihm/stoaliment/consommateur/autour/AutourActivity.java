@@ -92,16 +92,15 @@ public class AutourActivity extends AppCompatActivity {
             //your items
             ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
             OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(43.132988,5.993595));
-            Drawable m = home.getMarker(0);
+            Drawable m = home.getMarker(2);
 
             Resources res = getResources();
 
 
-            Drawable iconMap = res.getDrawable(R.drawable.icon);
-            Drawable iconResized = resize(res, iconMap, 20);
+            //Drawable iconMap = res.getDrawable(R.drawable.ic_place_black_24dp);
+            //Drawable iconResized = resize(res, iconMap, 20);
 
             OverlayItem curPosition = new OverlayItem("Vous etes ici ", "votre position", startPoint);
-            curPosition.setMarker(iconResized);
 
             items.add(curPosition);
             items.add(home); // Lat/Lon decimal degrees
