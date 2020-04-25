@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.ihm.stoaliment.consommateur.accueil.AccueilActivity;
 import com.ihm.stoaliment.consommateur.autour.AutourActivity;
+import com.ihm.stoaliment.consommateur.autour.GeolocalisationActivity;
 import com.ihm.stoaliment.producteur.abonneList.AfficheAbonneActivity;
 import com.ihm.stoaliment.producteur.produit.AjoutProduitActivity;
 
@@ -41,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent( this, AutourActivity.class);
         startActivity(intent);
+    }
 
+    public void geolocalisation(View view){
+
+        Intent intent = new Intent( this, GeolocalisationActivity.class);
+        startActivity(intent);
     }
 }
