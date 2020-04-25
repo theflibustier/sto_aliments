@@ -85,7 +85,6 @@ public class AutourActivity extends AppCompatActivity {
             GeoPoint startPoint = new GeoPoint(lat, lng);
             mapController.setCenter(startPoint);
 
-
             //create a new item to draw on the map
             //your items
             ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();

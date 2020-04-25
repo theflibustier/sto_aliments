@@ -15,7 +15,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.ihm.stoaliment.R;
 
 public class GeolocalisationActivity extends AppCompatActivity {
 
