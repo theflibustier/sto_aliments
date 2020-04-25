@@ -68,13 +68,12 @@ public class AutourActivity extends AppCompatActivity {
 
         if (bundle != null) {
             lat = bundle.getDouble("latitude");
-        }
-
-        if (bundle != null) {
             lng = bundle.getDouble("longitude");
+            GeoPoint startPoint = new GeoPoint(lat, lng);
+            mapController.setCenter(startPoint);
+        }else{
+            finish();
         }
-        GeoPoint startPoint = new GeoPoint(lat, lng);
-        mapController.setCenter(startPoint);
 
 
         //create a new item to draw on the map
@@ -124,5 +123,10 @@ public class AutourActivity extends AppCompatActivity {
         //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         //Configuration.getInstance().save(this, prefs);
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
