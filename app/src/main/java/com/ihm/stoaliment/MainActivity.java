@@ -1,5 +1,4 @@
 package com.ihm.stoaliment;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;

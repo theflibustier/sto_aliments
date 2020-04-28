@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.model.Producteur;
@@ -24,6 +26,9 @@ public class AccueilActivity extends AppCompatActivity implements Observer {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
+
+        Toolbar mytoolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(mytoolbar);
 
         AccueilControlleur accueilControlleur = new AccueilControlleur(this);
         accueilControlleur.addObserver(this);
