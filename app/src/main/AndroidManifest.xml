@@ -16,12 +16,11 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".consommateur.autour.GeolocalisationActivity"></activity>
-
+        <activity android:name=".AuthentificationActivity"></activity>
+        <activity android:name=".consommateur.autour.GeolocalisationActivity" />
         <activity
             android:name=".consommateur.producteur.DetailProducteurActivity"
-            android:parentActivityName=".consommateur.accueil.AccueilActivity"/>
-
+            android:parentActivityName=".consommateur.accueil.AccueilActivity" />
         <activity android:name=".producteur.abonneList.AbonneListAdapter" />
         <activity android:name=".producteur.abonneList.AbonneControlleur" />
         <activity android:name=".producteur.abonneList.AbonneActivity" />
@@ -39,7 +38,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".consommateur.accueil.AccueilActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".producteur.abonneList.AfficheAbonneActivity"
             android:parentActivityName=".MainActivity" />

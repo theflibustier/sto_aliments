@@ -19,6 +19,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    public void authentification(View view){
+
+        Intent intent = new Intent(this, AuthentificationActivity.class);
+        startActivity(intent);
+    }
+
     public void sendMessage(View view) {
         Intent intent = new Intent(this, AjoutProduitActivity.class);
         startActivity(intent);

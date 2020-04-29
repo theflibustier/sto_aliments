@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.ihm.stoaliment.model.Abonne;
+import com.ihm.stoaliment.model.Consommateur;
 import com.ihm.stoaliment.model.AbonneList;
 
 public class AbonneControlleur implements AdapterView.OnItemClickListener {
@@ -23,14 +23,14 @@ public class AbonneControlleur implements AdapterView.OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Abonne abonne = (Abonne) parent.getItemAtPosition(position);
+        Consommateur consommateur = (Consommateur) parent.getItemAtPosition(position);
 
         Intent intent = new Intent(activity.getApplicationContext(), AbonneActivity.class);
 
         System.out.println(intent);
 
         Bundle bundle = new Bundle();
-        bundle.putSerializable("ABONNE", abonne);
+        bundle.putSerializable("ABONNE", consommateur);
         intent.putExtras(bundle);
         activity.startActivity(intent);
     }

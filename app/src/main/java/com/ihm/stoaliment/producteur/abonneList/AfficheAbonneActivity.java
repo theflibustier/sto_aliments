@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.ihm.stoaliment.R;
-import com.ihm.stoaliment.model.Abonne;
+import com.ihm.stoaliment.model.Consommateur;
 import com.ihm.stoaliment.model.AbonneList;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.Observer;
 
 public class AfficheAbonneActivity extends AppCompatActivity implements Observer {
 
-    private List<Abonne> abonnes;
+    private List<Consommateur> consommateurs;
     private AbonneList abonneList = new AbonneList();
 
     @Override
@@ -27,7 +27,7 @@ public class AfficheAbonneActivity extends AppCompatActivity implements Observer
         abonneList.addObserver(this);
         AbonneControlleur abonneControlleur = new AbonneControlleur(this, abonneList);
 
-        AbonneListAdapter abonnesListAdapter = new AbonneListAdapter(this, abonnes);
+        AbonneListAdapter abonnesListAdapter = new AbonneListAdapter(this, consommateurs);
         ListView listView = findViewById(R.id.listViewAbonnes);
         listView.setAdapter(abonnesListAdapter);
         listView.setOnItemClickListener(abonneControlleur);
@@ -36,6 +36,6 @@ public class AfficheAbonneActivity extends AppCompatActivity implements Observer
     @Override
     public void update(Observable o, Object arg) {
 
-        abonnes = (List<Abonne>) arg;
+        consommateurs = (List<Consommateur>) arg;
     }
 }

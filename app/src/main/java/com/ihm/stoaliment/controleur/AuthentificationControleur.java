@@ -1,12 +1,12 @@
 package com.ihm.stoaliment.controleur;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -21,52 +21,112 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.ihm.stoaliment.consommateur.producteur.DetailProducteurActivity;
+import com.ihm.stoaliment.Authentification;
+import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.model.Consommateur;
 import com.ihm.stoaliment.model.Producteur;
-
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.OverlayItem;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 
-public class ProducteurControleur extends Observable implements AdapterView.OnItemClickListener, ItemizedIconOverlay.OnItemGestureListener<OverlayItem> {
+public class AuthentificationControleur extends Observable implements View.OnClickListener {
 
 
     private Activity activity;
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     private String TAG = "DATABASE";
 
-    public ProducteurControleur(Activity activity){
+
+
+    public AuthentificationControleur(Activity activity){
 
         this.activity = activity;
     }
 
+    public void loadAuthentification(String identifiant) {
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        db.collection("authentification").whereEqualTo("identifiant", identifiant).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-        Producteur producteur = (Producteur) parent.getItemAtPosition(position);
+                if (task.isSuccessful()) {
 
-        Intent intent = new Intent(activity.getApplicationContext(), DetailProducteurActivity.class);
-        intent.putExtra("PRODUCTEUR", producteur.getId());
-        activity.startActivity(intent);
+                    if(task.getResult().isEmpty()){
+
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                        Toast.makeText(activity.getBaseContext(), "Cette identifiant n'existe pas", Toast.LENGTH_SHORT).show();
+                    }
+
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                        Log.d(TAG,document.getId() + " => " + document.getData());
+
+                        Authentification authentification = document.toObject(Authentification.class);
+
+                        if(authentification.getType().equals(Authentification.CONSOMMATEUR_TYPE))
+                            loadConsommateur(authentification.getRef());
+
+                        else
+                            loadProducteur(authentification.getRef());
+
+                    }
+                } else {
+
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+
+            }
+        });
     }
 
 
+    public void loadConsommateur(String id){
 
-
-    public void loadProducteurs(){
-
-        db.collection("producteur").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("consommateur").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
                 if (task.isSuccessful()) {
 
+                    DocumentSnapshot document = task.getResult();
 
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+                    if (document.exists()) {
+
+                        Log.d(TAG,document.getId() + " => " + document.getData());
+
+                        final Consommateur consommateur = document.toObject(Consommateur.class);
+                        consommateur.setId(document.getId());
+
+                        Authentification.consommateur = consommateur;
+                        Authentification.userType = Authentification.CONSOMMATEUR_TYPE;
+
+                        setChanged();
+                        notifyObservers(consommateur);
+                    }
+                } else {
+
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+    }
+
+    public void loadProducteur(String id) {
+
+        db.collection("producteur").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if (task.isSuccessful()) {
+
+                    DocumentSnapshot document = task.getResult();
+
+                    if (document.exists()) {
+
                         Log.d(TAG,document.getId() + " => " + document.getData());
 
                         final Producteur producteur = document.toObject(Producteur.class);
@@ -90,8 +150,13 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
                                 Bitmap bitmap = BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath());
 
                                 producteur.setImage(bitmap);
+
+                                Authentification.producteur = producteur;
+                                Authentification.userType = Authentification.PRODUCTEUR_TYPE;
+
                                 setChanged();
                                 notifyObservers(producteur);
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -100,75 +165,23 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
                             }
                         });
                     }
-
                 } else {
+
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-            }
-        });
-    }
-
-
-    public void loadProducteur(String id) {
-
-        db.collection("producteur").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                if (task.isSuccessful()) {
-
-                    DocumentSnapshot document = task.getResult();
-
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        final Producteur producteur = document.toObject(Producteur.class);
-                        producteur.setId(document.getId());
-
-                        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-                        StorageReference islandRef = firebaseStorage.getReference().child(producteur.getImageUrl());
-
-                        File localFile = null;
-                        try {
-                            localFile = File.createTempFile("images", "jpg");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        final File finalLocalFile = localFile;
-                        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                // Local temp file has been created
-                                Bitmap bitmap = BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath());
-
-                                producteur.setImage(bitmap);
-                                setChanged();
-                                notifyObservers(producteur);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle any errors
-                            }
-                        });
-                    }
-                } else {
-                    Log.d(TAG, "No such document");
-                }
 
             }
         });
     }
 
     @Override
-    public boolean onItemSingleTapUp(int index, OverlayItem item) {
+    public void onClick(View v) {
 
-        System.out.println(item.getUid());
-        return false;
-    }
+        switch (v.getId()){
 
-    @Override
-    public boolean onItemLongPress(int index, OverlayItem item) {
-        return false;
+            case R.id.btn_valider :
+                String identifiant = ((EditText) activity.findViewById(R.id.editTextIdentifiant)).getText().toString();
+                loadAuthentification(identifiant);
+        }
     }
 }

@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ihm.stoaliment.R;
-import com.ihm.stoaliment.model.Abonne;
+import com.ihm.stoaliment.model.Consommateur;
 
 public class AbonneActivity extends AppCompatActivity {
 
@@ -20,14 +20,14 @@ public class AbonneActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
 
-        Abonne abonne = (Abonne) bundle.getSerializable("ABONNE");
+        Consommateur consommateur = (Consommateur) bundle.getSerializable("ABONNE");
 
-        ((TextView)findViewById(R.id.nomAbonne)).setText(abonne.getName());
+        ((TextView)findViewById(R.id.nomAbonne)).setText(consommateur.getNom());
 
-        ((TextView)findViewById(R.id.codePostalAbonne)).setText(abonne.getCodePostal());
+        //((TextView)findViewById(R.id.codePostalAbonne)).setText(consommateur.getCodePostal());
 
-        ((TextView)findViewById(R.id.villeAbonne)).setText(abonne.getName());
+        ((TextView)findViewById(R.id.villeAbonne)).setText(consommateur.getNom());
 
-        ((ImageView)findViewById(R.id.imgAbonne)).setImageResource(abonne.getImg());
+        //((ImageView)findViewById(R.id.imgAbonne)).setImageResource(consommateur.getImg());
     }
 }
