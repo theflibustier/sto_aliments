@@ -23,16 +23,23 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 //import com.example.map.R;
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.controleur.ProducteurControleur;
+import com.ihm.stoaliment.model.Producteur;
 
-public class AutourActivity extends AppCompatActivity {
+public class AutourActivity extends AppCompatActivity implements Observer {
     private MapView map;
     private double lat;
     private double lng;
     IMapController mapController;
     ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
+
+    private ProducteurControleur producteurControleur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,9 @@ public class AutourActivity extends AppCompatActivity {
 
         //inflate and create the map
         setContentView(R.layout.activity_map);
+
+        producteurControleur = new ProducteurControleur(this);
+        producteurControleur.addObserver(this);
 
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);   //render
@@ -90,7 +100,7 @@ public class AutourActivity extends AppCompatActivity {
 
             //create a new item to draw on the map
             //your items
-            ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+            List<OverlayItem> items = new ArrayList<OverlayItem>();
             OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(43.132988,5.993595));
             Drawable m = home.getMarker(2);
 
@@ -107,24 +117,14 @@ public class AutourActivity extends AppCompatActivity {
             items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(43.131459,5.994371))); // Lat/Lon decimal degrees
 
             //the Place icons on the map with a click listener
-            ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items,
-                    new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                        @Override
-                        public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                            //do something
-                            return true;
-                        }
-                        @Override
-                        public boolean onItemLongPress(final int index, final OverlayItem item) {
-                            return false;
-                        }
-                    });
+            mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items, producteurControleur);
 
 
-            mOverlay.setFocusItemsOnTap(true);
-            map.getOverlays().add(mOverlay);
+            mMyLocationOverlay.setFocusItemsOnTap(true);
+            map.getOverlays().add(mMyLocationOverlay);
         }
     }
+
 
     @Override
     public void onResume(){
@@ -152,5 +152,18 @@ public class AutourActivity extends AppCompatActivity {
         Bitmap bitmapResized = Bitmap.createScaledBitmap(b, newSize, newSize, false);
         BitmapDrawable drawableBmp = new BitmapDrawable(r, bitmapResized);
         return drawableBmp;
+    }
+
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+        Producteur producteur = (Producteur) arg;
+
+        mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(), producteur.getNom(), producteur.getVille(), new GeoPoint(producteur.getLocation().getLatitude(), producteur.getLocation().getLongitude())));
+
+
+        System.out.println(producteur.getNom());
+        System.out.println(producteur.getLocation());
     }
 }

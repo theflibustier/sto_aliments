@@ -17,7 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".consommateur.autour.GeolocalisationActivity"></activity>
-        <activity android:name=".consommateur.producteur.DetailProducteurActivity" />
+
+        <activity
+            android:name=".consommateur.producteur.DetailProducteurActivity"
+            android:parentActivityName=".consommateur.accueil.AccueilActivity"/>
+
         <activity android:name=".producteur.abonneList.AbonneListAdapter" />
         <activity android:name=".producteur.abonneList.AbonneControlleur" />
         <activity android:name=".producteur.abonneList.AbonneActivity" />

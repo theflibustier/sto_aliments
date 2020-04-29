@@ -2,6 +2,9 @@ package com.ihm.stoaliment.model;
 
 import android.graphics.Bitmap;
 
+
+import com.google.firebase.firestore.GeoPoint;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Observable;
@@ -15,12 +18,15 @@ public class Producteur extends Observable implements Serializable {
     private List<Produit> produit;
     private String imageUrl;
     private Bitmap image;
+    private GeoPoint location;
+
+
     public static Producteur curProducteur;
 
 
     public Producteur(){}
 
-    public Producteur(String id,String nom, String cp, String ville, List<Produit> produit, String imageUrl, Bitmap image){
+    public Producteur(String id,String nom, String cp, String ville, List<Produit> produit, String imageUrl, Bitmap image, GeoPoint location){
         this.id = id;
         this.nom = nom;
         this.cp = cp;
@@ -28,6 +34,7 @@ public class Producteur extends Observable implements Serializable {
         this.produit = produit;
         this.imageUrl = imageUrl;
         this.image = image;
+        this.location =location;
 
         curProducteur.cp = cp;
         curProducteur.id = id;
@@ -36,6 +43,7 @@ public class Producteur extends Observable implements Serializable {
         curProducteur.nom = nom;
         curProducteur.ville = ville;
         curProducteur.produit = produit;
+        curProducteur.location = location;
     }
 
     public String getNom() {
@@ -85,5 +93,12 @@ public class Producteur extends Observable implements Serializable {
     }
     public void setId(String id) {
         this.id = id;
+    }
+
+    public GeoPoint getLocation() {
+        return location;
+    }
+    public void setLocation(GeoPoint location) {
+        this.location = location;
     }
 }

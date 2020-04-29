@@ -5,7 +5,17 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:colorSecondary">@color/colorSecondary</item>
+
+        <item name="titleTextColor">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+
+        <item name="android:colorControlNormal">@color/textColorSecondary</item>
+
+        <!-- couleur des buttons
+        <item name="colorButtonNormal"></item>
+        -->
     </style>
 
 </resources>

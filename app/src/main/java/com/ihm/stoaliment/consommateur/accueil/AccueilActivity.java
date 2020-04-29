@@ -1,15 +1,14 @@
 package com.ihm.stoaliment.consommateur.accueil;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.controleur.ProducteurControleur;
 import com.ihm.stoaliment.model.Producteur;
 
 import java.util.ArrayList;
@@ -30,15 +29,16 @@ public class AccueilActivity extends AppCompatActivity implements Observer {
         Toolbar mytoolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(mytoolbar);
 
-        AccueilControlleur accueilControlleur = new AccueilControlleur(this);
-        accueilControlleur.addObserver(this);
+        ProducteurControleur producteurControleur = new ProducteurControleur(this);
+        producteurControleur.addObserver(this);
+        producteurControleur.loadProducteurs();
 
 
         List<Producteur> producteurs = new ArrayList<>();
         producteurListAdapter = new ProducteurListAdapter(this, producteurs);
         ListView listView = findViewById(R.id.listViewProducteur);
         listView.setAdapter(producteurListAdapter);
-        listView.setOnItemClickListener(accueilControlleur);
+        listView.setOnItemClickListener(producteurControleur);
     }
 
     @Override
