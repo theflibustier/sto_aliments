@@ -62,6 +62,7 @@ public class AutourActivity extends AppCompatActivity implements Observer {
 
         producteurControleur = new ProducteurControleur(this);
         producteurControleur.addObserver(this);
+        producteurControleur.loadProducteurs();
 
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);   //render
