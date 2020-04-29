@@ -1,13 +1,12 @@
 package com.ihm.stoaliment.model;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
 
 import java.io.Serializable;
-import java.net.URI;
 
 public class Produit implements Serializable {
 
+    private int id;
     private String label;
     private String typeProduit;
     private int heureDebut;
@@ -15,6 +14,7 @@ public class Produit implements Serializable {
     private int quantite;
     private int prix;
     private String imageUrl;
+    private Bitmap image;
 
     public Produit(){}
 
@@ -26,6 +26,22 @@ public class Produit implements Serializable {
         this.imageUrl = imageUrl;
         this.quantite = quantite;
         this.prix = prix;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLabel() {

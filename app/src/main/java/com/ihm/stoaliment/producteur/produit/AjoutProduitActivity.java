@@ -3,8 +3,11 @@ package com.ihm.stoaliment.producteur.produit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,7 +15,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,17 +23,16 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.consommateur.accueil.AccueilActivity;
+import com.ihm.stoaliment.controleur.ProduitControleur;
 import com.ihm.stoaliment.model.Producteur;
 import com.ihm.stoaliment.model.Produit;
-import com.ihm.stoaliment.model.ProduitModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ihm.stoaliment.producteur.produit.CreateChannel.CHANNEL_ID;
 
 public class AjoutProduitActivity extends AppCompatActivity {
 
@@ -47,6 +48,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
     EditText prix;
     EditText heureDebut;
     EditText heureFin;
+    private int notificationId = 0;
 
     Uri image_uri;
 
@@ -97,13 +99,20 @@ public class AjoutProduitActivity extends AppCompatActivity {
                 p.setPrix(Integer.parseInt(prix.getText().toString()));
                 p.setHeureDebut(Integer.parseInt(heureDebut.getText().toString()));
                 p.setHeureFin(Integer.parseInt(heureFin.getText().toString()));
-                ProduitModel produitModel = new ProduitModel();
-                produitModel.addProduit(p, image_uri);
+                ProduitControleur produitControleur = new ProduitControleur(AjoutProduitActivity.this);
+                produitControleur.addProduit(p, image_uri);
+                if((findViewById(R.id.switchAbonne).isEnabled())){
+                    String _produit = editTextLabel.getText().toString();
+                    String _quantite = editTextQuantity.getText().toString();
+                    int _heureDebut = Integer.parseInt(heureDebut.getText().toString());
+                    int _heureFin = Integer.parseInt(heureFin.getText().toString());
+                    String _message = "Benoit de la verge - Il ne reste plus que "+ (_heureDebut - _heureFin) + " jours pour choper mes " + _quantite + " " +_produit + "\n Un message bon";
+                    sendNotificationOnChannel( "Oyé oyé", _message, CHANNEL_ID, NotificationCompat.PRIORITY_LOW );
+                    Toast.makeText(getBaseContext(), "La notification a été envoyée à tous vos abonnés", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-
-
 
     //add items into spinner dynamically
     public void addItemsOnSpinner() {
@@ -116,6 +125,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(dataAdapter);
+
     }
 
     private void openCamera(){
@@ -150,12 +160,23 @@ public class AjoutProduitActivity extends AppCompatActivity {
             btnCam.getBackground().setAlpha(64);
         }
     }
-    public void createAlert(View view){
-        Intent intent = new Intent(this, NotificationSenderActivity.class);
-        intent.putExtra("Produit",((EditText) findViewById( R.id.productName)).getText().toString());
-        intent.putExtra("Quantité", ((EditText) findViewById( R.id.edit_quantity)).getText().toString());
-        intent.putExtra("Jours restants","3");
-        startActivity(intent);
+
+    private void sendNotificationOnChannel(String title, String content, String channelId, int priority) {
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, AccueilActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(content))
+                .setPriority(priority);
+        notification.setSmallIcon(R.drawable.abonne);
+        notification.setContentIntent(contentIntent);
+        NotificationManagerCompat.from(this).notify(notificationId, notification.build() );
     }
+
+
 
 }

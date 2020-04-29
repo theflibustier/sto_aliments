@@ -24,7 +24,7 @@
         <activity android:name=".producteur.abonneList.AbonneListAdapter" />
         <activity android:name=".producteur.abonneList.AbonneControlleur" />
         <activity android:name=".producteur.abonneList.AbonneActivity" />
-        <activity android:name=".consommateur.produit.ProduitActivity" />
+        <activity android:name=".consommateur.produit.DetailProduitActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

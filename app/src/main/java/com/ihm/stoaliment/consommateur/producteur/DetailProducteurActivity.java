@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
 import com.ihm.stoaliment.model.Producteur;
+import com.ihm.stoaliment.model.Produit;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -29,6 +30,14 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
         ProducteurControleur producteurControleur = new ProducteurControleur(this);
         producteurControleur.addObserver(this);
         producteurControleur.loadProducteur(id);
+
+        findViewById(R.id.btnListProduit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), Produit.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

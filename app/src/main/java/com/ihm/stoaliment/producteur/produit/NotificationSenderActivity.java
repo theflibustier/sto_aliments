@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.accueil.AccueilActivity;
-import com.ihm.stoaliment.consommateur.produit.ProduitActivity;
+import com.ihm.stoaliment.model.Producteur;
 
 import static com.ihm.stoaliment.producteur.produit.CreateChannel.CHANNEL_ID;
 
@@ -46,14 +46,16 @@ public class NotificationSenderActivity extends AppCompatActivity {
                 Bundle extras = getIntent().getExtras();
                 String produit = "";
                 String quantite = "";
-                String joursRestants = "";
+                int heureDebut=0;
+                int heureFin=0;
                 if(extras!=null){
                     produit = extras.getString("Produit");
                     quantite = extras.getString("Quantité");
-                    joursRestants = extras.getString("Jours restants");
+                    heureDebut = Integer.parseInt(extras.getString("heureDebut"));
+                    heureFin = Integer.parseInt(extras.getString("heureFin"));
                 }
                 String title = ((EditText) findViewById( R.id.edit_text_title)).getText().toString();
-                String message = "Il ne reste plus que "+ joursRestants + " jours pour choper mes " + quantite + " " +produit + "\n"+ ((EditText) findViewById( R.id.edit_text_message)).getText().toString();
+                String message = Producteur.curProducteur.getNom() + " - Il ne reste plus que "+ (heureDebut - heureFin) + " jours pour choper mes " + quantite + " " +produit + "\n"+ ((EditText) findViewById( R.id.edit_text_message)).getText().toString();
                 sendNotificationOnChannel( title, message, CHANNEL_ID, NotificationCompat.PRIORITY_LOW );
                 Toast.makeText(getBaseContext(), "La notification a été envoyée à tous vos abonnés", Toast.LENGTH_SHORT).show();
             }
