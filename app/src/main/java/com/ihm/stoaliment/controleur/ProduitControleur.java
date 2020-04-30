@@ -59,12 +59,14 @@ public class ProduitControleur extends Observable implements AdapterView.OnItemC
         String nomImage = System.currentTimeMillis()+".jpg";
         StorageReference mstorageRef = FirebaseStorage.getInstance().getReference("Images").child(nomImage);
 
-        mstorageRef.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot){
-                System.out.println("Image Push");
-            }
-        });
+        if(imageuri!=null){
+            mstorageRef.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot){
+                    System.out.println("Image Push");
+                }
+            });
+        }
 
         p.setImageUrl(nomImage);
 

@@ -9,22 +9,23 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".producteur.produit.CreateChannel"
+        android:name=".controleur.CreateChannel"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AuthentificationActivity"></activity>
+        <activity android:name=".AuthentificationActivity"/>
         <activity android:name=".consommateur.autour.GeolocalisationActivity" />
-        <activity
-            android:name=".consommateur.producteur.DetailProducteurActivity"
-            android:parentActivityName=".consommateur.accueil.AccueilActivity" />
+        <activity android:name=".consommateur.producteur.DetailProducteurActivity" />
         <activity android:name=".producteur.abonneList.AbonneListAdapter" />
         <activity android:name=".producteur.abonneList.AbonneControlleur" />
         <activity android:name=".producteur.abonneList.AbonneActivity" />
         <activity android:name=".consommateur.produit.DetailProduitActivity" />
+        <activity android:name=".producteur.produit.AjoutProduitActivity" />
+        <activity android:name=".producteur.accueil.AccueilProducteurActivity"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,15 +35,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".producteur.produit.AjoutProduitActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".consommateur.accueil.AccueilActivity"
+            android:name=".consommateur.accueil.AccueilConsommateurActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".producteur.abonneList.AfficheAbonneActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".producteur.produit.NotificationSenderActivity" />
         <activity
             android:name=".consommateur.autour.AutourActivity"
             android:parentActivityName=".consommateur.autour.AutourActivity" />

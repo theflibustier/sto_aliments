@@ -46,7 +46,7 @@ public class AuthentificationControleur extends Observable implements View.OnCli
         this.activity = activity;
     }
 
-    public void loadAuthentification(String identifiant) {
+    private void loadAuthentification(String identifiant) {
 
         db.collection("authentification").whereEqualTo("identifiant", identifiant).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -57,7 +57,7 @@ public class AuthentificationControleur extends Observable implements View.OnCli
                     if(task.getResult().isEmpty()){
 
                         Log.d(TAG, "Error getting documents: ", task.getException());
-                        Toast.makeText(activity.getBaseContext(), "Cette identifiant n'existe pas", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity.getBaseContext(), "Cet identifiant n'existe pas", Toast.LENGTH_SHORT).show();
                     }
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
@@ -65,7 +65,6 @@ public class AuthentificationControleur extends Observable implements View.OnCli
                         Log.d(TAG,document.getId() + " => " + document.getData());
 
                         Authentification authentification = document.toObject(Authentification.class);
-
                         if(authentification.getType().equals(Authentification.CONSOMMATEUR_TYPE))
                             loadConsommateur(authentification.getRef());
 
@@ -74,8 +73,7 @@ public class AuthentificationControleur extends Observable implements View.OnCli
 
                     }
                 } else {
-
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+                    Log.d(TAG, "Erreur d'autentification", task.getException());
                 }
 
             }
@@ -83,7 +81,7 @@ public class AuthentificationControleur extends Observable implements View.OnCli
     }
 
 
-    public void loadConsommateur(String id){
+    private void loadConsommateur(String id){
 
         db.collection("consommateur").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -99,7 +97,7 @@ public class AuthentificationControleur extends Observable implements View.OnCli
 
                         final Consommateur consommateur = document.toObject(Consommateur.class);
                         consommateur.setId(document.getId());
-
+                        System.out.println("ok");
                         Authentification.consommateur = consommateur;
                         Authentification.userType = Authentification.CONSOMMATEUR_TYPE;
 
@@ -108,14 +106,14 @@ public class AuthentificationControleur extends Observable implements View.OnCli
                     }
                 } else {
 
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+                    Log.d(TAG, "Consommateur n'existe pas ", task.getException());
                 }
             }
         });
 
     }
 
-    public void loadProducteur(String id) {
+    private void loadProducteur(String id) {
 
         db.collection("producteur").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -167,7 +165,7 @@ public class AuthentificationControleur extends Observable implements View.OnCli
                     }
                 } else {
 
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+                    Log.d(TAG, "Producteur n'existe pas", task.getException());
                 }
 
             }

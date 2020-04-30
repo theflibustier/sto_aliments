@@ -89,7 +89,7 @@ public class AutourActivity extends AppCompatActivity implements Observer {
     {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
-        if(requestCode==2)
+        if(requestCode==2 && data!=null)
         {
             lat =data.getExtras().getDouble("latitude");
             lng =data.getExtras().getDouble("longitude");

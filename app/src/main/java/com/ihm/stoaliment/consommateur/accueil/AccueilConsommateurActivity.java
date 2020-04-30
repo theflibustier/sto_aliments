@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class AccueilActivity extends AppCompatActivity implements Observer {
+public class AccueilConsommateurActivity extends AppCompatActivity implements Observer {
 
     private ProducteurListAdapter producteurListAdapter;
 
@@ -24,9 +24,9 @@ public class AccueilActivity extends AppCompatActivity implements Observer {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accueil);
+        setContentView(R.layout.activity_accueil_consommateur);
 
-        Toolbar mytoolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar mytoolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(mytoolbar);
 
         ProducteurControleur producteurControleur = new ProducteurControleur(this);
@@ -44,7 +44,7 @@ public class AccueilActivity extends AppCompatActivity implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        producteurListAdapter.add((Producteur) arg);
+        producteurListAdapter.add(arg);
         producteurListAdapter.notifyDataSetChanged();
 
         View load = findViewById(R.id.load);

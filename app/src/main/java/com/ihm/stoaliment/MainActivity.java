@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.ihm.stoaliment.consommateur.accueil.AccueilActivity;
+import com.ihm.stoaliment.consommateur.accueil.AccueilConsommateurActivity;
 import com.ihm.stoaliment.consommateur.autour.AutourActivity;
 import com.ihm.stoaliment.consommateur.autour.GeolocalisationActivity;
 import com.ihm.stoaliment.producteur.abonneList.AfficheAbonneActivity;
@@ -25,23 +25,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void sendMessage(View view) {
-        Intent intent = new Intent(this, AjoutProduitActivity.class);
-        startActivity(intent);
-    }
 
-
-    public void accueilConsomateur(View view){
-
-        Intent intent = new Intent(this, AccueilActivity.class);
-        startActivity(intent);
-    }
-
-    public void AfficheAbonne(View view){
-
-        Intent intent = new Intent(this, AfficheAbonneActivity.class);
-        startActivity(intent);
-    }
 
     public void mapDisplay(View view){
         Intent intent = new Intent( this, AutourActivity.class);

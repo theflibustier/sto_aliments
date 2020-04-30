@@ -3,11 +3,8 @@ package com.ihm.stoaliment.producteur.produit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import android.Manifest;
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,18 +18,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
+import com.ihm.stoaliment.Authentification;
 import com.ihm.stoaliment.R;
-import com.ihm.stoaliment.consommateur.accueil.AccueilActivity;
+import com.ihm.stoaliment.controleur.NotificationControlleur;
 import com.ihm.stoaliment.controleur.ProduitControleur;
 import com.ihm.stoaliment.model.Producteur;
 import com.ihm.stoaliment.model.Produit;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.ihm.stoaliment.producteur.produit.CreateChannel.CHANNEL_ID;
 
 public class AjoutProduitActivity extends AppCompatActivity {
 
@@ -48,14 +45,17 @@ public class AjoutProduitActivity extends AppCompatActivity {
     EditText prix;
     EditText heureDebut;
     EditText heureFin;
-    private int notificationId = 0;
-
+    Switch switchNotif;
     Uri image_uri;
+    Producteur producteur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajout_produit);
+
+        final Producteur producteur = Authentification.producteur;
+        final NotificationControlleur notificationControlleur = new NotificationControlleur(this);
 
         imgView = findViewById(R.id.imageView);
         btnCam = findViewById(R.id.btnCapture);
@@ -66,6 +66,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
         prix = findViewById(R.id.prixProduit);
         heureDebut = findViewById(R.id.heureDebut);
         heureFin = findViewById(R.id.heureFin);
+        switchNotif= findViewById(R.id.switchAbonne);
 
         btnCam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,24 +93,24 @@ public class AjoutProduitActivity extends AppCompatActivity {
         btnValid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Produit p = new Produit();
-                p.setQuantite(Integer.parseInt(String.valueOf(editTextQuantity.getText())));
-                p.setLabel(editTextLabel.getText().toString());
-                p.setTypeProduit(SpinnerType.getSelectedItem().toString());
-                p.setPrix(Integer.parseInt(prix.getText().toString()));
-                p.setHeureDebut(Integer.parseInt(heureDebut.getText().toString()));
-                p.setHeureFin(Integer.parseInt(heureFin.getText().toString()));
+                Produit produit = new Produit();
+                int quantite = (String.valueOf(editTextQuantity.getText()).isEmpty())? 0 : Integer.parseInt(String.valueOf(editTextQuantity.getText()));
+                int price = (prix.getText().toString().isEmpty())? 0 : Integer.parseInt(prix.getText().toString());
+                String type = SpinnerType.getSelectedItem().toString();
+                String label = editTextLabel.getText().toString();
+                String hd = heureDebut.getText().toString();
+                String hf = heureFin.getText().toString();
+                produit.setQuantite(quantite);
+                produit.setLabel(label);
+                produit.setTypeProduit(type);
+                produit.setPrix(price);
+                if(!hd.isEmpty())produit.setHeureDebut(Integer.parseInt(hd));
+                if(!hf.isEmpty())produit.setHeureFin(Integer.parseInt(hf));
                 ProduitControleur produitControleur = new ProduitControleur(AjoutProduitActivity.this);
-                produitControleur.addProduit(p, image_uri);
-                if((findViewById(R.id.switchAbonne).isEnabled())){
-                    String _produit = editTextLabel.getText().toString();
-                    String _quantite = editTextQuantity.getText().toString();
-                    int _heureDebut = Integer.parseInt(heureDebut.getText().toString());
-                    int _heureFin = Integer.parseInt(heureFin.getText().toString());
-                    String _message = "Benoit de la verge - Il ne reste plus que "+ (_heureDebut - _heureFin) + " jours pour choper mes " + _quantite + " " +_produit + "\n Un message bon";
-                    sendNotificationOnChannel( "Oyé oyé", _message, CHANNEL_ID, NotificationCompat.PRIORITY_LOW );
-                    Toast.makeText(getBaseContext(), "La notification a été envoyée à tous vos abonnés", Toast.LENGTH_SHORT).show();
-                }
+                produitControleur.addProduit(produit, image_uri);
+                if(!switchNotif.isChecked()) return;
+                notificationControlleur.sendNotifToAlertNewProduct(produit,producteur.getListeAbonnes());
+
             }
         });
     }
@@ -117,12 +118,13 @@ public class AjoutProduitActivity extends AppCompatActivity {
     //add items into spinner dynamically
     public void addItemsOnSpinner() {
 
-        spinner2 = (Spinner) findViewById(R.id.spinnerProduct);
-        List<String> list = new ArrayList<String>();
-        list.add("Product 1");
-        list.add("Product 1");
-        list.add("Product 1");
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        spinner2 = findViewById(R.id.spinnerProduct);
+        //récupérer la liste des produits que le producteur peut vendre
+        List<String> list = new ArrayList<>();
+        list.add("Salades");
+        list.add("Tomates");
+        list.add("Oignons");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner2.setAdapter(dataAdapter);
 
@@ -146,7 +148,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                     openCamera();
                 }else{
-                    Toast.makeText(this, "Permission refusé, veuillez donner les acces a l'appareil photo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Permission refusée, veuillez donner les accès a l'appareil photo", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -160,23 +162,5 @@ public class AjoutProduitActivity extends AppCompatActivity {
             btnCam.getBackground().setAlpha(64);
         }
     }
-
-    private void sendNotificationOnChannel(String title, String content, String channelId, int priority) {
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, AccueilActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(content))
-                .setPriority(priority);
-        notification.setSmallIcon(R.drawable.abonne);
-        notification.setContentIntent(contentIntent);
-        NotificationManagerCompat.from(this).notify(notificationId, notification.build() );
-    }
-
-
 
 }

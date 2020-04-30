@@ -19,6 +19,7 @@ public class Producteur extends Observable implements Serializable {
     private String imageUrl;
     private Bitmap image;
     private GeoPoint location;
+    private List<String> listeAbonnes;
 
 
     public static Producteur curProducteur;
@@ -100,5 +101,9 @@ public class Producteur extends Observable implements Serializable {
     }
     public void setLocation(GeoPoint location) {
         this.location = location;
+    }
+
+    public List<String> getListeAbonnes() {
+        return listeAbonnes;
     }
 }
