@@ -27,8 +27,6 @@ public class AbonneControlleur implements AdapterView.OnItemClickListener {
 
         Intent intent = new Intent(activity.getApplicationContext(), AbonneActivity.class);
 
-        System.out.println(intent);
-
         Bundle bundle = new Bundle();
         bundle.putSerializable("ABONNE", consommateur);
         intent.putExtras(bundle);

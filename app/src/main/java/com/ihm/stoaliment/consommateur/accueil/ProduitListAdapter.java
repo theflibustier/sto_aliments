@@ -37,11 +37,17 @@ public class ProduitListAdapter extends ArrayAdapter {
         View rowView=inflater.inflate(R.layout.listview_row_produit, null,true);
 
         //this code gets references to objects in the listview_row.xml file
-        TextView tvProducteur = (TextView) rowView.findViewById(R.id.textViewProduit);
+        TextView tvProduit = (TextView) rowView.findViewById(R.id.textViewProduit);
         final ImageView image = (ImageView) rowView.findViewById(R.id.imageViewImageProduit);
+        TextView tvPrix = (TextView) rowView.findViewById(R.id.prixProduitRow);
+        TextView tvQuantite = (TextView) rowView.findViewById(R.id.quantiteProduitRow);
 
-        tvProducteur.setText(produits.get(position).getLabel());
+        String prix = String.valueOf(produits.get(position).getPrix());
+        String quantite = String.valueOf(produits.get(position).getQuantite());
 
+        tvProduit.setText(produits.get(position).getLabel());
+        tvPrix.setText(prix);
+        tvQuantite.setText(quantite);
         image.setImageBitmap(produits.get(position).getImage());
 
         return rowView;

@@ -30,13 +30,14 @@
                     android:src="@drawable/location_onpx" />
 
                 <TextView
+                    android:id="@+id/autourDeMoi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="8dp"
                     android:text="Autour de moi"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 

@@ -1,13 +1,17 @@
 package com.ihm.stoaliment.consommateur.accueil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.consommateur.autour.AutourActivity;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
 import com.ihm.stoaliment.model.Producteur;
 
@@ -29,16 +33,26 @@ public class AccueilConsommateurActivity extends AppCompatActivity implements Ob
         Toolbar mytoolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(mytoolbar);
 
+        View BtnAutourDeMoi = findViewById(R.id.autourDeMoi);
+        BtnAutourDeMoi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), AutourActivity.class);
+                startActivity(intent);
+            }
+        });
+
         ProducteurControleur producteurControleur = new ProducteurControleur(this);
         producteurControleur.addObserver(this);
         producteurControleur.loadProducteurs();
-
 
         List<Producteur> producteurs = new ArrayList<>();
         producteurListAdapter = new ProducteurListAdapter(this, producteurs);
         ListView listView = findViewById(R.id.listViewProducteur);
         listView.setAdapter(producteurListAdapter);
         listView.setOnItemClickListener(producteurControleur);
+
+
     }
 
     @Override

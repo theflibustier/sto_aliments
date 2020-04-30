@@ -9,43 +9,14 @@
     tools:context=".consommateur.autour.AutourActivity">
 
 
-    <Button
-        android:id="@+id/filtre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:drawableLeft="@drawable/search"
-        android:text="  Filtre"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.002" />
-
-    <TextView
-        android:id="@+id/titre"
-        android:layout_width="168dp"
-        android:layout_height="31dp"
-        android:layout_gravity="top"
-        android:gravity="top"
-        android:text="Autour de Moi"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
-
     <org.osmdroid.views.MapView
         android:id="@+id/map"
-        android:layout_width="432dp"
-        android:layout_height="593dp"
+        android:layout_width="409dp"
+        android:layout_height="735dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.898"
-        tools:layout_editor_absoluteX="-5dp" />
+        tools:layout_editor_absoluteX="0dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

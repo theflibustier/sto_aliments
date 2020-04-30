@@ -2,11 +2,17 @@ package com.ihm.stoaliment.model;
 
 import android.graphics.Bitmap;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
+import java.util.Observable;
 
-public class Produit implements Serializable {
+public class Produit extends Observable implements Serializable {
 
-    private int id;
+    @Exclude
+    private String id;
+
+    private String id_producteur;
     private String label;
     private String typeProduit;
     private int heureDebut;
@@ -36,12 +42,20 @@ public class Produit implements Serializable {
         this.image = image;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getId_producteur() {
+        return id_producteur;
+    }
+
+    public void setId_producteur(String id_producteur) {
+        this.id_producteur = id_producteur;
     }
 
     public String getLabel() {

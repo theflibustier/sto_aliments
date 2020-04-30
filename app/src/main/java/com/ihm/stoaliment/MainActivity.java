@@ -25,16 +25,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
-    public void mapDisplay(View view){
-        Intent intent = new Intent( this, AutourActivity.class);
-        startActivity(intent);
-    }
-
-    public void geolocalisation(View view){
-
-        Intent intent = new Intent( view.getContext(), GeolocalisationActivity.class);
-        startActivity(intent);
-    }
 }

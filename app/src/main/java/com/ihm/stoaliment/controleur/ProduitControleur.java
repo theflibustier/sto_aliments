@@ -24,12 +24,9 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ihm.stoaliment.Authentification;
 import com.ihm.stoaliment.consommateur.produit.DetailProduitActivity;
-import com.ihm.stoaliment.model.Producteur;
 import com.ihm.stoaliment.model.Produit;
-
-import org.osmdroid.views.overlay.OverlayItem;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
@@ -45,19 +42,23 @@ public class ProduitControleur extends Observable implements AdapterView.OnItemC
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parentView, View view, int position, long id) {
-        Produit produit = (Produit) parentView.getItemAtPosition(position);
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Produit produit = (Produit) parent.getItemAtPosition(position);
+        System.out.println("ICI le id /////////////////"+produit.getId());
+        System.out.println("ICI le idProd /////////////////"+produit.getId_producteur());
 
         Intent intent = new Intent(activity.getApplicationContext(), DetailProduitActivity.class);
         intent.putExtra("PRODUIT", produit.getId());
+        intent.putExtra("PRODUCTEUR", produit.getId_producteur());
         activity.startActivity(intent);
     }
 
     public void addProduit(Produit p, Uri imageuri){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        String nomImage = System.currentTimeMillis()+".jpg";
-        StorageReference mstorageRef = FirebaseStorage.getInstance().getReference("Images").child(nomImage);
+        String nomImage = "produit/"+ System.currentTimeMillis()+".jpg";
+        StorageReference mstorageRef = FirebaseStorage.getInstance().getReference("produit").child(nomImage);
 
         if(imageuri!=null){
             mstorageRef.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
@@ -69,8 +70,9 @@ public class ProduitControleur extends Observable implements AdapterView.OnItemC
         }
 
         p.setImageUrl(nomImage);
+        p.setId_producteur(Authentification.producteur.getId());
 
-        db.collection("producteur/hOzRKGOTExMMLeMQJ6up/produit")
+        db.collection("producteur/"+ Authentification.producteur.getId() +"/produit")
                 .add(p)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -87,11 +89,11 @@ public class ProduitControleur extends Observable implements AdapterView.OnItemC
     }
 
 
-    public void loadProduits(){
+    public void loadProduits(String idProducteur){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("producteur/"+Producteur.curProducteur.getId()+"/produit/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("producteur/"+idProducteur+"/produit/").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -101,6 +103,8 @@ public class ProduitControleur extends Observable implements AdapterView.OnItemC
                         Log.d("DATABASE",document.getId() + " => " + document.getData());
 
                         final Produit produit = document.toObject(Produit.class);
+                        produit.setId(document.getId());
+                        System.out.println(produit.getId());
 
                         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
                         StorageReference islandRef = firebaseStorage.getReference().child(produit.getImageUrl());
@@ -137,47 +141,51 @@ public class ProduitControleur extends Observable implements AdapterView.OnItemC
         });
     }
 
-    public void loadProduit(String id){
+    public void loadProduit(final String idProducteur, final String idProduit){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("producteur/"+Producteur.curProducteur.getId()+"/produit/"+id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("producteur/"+idProducteur+"/produit").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
 
-
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Log.d("DATABASE",document.getId() + " => " + document.getData());
+                        if(document.getId().equals(idProduit)){
+                            Log.d("DATABASE",document.getId() + " => " + document.getData());
 
-                        final Produit produit = document.toObject(Produit.class);
+                            final Produit produit = document.toObject(Produit.class);
+                            produit.setId(document.getId());
 
-                        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-                        StorageReference islandRef = firebaseStorage.getReference().child(produit.getImageUrl());
+                            FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                            StorageReference islandRef = firebaseStorage.getReference().child(produit.getImageUrl());
 
-                        File localFile = null;
-                        try {
-                            localFile = File.createTempFile("images", "jpg");
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            File localFile = null;
+                            try {
+                                localFile = File.createTempFile("images", "jpg");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            final File finalLocalFile = localFile;
+                            islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    // Local temp file has been created
+                                    Bitmap bitmap = BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath());
+                                    produit.setImage(bitmap);
+                                    setChanged();
+                                    notifyObservers(produit);
+                                    return;
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+                                    // Handle any errors
+                                    return;
+                                }
+                            });
                         }
-
-                        final File finalLocalFile = localFile;
-                        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                // Local temp file has been created
-                                Bitmap bitmap = BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath());
-                                produit.setImage(bitmap);
-                                setChanged();
-                                notifyObservers(produit);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception exception) {
-                                // Handle any errors
-                            }
-                        });
                     }
 
                 } else {

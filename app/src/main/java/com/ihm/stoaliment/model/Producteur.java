@@ -21,10 +21,6 @@ public class Producteur extends Observable implements Serializable {
     private GeoPoint location;
     private List<String> listeAbonnes;
 
-
-    public static Producteur curProducteur;
-
-
     public Producteur(){}
 
     public Producteur(String id,String nom, String cp, String ville, List<Produit> produit, String imageUrl, Bitmap image, GeoPoint location){
@@ -36,15 +32,6 @@ public class Producteur extends Observable implements Serializable {
         this.imageUrl = imageUrl;
         this.image = image;
         this.location =location;
-
-        curProducteur.cp = cp;
-        curProducteur.id = id;
-        curProducteur.image = image;
-        curProducteur.imageUrl = imageUrl;
-        curProducteur.nom = nom;
-        curProducteur.ville = ville;
-        curProducteur.produit = produit;
-        curProducteur.location = location;
     }
 
     public String getNom() {

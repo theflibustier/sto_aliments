@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.consommateur.produit.DisplayProduit;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
 import com.ihm.stoaliment.model.Producteur;
 import com.ihm.stoaliment.model.Produit;
@@ -25,7 +26,7 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
 
         Intent intent = this.getIntent();
 
-        String id = intent.getStringExtra("PRODUCTEUR");
+        final String id = intent.getStringExtra("PRODUCTEUR");
 
         ProducteurControleur producteurControleur = new ProducteurControleur(this);
         producteurControleur.addObserver(this);
@@ -34,7 +35,8 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
         findViewById(R.id.btnListProduit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), Produit.class);
+                Intent intent = new Intent(getBaseContext(), DisplayProduit.class);
+                intent.putExtra("idProducteur", String.valueOf(id));
                 startActivity(intent);
             }
         });
@@ -45,8 +47,6 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
     public void update(Observable o, Object arg) {
 
         Producteur producteur = (Producteur) arg;
-
-        System.out.println(producteur.getNom());
 
         ((TextView)findViewById(R.id.textViewNomProducteur)).setText(producteur.getNom());
         ((ImageView)findViewById(R.id.imageViewImageProducteur)).setImageBitmap(producteur.getImage());
