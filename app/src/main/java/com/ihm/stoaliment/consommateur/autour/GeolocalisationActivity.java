@@ -15,8 +15,10 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;
 
-public class GeolocalisationActivity extends AppCompatActivity {
+public class GeolocalisationActivity extends BaseConsommateurActivity {
 
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -28,7 +30,16 @@ public class GeolocalisationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
+    }
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_map;
+    }
+
+    @Override
+    public int getBottomNavigationMenuItemId() {
+        return R.id.action_autour;
     }
 
     private void fetchLastLocation() {

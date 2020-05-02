@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item android:id="@+id/action_home"
+        android:title="Home"
+        app:showAsAction="always"
+        android:icon="@drawable/home"/>
+
+    <item android:id="@+id/action_autour"
+        android:title="Explore"
+        app:showAsAction="always"
+        android:icon="@drawable/map"/>
+
+
+    <item android:id="@+id/action_fav"
+        android:title="Fav"
+        app:showAsAction="always"
+        android:icon="@drawable/favourite"/>
+
+    <item android:id="@+id/action_user"
+        android:title="User"
+        app:showAsAction="always"
+        android:icon="@drawable/avatar"/>
+
+</menu>

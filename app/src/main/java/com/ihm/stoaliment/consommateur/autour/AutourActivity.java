@@ -29,10 +29,11 @@ import java.util.Observer;
 
 //import com.example.map.R;
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
 import com.ihm.stoaliment.model.Producteur;
 
-public class AutourActivity extends AppCompatActivity implements Observer {
+public class AutourActivity extends BaseConsommateurActivity implements Observer {
     private MapView map;
     private double lat;
     private double lng;
@@ -58,7 +59,7 @@ public class AutourActivity extends AppCompatActivity implements Observer {
         //note, the load method also sets the HTTP User Agent to your application's package name, abusing osm's tile servers will get you banned based on this string
 
         //inflate and create the map
-        setContentView(R.layout.activity_map);
+        //setContentView(R.layout.activity_map);
 
         producteurControleur = new ProducteurControleur(this);
         producteurControleur.addObserver(this);
@@ -147,6 +148,16 @@ public class AutourActivity extends AppCompatActivity implements Observer {
         map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
     }
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_map;
+    }
+
+    @Override
+    public int getBottomNavigationMenuItemId() {
+        return R.id.action_autour;
+    }
+
 
     private Drawable resize(Resources r, Drawable image, int newSize) {
         Bitmap b = ((BitmapDrawable)image).getBitmap();
@@ -162,7 +173,6 @@ public class AutourActivity extends AppCompatActivity implements Observer {
         Producteur producteur = (Producteur) arg;
 
         mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(), producteur.getNom(), producteur.getVille(), new GeoPoint(producteur.getLocation().getLatitude(), producteur.getLocation().getLongitude())));
-
 
         System.out.println(producteur.getNom());
         System.out.println(producteur.getLocation());

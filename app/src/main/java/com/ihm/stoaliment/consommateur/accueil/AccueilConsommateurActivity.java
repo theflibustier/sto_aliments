@@ -1,8 +1,10 @@
 package com.ihm.stoaliment.consommateur.accueil;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,12 +14,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ihm.stoaliment.Authentification;
 import com.ihm.stoaliment.AuthentificationActivity;
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;
 import com.ihm.stoaliment.consommateur.autour.AutourActivity;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
 import com.ihm.stoaliment.model.Producteur;
@@ -27,7 +32,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class AccueilConsommateurActivity extends AppCompatActivity implements Observer {
+public class AccueilConsommateurActivity extends BaseConsommateurActivity implements Observer {
 
     private ProducteurListAdapter producteurListAdapter;
 
@@ -35,10 +40,12 @@ public class AccueilConsommateurActivity extends AppCompatActivity implements Ob
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accueil_consommateur);
+        //setContentView(R.layout.activity_accueil_consommateur);
 
         Toolbar mytoolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(mytoolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         View BtnAutourDeMoi = findViewById(R.id.autourDeMoi);
         BtnAutourDeMoi.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +55,7 @@ public class AccueilConsommateurActivity extends AppCompatActivity implements Ob
                 startActivity(intent);
             }
         });
+
 
         ProducteurControleur producteurControleur = new ProducteurControleur(this);
         producteurControleur.addObserver(this);
@@ -60,6 +68,16 @@ public class AccueilConsommateurActivity extends AppCompatActivity implements Ob
         listView.setOnItemClickListener(producteurControleur);
 
 
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_accueil_consommateur;
+    }
+
+    @Override
+    public int getBottomNavigationMenuItemId() {
+        return R.id.action_home;
     }
 
     @Override
