@@ -1,49 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
-    <RelativeLayout
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#FC0"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="Fixed Footer"
-            android:textColor="#000"
-            android:textSize="20sp" />
-
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="193dp"
-        android:layout_height="111dp"
-        android:layout_marginTop="216dp"
-        android:onClick="authentification"
-        android:text="Authentification"
-        app:layout_constraintBottom_toTopOf="@+id/footer"
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="192dp"
+        android:layout_height="171dp"
+        android:layout_marginStart="109dp"
+        android:layout_marginTop="280dp"
+        android:layout_marginEnd="110dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.256" />
+        app:srcCompat="@mipmap/logo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

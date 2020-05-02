@@ -1,11 +1,16 @@
 package com.ihm.stoaliment.controleur;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 import com.ihm.stoaliment.Authentification;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.model.Consommateur;
@@ -30,7 +36,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 
-public class AuthentificationControleur extends Observable implements View.OnClickListener {
+import static android.content.Context.MODE_PRIVATE;
+
+public class AuthentificationControleur extends Observable implements View.OnClickListener, View.OnKeyListener {
 
 
     private Activity activity;
@@ -46,7 +54,7 @@ public class AuthentificationControleur extends Observable implements View.OnCli
         this.activity = activity;
     }
 
-    private void loadAuthentification(String identifiant) {
+    public void loadAuthentification(String identifiant) {
 
         db.collection("authentification").whereEqualTo("identifiant", identifiant).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -57,7 +65,9 @@ public class AuthentificationControleur extends Observable implements View.OnCli
                     if(task.getResult().isEmpty()){
 
                         Log.d(TAG, "Error getting documents: ", task.getException());
-                        Toast.makeText(activity.getBaseContext(), "Cet identifiant n'existe pas", Toast.LENGTH_SHORT).show();
+
+                        setChanged();
+                        notifyObservers(null);
                     }
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
@@ -65,6 +75,7 @@ public class AuthentificationControleur extends Observable implements View.OnCli
                         Log.d(TAG,document.getId() + " => " + document.getData());
 
                         Authentification authentification = document.toObject(Authentification.class);
+                        Authentification.authentification = authentification;
                         if(authentification.getType().equals(Authentification.CONSOMMATEUR_TYPE))
                             loadConsommateur(authentification.getRef());
 
@@ -177,9 +188,31 @@ public class AuthentificationControleur extends Observable implements View.OnCli
 
         switch (v.getId()){
 
+            case R.id.edit_text_identifiant :
             case R.id.btn_valider :
-                String identifiant = ((EditText) activity.findViewById(R.id.editTextIdentifiant)).getText().toString();
+                String identifiant = ((EditText) activity.findViewById(R.id.edit_text_identifiant)).getText().toString();
                 loadAuthentification(identifiant);
+                break;
         }
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+        if(event.getAction()  == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+            onClick(v);
+            return true;
+        }
+
+        return false;
+    }
+
+    public void saveAuthentification(){
+
+        SharedPreferences mPrefs = Authentification.preferences;
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString(Authentification.GSON_LABEL, Authentification.authentification.getIdentifiant());
+        prefsEditor.apply();
+
     }
 }

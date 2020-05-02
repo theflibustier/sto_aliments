@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".consommateur.produit.DisplayProduit"></activity>
-        <activity android:name=".AuthentificationActivity" />
+        <activity android:name=".AuthentificationActivity"/>
         <activity android:name=".consommateur.autour.GeolocalisationActivity" />
         <activity android:name=".consommateur.producteur.DetailProducteurActivity" />
         <activity android:name=".producteur.abonneList.AbonneListAdapter" />
@@ -26,7 +26,7 @@
         <activity android:name=".consommateur.produit.DetailProduitActivity" />
         <activity android:name=".producteur.produit.AjoutProduitActivity" />
         <activity android:name=".producteur.accueil.AccueilProducteurActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
