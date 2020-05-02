@@ -3,4 +3,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="identifiant">Identifiant</string>
+    <string name="valider">Valider</string>
+    <string name="s_enregistrer">S\'enregistrer</string>
 </resources>
