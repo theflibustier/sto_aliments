@@ -70,7 +70,8 @@ public abstract class BaseConsommateurActivity extends AppCompatActivity impleme
                     // TODO
                     ;
 
-                if (activity != null &&  (currentActivity == null ||  !currentActivity.getSimpleName().equals(activity.getSimpleName())) ) {
+//                if (activity != null &&  (currentActivity == null ||  !currentActivity.getSimpleName().equals(activity.getSimpleName())) ) {
+                if (activity != null) {
                     Intent intent = new Intent(BaseConsommateurActivity.this.getBaseContext(), activity);
                     BaseConsommateurActivity.this.startActivity(intent);
                     currentActivity = activity;
