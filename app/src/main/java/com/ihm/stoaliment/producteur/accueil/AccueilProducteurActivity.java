@@ -8,11 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ihm.stoaliment.Authentification;
+import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.AuthentificationActivity;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.producteur.abonneList.AfficheAbonneActivity;

@@ -64,8 +64,6 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-
-
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d(TAG,document.getId() + " => " + document.getData());
 

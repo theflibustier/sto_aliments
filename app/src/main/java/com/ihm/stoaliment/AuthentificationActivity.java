@@ -1,27 +1,19 @@
 package com.ihm.stoaliment;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.gson.Gson;
 import com.ihm.stoaliment.consommateur.accueil.AccueilConsommateurActivity;
 import com.ihm.stoaliment.controleur.AuthentificationControleur;
+import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.producteur.accueil.AccueilProducteurActivity;
 
 import java.util.Observable;

@@ -24,7 +24,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.ihm.stoaliment.Authentification;
+import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.consommateur.produit.DetailProduitActivity;
 import com.ihm.stoaliment.model.Produit;
 import java.io.File;

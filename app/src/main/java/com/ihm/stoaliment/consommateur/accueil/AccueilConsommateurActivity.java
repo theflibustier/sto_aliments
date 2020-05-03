@@ -1,25 +1,14 @@
 package com.ihm.stoaliment.consommateur.accueil;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ihm.stoaliment.Authentification;
+import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.AuthentificationActivity;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;

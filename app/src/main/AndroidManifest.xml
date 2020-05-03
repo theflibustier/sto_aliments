@@ -21,7 +21,7 @@
         <activity android:name=".consommateur.autour.GeolocalisationActivity" />
         <activity android:name=".consommateur.producteur.DetailProducteurActivity" />
         <activity android:name=".producteur.abonneList.AbonneListAdapter" />
-        <activity android:name=".producteur.abonneList.AbonneControlleur" />
+        <activity android:name=".controleur.ConsommateurControlleur" />
         <activity android:name=".producteur.abonneList.AbonneActivity" />
         <activity android:name=".consommateur.produit.DetailProduitActivity" />
         <activity android:name=".producteur.produit.AjoutProduitActivity" />

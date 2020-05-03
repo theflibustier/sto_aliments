@@ -1,9 +1,6 @@
-package com.ihm.stoaliment;
+package com.ihm.stoaliment.model;
 
 import android.content.SharedPreferences;
-
-import com.ihm.stoaliment.model.Consommateur;
-import com.ihm.stoaliment.model.Producteur;
 
 import java.io.Serializable;
 

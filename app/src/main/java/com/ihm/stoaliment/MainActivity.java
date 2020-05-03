@@ -2,19 +2,12 @@ package com.ihm.stoaliment;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
-import com.google.gson.Gson;
 import com.ihm.stoaliment.consommateur.accueil.AccueilConsommateurActivity;
-import com.ihm.stoaliment.consommateur.autour.AutourActivity;
-import com.ihm.stoaliment.consommateur.autour.GeolocalisationActivity;
 import com.ihm.stoaliment.controleur.AuthentificationControleur;
-import com.ihm.stoaliment.producteur.abonneList.AfficheAbonneActivity;
+import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.producteur.accueil.AccueilProducteurActivity;
-import com.ihm.stoaliment.producteur.produit.AjoutProduitActivity;
 
 import java.util.Observable;
 import java.util.Observer;

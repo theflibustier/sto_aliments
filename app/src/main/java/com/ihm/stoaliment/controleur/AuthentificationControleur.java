@@ -7,11 +7,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -26,8 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.gson.Gson;
-import com.ihm.stoaliment.Authentification;
+import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.model.Consommateur;
 import com.ihm.stoaliment.model.Producteur;
@@ -35,8 +30,6 @@ import com.ihm.stoaliment.model.Producteur;
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class AuthentificationControleur extends Observable implements View.OnClickListener, View.OnKeyListener {
 

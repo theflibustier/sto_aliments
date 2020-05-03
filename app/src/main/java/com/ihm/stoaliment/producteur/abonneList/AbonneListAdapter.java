@@ -18,10 +18,8 @@ import java.util.List;
 
 public class AbonneListAdapter extends ArrayAdapter {
 
-    //to reference the Activity
     private final Activity context;
 
-    //to store the animal images
     private final List<Consommateur> consommateurs;
 
     public AbonneListAdapter(Activity context, List<Consommateur> consommateurs){
@@ -39,15 +37,13 @@ public class AbonneListAdapter extends ArrayAdapter {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_row_abonne, null,true);
 
-        //this code gets references to objects in the listview_row.xml file
-        TextView tvInfosAbonne =  rowView.findViewById(R.id.RowInfosAbonne);
-        ImageView image = rowView.findViewById(R.id.RowImageAbonne);
+        TextView infosAbonne =  rowView.findViewById(R.id.RowInfosAbonne);
+        //ImageView image = rowView.findViewById(R.id.RowImageAbonne);
 
         //this code sets the values of the objects to values from the arrays
         Consommateur currentConsommateur = consommateurs.get(position);
-        //tvInfosAbonne.setText(currentConsommateur.getNom() + " - " + currentConsommateur.getCodePostal() + " - " + currentConsommateur.getVille());
+        infosAbonne.setText(currentConsommateur.getNom());
         //image.setImageResource(consommateurs.get(position).getImg());
-
         return rowView;
     }
 

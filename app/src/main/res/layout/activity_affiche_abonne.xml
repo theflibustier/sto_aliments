@@ -20,7 +20,7 @@
         android:id="@+id/abonneList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Liste abonnés"
+        android:text="Liste de vos abonnés"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

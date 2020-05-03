@@ -22,12 +22,8 @@ public class AbonneActivity extends AppCompatActivity {
 
         Consommateur consommateur = (Consommateur) bundle.getSerializable("ABONNE");
 
-        ((TextView)findViewById(R.id.nomAbonne)).setText(consommateur.getNom());
-
-        //((TextView)findViewById(R.id.codePostalAbonne)).setText(consommateur.getCodePostal());
-
-        ((TextView)findViewById(R.id.villeAbonne)).setText(consommateur.getNom());
-
-        //((ImageView)findViewById(R.id.imgAbonne)).setImageResource(consommateur.getImg());
+        if(consommateur!=null) {
+            ((TextView) findViewById(R.id.nomAbonne)).setText(consommateur.getNom());
+        }
     }
 }

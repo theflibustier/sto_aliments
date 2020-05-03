@@ -21,7 +21,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.ihm.stoaliment.Authentification;
+import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.controleur.NotificationControlleur;
 import com.ihm.stoaliment.controleur.ProduitControleur;
