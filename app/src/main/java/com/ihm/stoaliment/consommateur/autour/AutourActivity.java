@@ -170,11 +170,13 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
     @Override
     public void update(Observable o, Object arg) {
 
-        Producteur producteur = (Producteur) arg;
+        if(arg != null && mMyLocationOverlay != null){
+            Producteur producteur = (Producteur) arg;
 
-        mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(), producteur.getNom(), producteur.getVille(), new GeoPoint(producteur.getLocation().getLatitude(), producteur.getLocation().getLongitude())));
+            mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(), producteur.getNom(), producteur.getVille(), new GeoPoint(producteur.getLocation().getLatitude(), producteur.getLocation().getLongitude())));
 
-        System.out.println(producteur.getNom());
-        System.out.println(producteur.getLocation());
+            System.out.println(producteur.getNom());
+            System.out.println(producteur.getLocation());
+        }
     }
 }
