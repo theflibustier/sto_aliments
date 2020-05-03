@@ -238,8 +238,9 @@
         app:layout_constraintVertical_bias="0.814"
         app:srcCompat="@mipmap/instagram" />
 
+
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/shareOnTwitter"
         android:layout_width="61dp"
         android:layout_height="63dp"
         android:clickable="true"

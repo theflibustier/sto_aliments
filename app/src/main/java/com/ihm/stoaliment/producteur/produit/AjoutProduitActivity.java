@@ -8,10 +8,12 @@ import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,6 +30,8 @@ import com.ihm.stoaliment.controleur.ProduitControleur;
 import com.ihm.stoaliment.model.Producteur;
 import com.ihm.stoaliment.model.Produit;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +39,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
 
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
+    private static final String TAG = "testttos";
     Button btnCam;
     Button btnValid;
     ImageView imgView;
@@ -67,6 +72,20 @@ public class AjoutProduitActivity extends AppCompatActivity {
         heureDebut = findViewById(R.id.heureDebut);
         heureFin = findViewById(R.id.heureFin);
         switchNotif= findViewById(R.id.switchAbonne);
+
+        ImageView sharedButton = (ImageView) findViewById(R.id.shareOnTwitter);
+
+        sharedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareOnTwitterWithPost("J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
+                            + " sont enfin disponible de " + heureDebut.getText().toString() + "h à "
+                            + heureFin.getText().toString() + " h."
+                            + "\n\n" + "Quantité limitée à " + editTextQuantity.getText().toString()
+                            + " kg à " + prix.getText().toString() + " € le kilo."
+                            + "\n\n" + "N'hésitez surtout pas et venez nombreux !");
+            }
+        });
 
         btnCam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +179,55 @@ public class AjoutProduitActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             imgView.setImageURI(image_uri);
             btnCam.getBackground().setAlpha(64);
+        }
+    }
+
+
+    private void shareOnTwitterWithPost(String message) {
+
+        Intent intentForTwitter = new Intent(Intent.ACTION_SEND);
+        Bundle extra = new Bundle();
+        
+        intentForTwitter.putExtra(Intent.EXTRA_TEXT, message);
+        intentForTwitter.setType("text/plain");
+        
+        PackageManager packManager = getPackageManager();
+        List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(intentForTwitter, PackageManager.MATCH_DEFAULT_ONLY);
+
+        boolean resolved = false;
+        for (ResolveInfo resolveInfo : resolvedInfoList) {
+            if (resolveInfo.activityInfo.packageName.startsWith("com.twitter.android")) {
+                intentForTwitter.setClassName(
+                        resolveInfo.activityInfo.packageName,
+                        resolveInfo.activityInfo.name);
+                intentForTwitter.setAction("POST");
+                resolved = true;
+                break;
+            }
+        }
+
+        if (resolved) {
+            startActivity(intentForTwitter);
+        } else {
+            Intent intent = new Intent();
+            //ajout du message
+            intent.putExtra(Intent.EXTRA_TEXT, message);
+           // intent.putExtra("imageProduit", image_uri);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://twitter.com/intent/tweet?text=" + urlEncode(message)));
+            //on lance l'activité
+            startActivity(intent);
+            //application non trouvée
+            Toast.makeText(this, "L'application twitter n'a pas été trouvée", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private String urlEncode(String s) {
+        try {
+            return URLEncoder.encode(s, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.wtf(TAG, "UTF-8 should always be supported", e);
+            return "";
         }
     }
 
