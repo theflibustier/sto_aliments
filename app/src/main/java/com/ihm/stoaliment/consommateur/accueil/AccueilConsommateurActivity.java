@@ -8,12 +8,15 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import androidx.appcompat.widget.Toolbar;
+
+import com.ihm.stoaliment.controleur.NotificationControlleur;
 import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.AuthentificationActivity;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;
 import com.ihm.stoaliment.consommateur.autour.AutourActivity;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
+import com.ihm.stoaliment.model.Notification;
 import com.ihm.stoaliment.model.Producteur;
 
 import java.util.ArrayList;
@@ -50,6 +53,9 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
         producteurControleur.addObserver(this);
         producteurControleur.loadProducteurs();
 
+        NotificationControlleur notificationControlleur = new NotificationControlleur(this);
+        notificationControlleur.loadLastNotif(Authentification.consommateur.getId());
+
         List<Producteur> producteurs = new ArrayList<>();
         producteurListAdapter = new ProducteurListAdapter(this, producteurs);
         ListView listView = findViewById(R.id.listViewProducteur);
@@ -71,12 +77,12 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
 
     @Override
     public void update(Observable o, Object arg) {
-
-        producteurListAdapter.add(arg);
-        producteurListAdapter.notifyDataSetChanged();
-
-        View load = findViewById(R.id.load);
-        load.setVisibility(View.GONE);
+        if(o instanceof ProducteurControleur) {
+            producteurListAdapter.add(arg);
+            producteurListAdapter.notifyDataSetChanged();
+            View load = findViewById(R.id.load);
+            load.setVisibility(View.GONE);
+        }
     }
 
 
