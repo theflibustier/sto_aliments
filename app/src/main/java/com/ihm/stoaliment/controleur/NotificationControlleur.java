@@ -3,48 +3,131 @@ package com.ihm.stoaliment.controleur;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.accueil.AccueilConsommateurActivity;
+import com.ihm.stoaliment.consommateur.producteur.DetailProducteurActivity;
+import com.ihm.stoaliment.model.Authentification;
+import com.ihm.stoaliment.model.Consommateur;
+import com.ihm.stoaliment.model.Notification;
+import com.ihm.stoaliment.model.Producteur;
 import com.ihm.stoaliment.model.Produit;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Random;
 
 import static com.ihm.stoaliment.controleur.CreateChannel.CHANNEL_ID;
 
-public class NotificationControlleur {
+public class NotificationControlleur extends Observable {
 
     Activity activity;
+    private String TAG = "DATABASE";
 
     public NotificationControlleur(Activity activity){
-        this.activity =activity;
+        this.activity = activity;
     }
 
-    public void sendNotifToAlertNewProduct(Produit produit, List<String> abonnesId){
-        String _message = "Venez chez moi entre " + produit.getHeureDebut() + "h et " + produit.getHeureFin() + "h pour récupérer mes " + produit.getQuantite() + " kg de " + produit.getLabel();
-        sendNotificationOnChannel("Oyé oyé", _message, CHANNEL_ID, NotificationCompat.PRIORITY_HIGH);
-        Toast.makeText(activity.getBaseContext(), "La notification a été envoyée à tous vos abonnés", Toast.LENGTH_SHORT).show();
+    public void sendNotifToAlertNewProduct(Produit produit, Producteur producteur, List<String> abonnesId){
+        String message = "Venez chez moi "+producteur.getNom() + "entre " + produit.getHeureDebut() + "h et " + produit.getHeureFin() + "h pour récupérer mes " + produit.getQuantite() + " kg de " + produit.getLabel();
+        addNotifToDB(new Notification(producteur.getId(),abonnesId,message));
+        //sendNotificationOnChannel("Oyé oyé", _message, CHANNEL_ID, NotificationCompat.PRIORITY_HIGH);
     }
 
-    private void sendNotificationOnChannel(String title, String content, String channelId, int priority) {
+
+    private void addNotifToDB(Notification notification){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("notification/")
+                .add(notification)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(activity.getBaseContext(), "La notification a été envoyée à tous vos abonnés", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(activity.getBaseContext(),"Erreur", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public void loadLastNotif(String consommateurId){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("notification").whereArrayContains("destinataires",consommateurId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        List<Notification> notifications = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.exists()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                final Notification notification = document.toObject(Notification.class);
+                                notification.setId(document.getId());
+                                notifications.add(notification);
+                            }
+                        }
+                        setChanged();
+                        notifyObservers(notifications);
+                        for(Notification notification : notifications){
+                            sendNotificationOnChannel(notification,CHANNEL_ID, NotificationCompat.PRIORITY_HIGH);
+                            setNotifToSeen(notification);
+                        }
+                    } else {
+                        Log.d(TAG, "Notif n'existe pas ", task.getException());
+                    }
+                }
+            });
+
+    }
+
+    private void sendNotificationOnChannel(Notification notificationToSendOnSmartphone, String channelId, int priority) {
         //Sert à envoyer vers la classe onClickNotif
-        PendingIntent contentIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0,
-                new Intent(activity.getApplicationContext(), AccueilConsommateurActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(activity.getApplicationContext(), DetailProducteurActivity.class);
+        intent.putExtra("PRODUCTEUR", notificationToSendOnSmartphone.getExpediteur());
+
+        PendingIntent contentIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0,intent
+                , PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(activity.getApplicationContext(), channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle(title)
-                .setContentText(content)
+                .setContentTitle("Oye oye")
+                .setContentText(notificationToSendOnSmartphone.getMessage())
                 .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(content))
+                        .bigText(notificationToSendOnSmartphone.getMessage()))
                 .setPriority(priority);
         notification.setSmallIcon(R.drawable.abonne);
         notification.setContentIntent(contentIntent);
-        int notificationId = 0;
-        NotificationManagerCompat.from(activity.getApplicationContext()).notify(notificationId, notification.build() );
+
+        NotificationManagerCompat.from(activity.getApplicationContext()).notify(new Random().nextInt(), notification.build() );
+    }
+
+    private void setNotifToSeen(Notification notification){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("notification").document(notification.getId())
+                .update("destinataires", FieldValue.arrayRemove(Authentification.consommateur.getId()))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        System.out.println("La notif a été vue");
+                    }
+                });
     }
 }

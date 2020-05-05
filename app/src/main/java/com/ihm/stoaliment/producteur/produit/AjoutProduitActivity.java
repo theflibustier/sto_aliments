@@ -128,7 +128,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
                 ProduitControleur produitControleur = new ProduitControleur(AjoutProduitActivity.this);
                 produitControleur.addProduit(produit, image_uri);
                 if(!switchNotif.isChecked()) return;
-                notificationControlleur.sendNotifToAlertNewProduct(produit,producteur.getListeAbonnes());
+                notificationControlleur.sendNotifToAlertNewProduct(produit,producteur, producteur.getListeAbonnes());
 
             }
         });
