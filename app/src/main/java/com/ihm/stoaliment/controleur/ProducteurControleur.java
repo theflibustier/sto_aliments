@@ -64,12 +64,13 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
         activity.startActivity(intent);
     }
 
-    public void addAbonne(String idProducteur) {
+    public void addAbonne(final String idProducteur) {
         db.collection("producteur").document(idProducteur)
                 .update("listeAbonnes", FieldValue.arrayUnion(Authentification.consommateur.getId()))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        db.collection("consommateur").document(Authentification.consommateur.getId()).update("producteursSuivis", FieldValue.arrayUnion(idProducteur));
                         Toast.makeText(activity, "Vous êtes desormais abonné", Toast.LENGTH_SHORT).show();
                     }
                 });
