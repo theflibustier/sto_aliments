@@ -50,7 +50,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:text="TextView"
+                android:text="Carcassone"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="18sp"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="TextView"
+                android:text="24 route des Pralines"
                 android:textAlignment="center"
                 android:textColor="#7E7E7E"
                 android:textSize="12sp" />
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:text="TextView"
+            android:text="8h-23h"
             android:textAlignment="center"
             android:textColor="#FB8C00"
             android:textSize="12sp" />
@@ -88,7 +88,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="30dp"
                 android:background="@drawable/back"
-                android:text="TextView"
+                android:text="Un petit producteur du sud"
                 android:textColor="#000000"
                 android:textSize="12sp" />
 

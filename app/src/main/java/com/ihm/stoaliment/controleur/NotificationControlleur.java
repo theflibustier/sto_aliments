@@ -21,6 +21,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.accueil.AccueilConsommateurActivity;
+import com.ihm.stoaliment.consommateur.producteur.DetailProducteurActivity;
 import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.model.Consommateur;
 import com.ihm.stoaliment.model.Notification;
@@ -99,8 +100,11 @@ public class NotificationControlleur extends Observable {
 
     private void sendNotificationOnChannel(Notification notificationToSendOnSmartphone, String channelId, int priority) {
         //Sert à envoyer vers la classe onClickNotif
-        PendingIntent contentIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0,
-                new Intent(activity.getApplicationContext(), AccueilConsommateurActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(activity.getApplicationContext(), DetailProducteurActivity.class);
+        intent.putExtra("PRODUCTEUR", notificationToSendOnSmartphone.getExpediteur());
+
+        PendingIntent contentIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0,intent
+                , PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder notification = new NotificationCompat.Builder(activity.getApplicationContext(), channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
