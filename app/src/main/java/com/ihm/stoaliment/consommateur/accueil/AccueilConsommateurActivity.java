@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import androidx.appcompat.widget.Toolbar;
 import com.ihm.stoaliment.model.Authentification;
-import com.ihm.stoaliment.AuthentificationActivity;
+import com.ihm.stoaliment.authentification.AuthentificationActivity;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;
 import com.ihm.stoaliment.consommateur.autour.AutourActivity;

@@ -23,6 +23,12 @@ public class Authentification implements Serializable {
 
     public Authentification(){}
 
+    public Authentification(String ref, String identifiant, String type) {
+        this.ref = ref;
+        this.identifiant = identifiant;
+        this.type = type;
+    }
+
     public String getRef() {
         return ref;
     }

@@ -2,10 +2,11 @@ package com.ihm.stoaliment.model;
 
 import android.graphics.Bitmap;
 
-
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -20,18 +21,19 @@ public class Producteur extends Observable implements Serializable {
     private Bitmap image;
     private GeoPoint location;
     private List<String> listeAbonnes;
+    private String adresse;
 
     public Producteur(){}
 
-    public Producteur(String id,String nom, String cp, String ville, List<Produit> produit, String imageUrl, Bitmap image, GeoPoint location){
-        this.id = id;
+    public Producteur(String nom, String cp, String ville, String adresse, GeoPoint geoPoint){
         this.nom = nom;
         this.cp = cp;
         this.ville = ville;
-        this.produit = produit;
-        this.imageUrl = imageUrl;
-        this.image = image;
-        this.location =location;
+        this.adresse = adresse;
+        produit = new ArrayList<>();
+        imageUrl = "producteur/default.jpg";
+        listeAbonnes = new ArrayList<>();
+        this.location = geoPoint;
     }
 
     public String getNom() {
@@ -69,6 +71,7 @@ public class Producteur extends Observable implements Serializable {
         this.imageUrl = imageUrl;
     }
 
+    @Exclude
     public Bitmap getImage() {
         return image;
     }
@@ -76,6 +79,7 @@ public class Producteur extends Observable implements Serializable {
         this.image = image;
     }
 
+    @Exclude
     public String getId() {
         return id;
     }
@@ -92,5 +96,15 @@ public class Producteur extends Observable implements Serializable {
 
     public List<String> getListeAbonnes() {
         return listeAbonnes;
+    }
+    public void setListeAbonnes(List<String> listeAbonnes) {
+        this.listeAbonnes = listeAbonnes;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
     }
 }

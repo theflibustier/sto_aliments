@@ -16,8 +16,9 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".consommateur.produit.DisplayProduit"></activity>
-        <activity android:name=".AuthentificationActivity"/>
+        <activity android:name=".authentification.inscription.InscriptionActivity" android:windowSoftInputMode="adjustUnspecified"/>
+        <activity android:name=".consommateur.produit.DisplayProduit" />
+        <activity android:name=".authentification.AuthentificationActivity" />
         <activity android:name=".consommateur.autour.GeolocalisationActivity" />
         <activity android:name=".consommateur.producteur.DetailProducteurActivity" />
         <activity android:name=".producteur.abonneList.AbonneListAdapter" />
@@ -26,7 +27,9 @@
         <activity android:name=".consommateur.produit.DetailProduitActivity" />
         <activity android:name=".producteur.produit.AjoutProduitActivity" />
         <activity android:name=".producteur.accueil.AccueilProducteurActivity" />
-        <activity android:name=".MainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

@@ -10,10 +10,10 @@ public class AbonneList extends Observable {
 
     public void loadAbonnes(){
 
-        Consommateur consommateur1 = new Consommateur("Jean",new ArrayList<String>());
-        Consommateur consommateur2 = new Consommateur("Charle",new ArrayList<String>());
-        Consommateur consommateur3 = new Consommateur("Benoit",new ArrayList<String>());
-        Consommateur consommateur4 = new Consommateur("Bernard",new ArrayList<String>());
+        Consommateur consommateur1 = new Consommateur("Jean", "adresse", "ville", "cp");
+        Consommateur consommateur2 = new Consommateur("Charle", "adresse", "ville", "cp");
+        Consommateur consommateur3 = new Consommateur("Benoit", "adresse", "ville", "cp");
+        Consommateur consommateur4 = new Consommateur("Bernard", "adresse", "ville", "cp");
 
         List<Consommateur> consommateurs = new ArrayList<>();
         consommateurs.add(consommateur1);

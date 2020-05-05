@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ihm.stoaliment.model.Authentification;
-import com.ihm.stoaliment.AuthentificationActivity;
+import com.ihm.stoaliment.authentification.AuthentificationActivity;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.producteur.abonneList.AfficheAbonneActivity;
 import com.ihm.stoaliment.producteur.produit.AjoutProduitActivity;

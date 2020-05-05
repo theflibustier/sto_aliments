@@ -1,4 +1,4 @@
-package com.ihm.stoaliment;
+package com.ihm.stoaliment.authentification;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,8 @@ import android.widget.CheckBox;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.authentification.inscription.InscriptionActivity;
 import com.ihm.stoaliment.consommateur.accueil.AccueilConsommateurActivity;
 import com.ihm.stoaliment.controleur.AuthentificationControleur;
 import com.ihm.stoaliment.model.Authentification;
@@ -90,7 +92,8 @@ public class AuthentificationActivity extends AppCompatActivity implements Obser
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_item_inscription) {
 
-
+            Intent intent = new Intent(this, InscriptionActivity.class);
+            startActivity(intent);
             return true;
         }
 

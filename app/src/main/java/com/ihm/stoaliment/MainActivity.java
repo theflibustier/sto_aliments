@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.ihm.stoaliment.authentification.AuthentificationActivity;
 import com.ihm.stoaliment.consommateur.accueil.AccueilConsommateurActivity;
 import com.ihm.stoaliment.controleur.AuthentificationControleur;
 import com.ihm.stoaliment.model.Authentification;
