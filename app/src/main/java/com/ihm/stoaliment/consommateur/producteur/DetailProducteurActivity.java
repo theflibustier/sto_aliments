@@ -28,7 +28,7 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
 
         final String id = intent.getStringExtra("PRODUCTEUR");
 
-        ProducteurControleur producteurControleur = new ProducteurControleur(this);
+        final ProducteurControleur producteurControleur = new ProducteurControleur(this);
         producteurControleur.addObserver(this);
         producteurControleur.loadProducteur(id);
 
@@ -38,6 +38,13 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
                 Intent intent = new Intent(getBaseContext(), DisplayProduit.class);
                 intent.putExtra("idProducteur", String.valueOf(id));
                 startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.btnAbonne).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                producteurControleur.addAbonne(id);
             }
         });
     }

@@ -106,7 +106,13 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:text="List des Produits" />
-
+                <Button
+                    android:id="@+id/btnAbonne"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="S'abonner"
+                    android:layout_margin="15dp"
+                    android:layout_weight="1" />
                 <Button
                     android:id="@+id/btnCommenter"
                     android:layout_width="100dp"
@@ -114,6 +120,8 @@
                     android:layout_margin="15dp"
                     android:layout_weight="1"
                     android:text="Commenter" />
+
+
             </LinearLayout>
 
             <ListView
@@ -124,6 +132,8 @@
 
 
         </LinearLayout>
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
