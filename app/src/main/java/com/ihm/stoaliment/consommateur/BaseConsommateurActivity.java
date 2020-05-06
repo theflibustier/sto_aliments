@@ -22,7 +22,7 @@ public abstract class BaseConsommateurActivity extends AppCompatActivity impleme
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
 
-        navigationView = findViewById(R.id.navigation);
+        navigationView = findViewById(R.id.include);
         navigationView.setOnNavigationItemSelectedListener(this);
     }
 

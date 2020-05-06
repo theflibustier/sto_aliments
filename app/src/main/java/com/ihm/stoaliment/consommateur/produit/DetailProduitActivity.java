@@ -34,6 +34,7 @@ public class DetailProduitActivity extends AppCompatActivity implements Observer
 
     @Override
     public void update(Observable observable, Object o) {
+
         Produit produit = (Produit) o;
 
         System.out.println(produit.getLabel());

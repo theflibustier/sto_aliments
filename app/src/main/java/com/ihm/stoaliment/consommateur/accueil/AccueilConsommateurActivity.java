@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ListView;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.location.LocationServices;
 import com.ihm.stoaliment.controleur.NotificationControlleur;
 import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.authentification.AuthentificationActivity;
@@ -27,6 +28,8 @@ import java.util.Observer;
 public class AccueilConsommateurActivity extends BaseConsommateurActivity implements Observer {
 
     private ProducteurListAdapter producteurListAdapter;
+    private ProducteurControleur producteurControleur;
+    List<Producteur> producteurs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +52,15 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
         });
 
 
-        ProducteurControleur producteurControleur = new ProducteurControleur(this);
+        producteurControleur = new ProducteurControleur(this);
         producteurControleur.addObserver(this);
-        producteurControleur.loadProducteurs();
+
+        LocationServices.getFusedLocationProviderClient(this).getLastLocation().addOnSuccessListener(producteurControleur);
 
         NotificationControlleur notificationControlleur = new NotificationControlleur(this);
         notificationControlleur.loadLastNotif(Authentification.consommateur.getId());
 
-        List<Producteur> producteurs = new ArrayList<>();
-        producteurListAdapter = new ProducteurListAdapter(this, producteurs);
-        ListView listView = findViewById(R.id.listViewProducteur);
-        listView.setAdapter(producteurListAdapter);
-        listView.setOnItemClickListener(producteurControleur);
+
 
 
     }
@@ -77,11 +77,21 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
 
     @Override
     public void update(Observable o, Object arg) {
+
         if(o instanceof ProducteurControleur) {
-            producteurListAdapter.add(arg);
-            producteurListAdapter.notifyDataSetChanged();
-            View load = findViewById(R.id.load);
-            load.setVisibility(View.GONE);
+
+
+
+            producteurs = (List<Producteur>) arg;
+            producteurListAdapter = new ProducteurListAdapter(this, producteurs);
+            ListView listView = findViewById(R.id.listViewProducteur);
+            listView.setAdapter(producteurListAdapter);
+            listView.setOnItemClickListener(producteurControleur);
+
+
+            findViewById(R.id.layout_load).setVisibility(View.GONE);
+            findViewById(R.id.layout_list).setVisibility(View.VISIBLE);
+
         }
     }
 
