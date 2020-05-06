@@ -121,13 +121,26 @@ public class NotificationControlleur extends Observable {
 
     private void setNotifToSeen(Notification notification){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("notification").document(notification.getId())
-                .update("destinataires", FieldValue.arrayRemove(Authentification.consommateur.getId()))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        System.out.println("La notif a été vue");
-                    }
-                });
+        System.out.println("hello"+notification.getId());
+        if(notification.getDestinataires()==null || notification.getDestinataires().size()==0 || notification.getDestinataires().size()==1){
+            db.collection("notification").document(notification.getId())
+                    .delete()
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    System.out.println("La notif a été supprimée de la bd");
+                }
+            });
+        }
+        else  {
+            db.collection("notification").document(notification.getId())
+                    .update("destinataires", FieldValue.arrayRemove(Authentification.consommateur.getId()))
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            System.out.println("La notif a été vue");
+                        }
+                    });
+        }
     }
 }
