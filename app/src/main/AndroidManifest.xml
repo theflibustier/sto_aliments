@@ -46,6 +46,7 @@
         <activity
             android:name=".consommateur.autour.AutourActivity"
             android:parentActivityName=".consommateur.autour.AutourActivity" />
+        <activity android:name=".consommateur.accueil.FilterActivity" />
     </application>
 
 </manifest>
