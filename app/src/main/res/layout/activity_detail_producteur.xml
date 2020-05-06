@@ -110,7 +110,7 @@
                     android:id="@+id/btnAbonne"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="S'abonner"
+                    android:onClick="switch_mode"
                     android:layout_margin="15dp"
                     android:layout_weight="1" />
                 <Button
