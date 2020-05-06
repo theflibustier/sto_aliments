@@ -78,12 +78,15 @@ public class AjoutProduitActivity extends AppCompatActivity {
         sharedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareOnTwitterWithPost("J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
+
+                if(requiredInputs()){
+                    shareOnTwitterWithPost("J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
                             + " sont enfin disponible de " + heureDebut.getText().toString() + "h à "
                             + heureFin.getText().toString() + " h."
                             + "\n\n" + "Quantité limitée à " + editTextQuantity.getText().toString()
                             + " kg à " + prix.getText().toString() + " € le kilo."
                             + "\n\n" + "N'hésitez surtout pas et venez nombreux !");
+                }
             }
         });
 
@@ -229,6 +232,26 @@ public class AjoutProduitActivity extends AppCompatActivity {
             Log.wtf(TAG, "UTF-8 should always be supported", e);
             return "";
         }
+    }
+
+    public boolean requiredInputs(){
+        boolean res = true;
+        if(editTextLabel.length() == 0){
+            res = false;
+            editTextLabel.setError("Entrer le nom du produit");
+        }else if(heureDebut.length() == 0) {
+            res = false;
+            heureDebut.setError("Entrer l'heure retrait");
+        }else if(heureFin.length() == 0) {
+            res = false;
+            heureFin.setError("Entrer l'heure de fin de retrait");
+        }
+        else if(prix.length() == 0) {
+            res = false;
+            prix.setError("Entrer le prix du produit");
+        }
+
+        return res;
     }
 
 }
