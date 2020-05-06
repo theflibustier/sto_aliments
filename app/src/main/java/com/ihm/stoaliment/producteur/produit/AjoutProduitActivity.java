@@ -78,12 +78,15 @@ public class AjoutProduitActivity extends AppCompatActivity {
         sharedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shareOnTwitterWithPost("J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
+
+                if(requiredInputs()){
+                    shareOnTwitterWithPost("J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
                             + " sont enfin disponible de " + heureDebut.getText().toString() + "h à "
                             + heureFin.getText().toString() + " h."
                             + "\n\n" + "Quantité limitée à " + editTextQuantity.getText().toString()
                             + " kg à " + prix.getText().toString() + " € le kilo."
                             + "\n\n" + "N'hésitez surtout pas et venez nombreux !");
+                }
             }
         });
 
@@ -112,23 +115,32 @@ public class AjoutProduitActivity extends AppCompatActivity {
         btnValid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Produit produit = new Produit();
-                int quantite = (String.valueOf(editTextQuantity.getText()).isEmpty())? 0 : Integer.parseInt(String.valueOf(editTextQuantity.getText()));
-                int price = (prix.getText().toString().isEmpty())? 0 : Integer.parseInt(prix.getText().toString());
-                String type = SpinnerType.getSelectedItem().toString();
-                String label = editTextLabel.getText().toString();
-                String hd = heureDebut.getText().toString();
-                String hf = heureFin.getText().toString();
-                produit.setQuantite(quantite);
-                produit.setLabel(label);
-                produit.setTypeProduit(type);
-                produit.setPrix(price);
-                if(!hd.isEmpty())produit.setHeureDebut(Integer.parseInt(hd));
-                if(!hf.isEmpty())produit.setHeureFin(Integer.parseInt(hf));
-                ProduitControleur produitControleur = new ProduitControleur(AjoutProduitActivity.this);
-                produitControleur.addProduit(produit, image_uri);
-                if(!switchNotif.isChecked()) return;
-                notificationControlleur.sendNotifToAlertNewProduct(produit,producteur, producteur.getListeAbonnes());
+
+                if(requiredInputs()){
+
+                    Produit produit = new Produit();
+                    int quantite = (String.valueOf(editTextQuantity.getText()).isEmpty())? 0 : Integer.parseInt(String.valueOf(editTextQuantity.getText()));
+                    int price = (prix.getText().toString().isEmpty())? 0 : Integer.parseInt(prix.getText().toString());
+
+                    String type = SpinnerType.getSelectedItem().toString();
+                    String label = editTextLabel.getText().toString();
+                    String hd = heureDebut.getText().toString();
+
+                    String hf = heureFin.getText().toString();
+                    produit.setQuantite(quantite);
+                    produit.setLabel(label);
+                    produit.setTypeProduit(type);
+                    produit.setPrix(price);
+
+                    if(!hd.isEmpty())produit.setHeureDebut(Integer.parseInt(hd));
+                    if(!hf.isEmpty())produit.setHeureFin(Integer.parseInt(hf));
+                    ProduitControleur produitControleur = new ProduitControleur(AjoutProduitActivity.this);
+                    produitControleur.addProduit(produit, image_uri);
+                    if(!switchNotif.isChecked()) return;
+
+                    notificationControlleur.sendNotifToAlertNewProduct(produit,producteur, producteur.getListeAbonnes());
+                }
+
 
             }
         });
@@ -229,6 +241,29 @@ public class AjoutProduitActivity extends AppCompatActivity {
             Log.wtf(TAG, "UTF-8 should always be supported", e);
             return "";
         }
+    }
+
+    public boolean requiredInputs(){
+        boolean res = true;
+        if(editTextLabel.length() == 0){
+            res = false;
+            editTextLabel.setError("Entrer le nom du produit");
+        }else if(heureDebut.length() == 0) {
+            res = false;
+            heureDebut.setError("Entrer l'heure retrait");
+        }else if(heureFin.length() == 0) {
+            res = false;
+            heureFin.setError("Entrer l'heure de fin de retrait");
+        }
+        else if(prix.length() == 0) {
+            res = false;
+            prix.setError("Entrer le prix du produit");
+        }else if(editTextQuantity.length() == 0){
+            res = false;
+            editTextQuantity.setError("Entrer la quantité");
+        }
+
+        return res;
     }
 
 }

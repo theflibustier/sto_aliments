@@ -43,6 +43,7 @@ public class DetailProduitActivity extends AppCompatActivity implements Observer
 
     @Override
     public void update(Observable observable, Object o) {
+
         Producteur producteur;
         Produit produit;
         if(observable instanceof ProducteurControleur){
