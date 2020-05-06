@@ -42,6 +42,7 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
         producteurControleur.loadProducteur(idProducteur);
         abonneControleur = new AbonneControleur(this);
         abonneControleur.addObserver(this);
+        abonneControleur.checkAbonne(idProducteur);
 
         findViewById(R.id.btnListProduit).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,10 +53,11 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
             }
         });
 
-        if(Authentification.consommateur.getProducteursSuivis().contains(idProducteur)){
+        if(abonner){
             ((Button)findViewById(R.id.btnAbonne)).setText("Se désabonner");
-        }else
+        }else{
             ((Button)findViewById(R.id.btnAbonne)).setText("S'abonner");
+        }
 
         findViewById(R.id.btnAbonne).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +80,10 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
         }
         if (o instanceof AbonneControleur){
             abonner = (boolean)arg;
-            ((Button)findViewById(R.id.btnAbonne)).setText( (!abonner)? "Se désabonner" : "S'abonner");
+            ((Button)findViewById(R.id.btnAbonne)).setText( (abonner)? "Se désabonner" : "S'abonner");
+        }
+        if(o instanceof ConsommateurControlleur){
+            Authentification.consommateur = (Consommateur) arg;
         }
         View load = findViewById(R.id.load);
         load.setVisibility(View.GONE);

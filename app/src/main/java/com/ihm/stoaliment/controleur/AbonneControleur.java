@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +12,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -21,16 +20,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.ihm.stoaliment.consommateur.producteur.DetailProducteurActivity;
 import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.model.Consommateur;
-import com.ihm.stoaliment.model.Producteur;
-
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.OverlayItem;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Observable;
 
 public class AbonneControleur extends Observable {
@@ -80,5 +75,24 @@ public class AbonneControleur extends Observable {
                         });
                     }
                 });
+    }
+
+    public void checkAbonne(final String idProducteur) {
+        db.collection("consommateur").document(Authentification.consommateur.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    final Consommateur consommateur = document.toObject(Consommateur.class);
+                    setChanged();
+                    assert consommateur != null;
+                    if (consommateur.getProducteursSuivis().contains(idProducteur))
+                        notifyObservers(true);
+                    else
+                        notifyObservers(false);
+                }
+            }
+        });
     }
 }
