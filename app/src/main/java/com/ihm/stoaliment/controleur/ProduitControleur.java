@@ -45,8 +45,6 @@ public class ProduitControleur extends Observable implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Produit produit = (Produit) parent.getItemAtPosition(position);
-        System.out.println("ICI le id /////////////////"+produit.getId());
-        System.out.println("ICI le idProd /////////////////"+produit.getId_producteur());
 
         Intent intent = new Intent(activity.getApplicationContext(), DetailProduitActivity.class);
         intent.putExtra("PRODUIT", produit.getId());
