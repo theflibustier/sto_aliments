@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.location.LocationServices;
@@ -61,7 +63,14 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
         notificationControlleur.loadLastNotif(Authentification.consommateur.getId());
 
 
-
+        TextView filter = (TextView) findViewById(R.id.filtrer);
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AccueilConsommateurActivity.this, FilterActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

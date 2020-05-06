@@ -7,5 +7,7 @@
     <color name="textColorPrimary">#616161</color>
     <color name="textColorSecondary">#000000</color>
     <color name="colorSecondary">#c5e1a5</color>
+    <color name="gris">#ccc</color>
+    <color name="white">#FFF</color>
 
 </resources>
