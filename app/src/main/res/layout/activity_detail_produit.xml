@@ -5,18 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <RelativeLayout
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:id="@+id/load">
+        android:id="@+id/load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:indeterminate="true" />
 
     </RelativeLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
@@ -29,20 +31,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imageViewImageProducteur"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/tomates" />
-
             <TextView
-                android:id="@+id/textViewNomProducteur"
+                android:id="@+id/ProducteurDetailProduit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -55,40 +49,70 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textViewDistanceProducteur"
+                android:id="@+id/LabelDetailProduit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_margin="15dp"
                 android:text="TextView"
+                android:textStyle="bold"
                 android:textAlignment="center"
                 android:textColor="#7E7E7E"
                 android:textSize="12sp" />
 
-
-            <TextView
-                android:id="@+id/textViewHorraireProducteur"
+            <ImageView
+                android:id="@+id/imageDetailProduit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:text="TextView"
-                android:textAlignment="center"
-                android:textColor="#FB8C00"
-                android:textSize="12sp" />
+                android:layout_height="180dp"
+                android:layout_weight="1"
+                android:layout_margin="15dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/tomates" />
 
-
-            <TextView
-                android:id="@+id/textViewDescriptionProducteur"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="111dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/back"
-                android:text="TextView"
-                android:textColor="#000000"
-                android:textSize="12sp" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/prixDetailProduit"
+                    android:layout_width="119dp"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textColor="#5f294f"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="164dp"
+                    tools:layout_editor_absoluteY="17dp" />
+                    <TextView
+                        android:id="@+id/quantiteDetailProduit"
+                        android:layout_width="119dp"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textAlignment="center"
+                        android:textColor="#5f294f"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        tools:layout_editor_absoluteX="164dp"
+                        tools:layout_editor_absoluteY="17dp" />
+                <TextView
+                    android:id="@+id/retraitDetailProduit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textColor="#FB8C00"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="164dp"
+                    tools:layout_editor_absoluteY="17dp" />
+
+            </LinearLayout>
+
+
+
 
             <ListView
                 android:id="@+id/listViewCommentaire"
