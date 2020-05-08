@@ -23,6 +23,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.361" />
 
+    <Button
+        android:id="@+id/btnInsert"
+        style="@style/TextAppearance.AppCompat.Widget.Button.Colored"
+        android:layout_width="137dp"
+        android:layout_height="32dp"
+        android:text="Choisir depuis la Galerie"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.602"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.361" />
+
     <EditText
         android:id="@+id/productName"
         android:layout_width="293dp"

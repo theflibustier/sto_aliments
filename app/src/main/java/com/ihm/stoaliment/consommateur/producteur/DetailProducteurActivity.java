@@ -73,10 +73,13 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
 
     @Override
     public void update(Observable o, Object arg) {
+
         if(o instanceof ProducteurControleur){
             Producteur producteur = (Producteur) arg;
             ((TextView)findViewById(R.id.textViewNomProducteur)).setText(producteur.getNom());
             ((ImageView)findViewById(R.id.imageViewImageProducteur)).setImageBitmap(producteur.getImage());
+            View load = findViewById(R.id.load);
+            load.setVisibility(View.GONE);
         }
         if (o instanceof AbonneControleur){
             abonner = (boolean)arg;
@@ -85,7 +88,6 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
         if(o instanceof ConsommateurControlleur){
             Authentification.consommateur = (Consommateur) arg;
         }
-        View load = findViewById(R.id.load);
-        load.setVisibility(View.GONE);
+
     }
 }
