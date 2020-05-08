@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -39,8 +40,10 @@ public class AjoutProduitActivity extends AppCompatActivity {
 
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
+    private static final int GALLERY_INTENT = 2;
     private static final String TAG = "testttos";
     Button btnCam;
+    Button btnInsert;
     Button btnValid;
     ImageView imgView;
     Spinner spinner2;
@@ -64,6 +67,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
 
         imgView = findViewById(R.id.imageView);
         btnCam = findViewById(R.id.btnCapture);
+        btnInsert = findViewById(R.id.btnInsert);
         btnValid = findViewById(R.id.valide);
         editTextQuantity = findViewById(R.id.edit_quantity);
         editTextLabel = findViewById(R.id.productName);
@@ -110,7 +114,19 @@ public class AjoutProduitActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY_INTENT);
+            }
+        });
+
         addItemsOnSpinner();
+
+
 
         btnValid.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +160,8 @@ public class AjoutProduitActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     //add items into spinner dynamically
@@ -189,6 +207,8 @@ public class AjoutProduitActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+            if(data.getData() != null)
+                image_uri = data.getData();
             imgView.setImageURI(image_uri);
             btnCam.getBackground().setAlpha(64);
         }
