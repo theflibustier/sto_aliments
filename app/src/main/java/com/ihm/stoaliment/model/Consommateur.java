@@ -1,6 +1,7 @@
 package com.ihm.stoaliment.model;
 
 import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Consommateur implements Serializable {
     private String cp;
     private List<String> producteursSuivis;
     private String id;
+    private GeoPoint locationConsommateur;
 
     public Consommateur(String nom, String adresse, String ville, String cp) {
         this.nom = nom;
@@ -66,5 +68,12 @@ public class Consommateur implements Serializable {
     }
     public void setCp(String cp) {
         this.cp = cp;
+    }
+
+    public GeoPoint getLocationConsommateur() {
+        return locationConsommateur;
+    }
+    public void setLocationConsommateur(GeoPoint locationConsommateur) {
+        this.locationConsommateur = locationConsommateur;
     }
 }

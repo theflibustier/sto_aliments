@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +31,10 @@ import java.util.Observer;
 //import com.example.map.R;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;
+import com.ihm.stoaliment.controleur.AuthentificationControleur;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
+import com.ihm.stoaliment.model.Authentification;
+import com.ihm.stoaliment.model.Consommateur;
 import com.ihm.stoaliment.model.Producteur;
 
 public class AutourActivity extends BaseConsommateurActivity implements Observer {
@@ -98,7 +102,14 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
             System.out.println(lng);
 
             GeoPoint startPoint = new GeoPoint(lat, lng);
+            com.google.firebase.firestore.GeoPoint curPos = new com.google.firebase.firestore.GeoPoint(lat,lng);
             mapController.setCenter(startPoint);
+
+            Consommateur consommateur = Authentification.consommateur;
+            consommateur.setLocationConsommateur(curPos);
+
+
+            Log.d("info", "id consommateur :  " +  Authentification.consommateur.getId());
 
             //create a new item to draw on the map
             //your items
@@ -178,5 +189,16 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
             System.out.println(producteur.getNom());
             System.out.println(producteur.getLocation());
         }
+    }
+
+    public void clearOverlay(){
+        map.getOverlay().clear();
+    }
+
+    public void setFilteredProductors(List<Producteur> productors){
+        for (Producteur p : productors) {
+            mMyLocationOverlay.addItem(new OverlayItem(p.getId(), p.getNom(), p.getVille(), new GeoPoint(p.getLocation().getLatitude(), p.getLocation().getLongitude())));
+        }
+
     }
 }

@@ -34,6 +34,7 @@ import com.ihm.stoaliment.model.Produit;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -213,10 +214,10 @@ public class AjoutProduitActivity extends AppCompatActivity {
         Bundle extra = new Bundle();
         
         intentForTwitter.putExtra(Intent.EXTRA_TEXT, message);
-        intentForTwitter.setType("text/plain");
 
+        String sourceFilename= image_uri.getPath();
+        intentForTwitter.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(sourceFilename)));
         intentForTwitter.setType("image/jpeg");
-        intentForTwitter.putExtra(Intent.EXTRA_STREAM, image_uri);
 
 
         if (image_uri == null){
