@@ -9,6 +9,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,7 +32,13 @@ import com.ihm.stoaliment.controleur.ProduitControleur;
 import com.ihm.stoaliment.model.Producteur;
 import com.ihm.stoaliment.model.Produit;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,12 +88,16 @@ public class AjoutProduitActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(requiredInputs()){
-                    shareOnTwitterWithPost("J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
-                            + " sont enfin disponible de " + heureDebut.getText().toString() + "h à "
-                            + heureFin.getText().toString() + " h."
-                            + "\n\n" + "Quantité limitée à " + editTextQuantity.getText().toString()
-                            + " kg à " + prix.getText().toString() + " € le kilo."
-                            + "\n\n" + "N'hésitez surtout pas et venez nombreux !");
+                    try {
+                        shareOnTwitterWithPost("J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
+                                + " sont enfin disponible de " + heureDebut.getText().toString() + "h à "
+                                + heureFin.getText().toString() + " h."
+                                + "\n\n" + "Quantité limitée à " + editTextQuantity.getText().toString()
+                                + " kg à " + prix.getText().toString() + " € le kilo."
+                                + "\n\n" + "N'hésitez surtout pas et venez nombreux !");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -195,14 +207,36 @@ public class AjoutProduitActivity extends AppCompatActivity {
     }
 
 
-    private void shareOnTwitterWithPost(String message) {
+    private void shareOnTwitterWithPost(String message) throws IOException {
 
         Intent intentForTwitter = new Intent(Intent.ACTION_SEND);
         Bundle extra = new Bundle();
         
         intentForTwitter.putExtra(Intent.EXTRA_TEXT, message);
         intentForTwitter.setType("text/plain");
-        
+
+        intentForTwitter.setType("image/jpeg");
+        intentForTwitter.putExtra(Intent.EXTRA_STREAM, image_uri);
+
+
+        if (image_uri == null){
+            Log.d("ERREUR", "iamge nullll");
+        }else{
+            Log.d("non", "iamge pas du tout null");
+        }
+//        intentForTwitter.putExtra(Intent.EXTRA_STREAM, image_uri);
+//        intentForTwitter.setType("image/jpeg");
+        /**/
+
+//            String stringUri = image_uri.toString();
+//
+//            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_uri);
+//
+//            ByteArrayOutputStream bs = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
+//            intentForTwitter.putExtra("byteArray", bs.toByteArray());
+
+        /**/
         PackageManager packManager = getPackageManager();
         List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(intentForTwitter, PackageManager.MATCH_DEFAULT_ONLY);
 
@@ -264,6 +298,62 @@ public class AjoutProduitActivity extends AppCompatActivity {
         }
 
         return res;
+    }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
+    public Bitmap loadBitmap(String url)
+    {
+        Bitmap bm = null;
+        InputStream is = null;
+        BufferedInputStream bis = null;
+        try
+        {
+            URLConnection conn = new URL(url).openConnection();
+            conn.connect();
+            is = conn.getInputStream();
+            bis = new BufferedInputStream(is, 8192);
+            bm = BitmapFactory.decodeStream(bis);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally {
+            if (bis != null)
+            {
+                try
+                {
+                    bis.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            if (is != null)
+            {
+                try
+                {
+                    is.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return bm;
     }
 
 }
