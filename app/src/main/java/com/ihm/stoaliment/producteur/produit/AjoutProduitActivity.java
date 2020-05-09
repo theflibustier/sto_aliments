@@ -235,8 +235,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
         
         intentForTwitter.putExtra(Intent.EXTRA_TEXT, message);
 
-        String sourceFilename= image_uri.getPath();
-        intentForTwitter.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(sourceFilename)));
+        intentForTwitter.putExtra(Intent.EXTRA_STREAM, image_uri);
         intentForTwitter.setType("image/jpeg");
 
 
