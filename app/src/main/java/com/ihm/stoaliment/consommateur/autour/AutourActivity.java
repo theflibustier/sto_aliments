@@ -178,7 +178,7 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
     }
 
 
-    @Override
+    /*@Override
     public void update(Observable o, Object arg) {
 
         if(arg != null && mMyLocationOverlay != null){
@@ -188,6 +188,17 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
 
             System.out.println(producteur.getNom());
             System.out.println(producteur.getLocation());
+        }
+    }*/
+    @Override
+    public void update(Observable o , Object arg){
+        if(arg != null && mMyLocationOverlay != null){
+            List<Producteur> producteurs = (List<Producteur>) arg;
+            for(Producteur producteur : producteurs){
+                mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(),producteur.getNom(),producteur.getVille(),new GeoPoint(producteur.getLocation().getLatitude(),producteur.getLocation().getLongitude())));
+                System.out.println(producteur.getNom());
+                System.out.println(producteur.getLocation());
+            }
         }
     }
 

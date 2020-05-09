@@ -16,7 +16,10 @@
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".authentification.inscription.InscriptionActivity" android:windowSoftInputMode="adjustUnspecified"/>
+        <activity android:name=".producteur.CoordonneesActivity"></activity>
+        <activity
+            android:name=".authentification.inscription.InscriptionActivity"
+            android:windowSoftInputMode="adjustUnspecified" />
         <activity android:name=".consommateur.produit.DisplayProduit" />
         <activity android:name=".authentification.AuthentificationActivity" />
         <activity android:name=".consommateur.autour.GeolocalisationActivity" />

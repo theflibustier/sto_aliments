@@ -106,22 +106,21 @@ public class NotificationControlleur extends Observable {
         PendingIntent contentIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0,intent
                 , PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(activity.getApplicationContext(), channelId)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle("Oye oye")
-                .setContentText(notificationToSendOnSmartphone.getMessage())
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(notificationToSendOnSmartphone.getMessage()))
-                .setPriority(priority);
-        notification.setSmallIcon(R.drawable.abonne);
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(activity.getApplicationContext(), channelId);
+        notification.setContentTitle("Oye oye");
+        notification.setContentText(notificationToSendOnSmartphone.getMessage());
+        notification.setStyle(new NotificationCompat.BigTextStyle().bigText(notificationToSendOnSmartphone.getMessage()));
+        notification.setPriority(priority);
+        notification.setSmallIcon(R.drawable.ic_notification_important_24px);
         notification.setContentIntent(contentIntent);
+        notification.setAutoCancel(true).setDefaults(android.app.Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis());
 
-        NotificationManagerCompat.from(activity.getApplicationContext()).notify(new Random().nextInt(), notification.build() );
+        NotificationManagerCompat.from(activity.getApplicationContext()).notify(notificationToSendOnSmartphone.getIntId(), notification.build() );
     }
 
     private void setNotifToSeen(Notification notification){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        System.out.println("hello"+notification.getId());
         if(notification.getDestinataires()==null || notification.getDestinataires().size()==0 || notification.getDestinataires().size()==1){
             db.collection("notification").document(notification.getId())
                     .delete()

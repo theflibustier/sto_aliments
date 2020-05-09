@@ -194,6 +194,68 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
         });
     }
 
+    public void loadProducteursInOneList(){
+
+        final List<Producteur> producteurs = new ArrayList<>();
+
+        db.collection("producteur").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG,document.getId() + " => " + document.getData());
+
+                        final Producteur producteur = document.toObject(Producteur.class);
+                        producteur.setId(document.getId());
+                        producteurs.add(producteur);
+                    }
+
+                    nb_producteur_to_load = producteurs.size();
+                    nb_producteur_load = 0;
+
+                    for(final Producteur producteur : producteurs){
+
+                        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                        StorageReference islandRef = firebaseStorage.getReference().child(producteur.getImageUrl());
+
+                        File localFile = null;
+                        try {
+                            localFile = File.createTempFile("images", "jpg");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        final File finalLocalFile = localFile;
+                        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                // Local temp file has been created
+                                Bitmap bitmap = BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath());
+
+                                producteur.setImage(bitmap);
+
+                                nb_producteur_load++;
+                                if(nb_producteur_load == nb_producteur_to_load){
+                                    setChanged();
+                                    notifyObservers(producteurs);
+                                }
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                            }
+                        });
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
 
 
 
@@ -262,6 +324,7 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
 
     @Override
     public void onSuccess(Location location) {
-        loadProducteursSortedByNearest(new GeoPoint(location.getLatitude(), location.getLongitude()));
+        if(location!=null)loadProducteursSortedByNearest(new GeoPoint(location.getLatitude(), location.getLongitude()));
+        else loadProducteursInOneList();
     }
 }

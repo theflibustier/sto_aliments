@@ -19,7 +19,6 @@ import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;
 import com.ihm.stoaliment.consommateur.autour.AutourActivity;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
-import com.ihm.stoaliment.model.Notification;
 import com.ihm.stoaliment.model.Producteur;
 
 import java.util.ArrayList;
@@ -88,8 +87,6 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
     public void update(Observable o, Object arg) {
 
         if(o instanceof ProducteurControleur) {
-
-
 
             producteurs = (List<Producteur>) arg;
             producteurListAdapter = new ProducteurListAdapter(this, producteurs);

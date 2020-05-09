@@ -1,5 +1,7 @@
 package com.ihm.stoaliment.model;
 
+import android.content.Intent;
+
 import java.util.List;
 
 public class Notification {
@@ -33,5 +35,11 @@ public class Notification {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+
+    public int getIntId(){
+        if(id==null || id.length()<1) return 0;
+        return id.charAt(0);
     }
 }

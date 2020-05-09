@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.authentification.AuthentificationActivity;
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.producteur.CoordonneesActivity;
 import com.ihm.stoaliment.producteur.abonneList.AfficheAbonneActivity;
 import com.ihm.stoaliment.producteur.produit.AjoutProduitActivity;
 
@@ -42,7 +43,8 @@ public class AccueilProducteurActivity extends AppCompatActivity {
         coordonnees.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Pas encore fait");
+                Intent intent = new Intent(AccueilProducteurActivity.this, CoordonneesActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -59,19 +61,14 @@ public class AccueilProducteurActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.menu_item_deconnexion) {
 
             SharedPreferences mPrefs = Authentification.preferences;
