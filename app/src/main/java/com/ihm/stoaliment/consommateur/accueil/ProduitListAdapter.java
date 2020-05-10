@@ -46,8 +46,8 @@ public class ProduitListAdapter extends ArrayAdapter {
         String quantite = String.valueOf(produits.get(position).getQuantite());
 
         tvProduit.setText(produits.get(position).getLabel());
-        tvPrix.setText(prix);
-        tvQuantite.setText(quantite);
+        tvPrix.setText(prix + " €");
+        tvQuantite.setText(quantite + " Kg");
         image.setImageBitmap(produits.get(position).getImage());
 
         return rowView;

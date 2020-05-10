@@ -135,29 +135,12 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
         BitmapDrawable drawableBmp = new BitmapDrawable(r, bitmapResized);
         return drawableBmp;
     }
-
-
-    /*@Override
-    public void update(Observable o, Object arg) {
-
-        if(arg != null && mMyLocationOverlay != null){
-            Producteur producteur = (Producteur) arg;
-
-            mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(), producteur.getNom(), producteur.getVille(), new GeoPoint(producteur.getLocation().getLatitude(), producteur.getLocation().getLongitude())));
-
-            System.out.println(producteur.getNom());
-            System.out.println(producteur.getLocation());
-        }
-    }*/
-
     @Override
     public void update(Observable o , Object arg){
         if(arg instanceof Location){
             Location result  = (Location) arg;
             lng = result.getLongitude();
             lat = result.getLatitude();
-            System.out.println("///////////////////////////////////////////////"+lng);
-            System.out.println("///////////////////////////////////////////////"+lat);
             GeoPoint startPoint = new GeoPoint(lat, lng);
             mapController.setCenter(startPoint);
             if(curPosition == null){
@@ -165,9 +148,7 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
                 items.add(curPosition);
             }
             else{
-                System.out.println("index: "+ items.indexOf(curPosition));
                 items.set(items.indexOf(curPosition), new OverlayItem("Vous etes ici ", "votre position", startPoint) );
-                Toast.makeText(getApplicationContext(), "Change", Toast.LENGTH_SHORT).show();
             }
         }
 
