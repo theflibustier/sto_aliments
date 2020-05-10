@@ -38,14 +38,13 @@ public class DisplayAbonnementActivity extends AppCompatActivity implements Obse
         listView.setAdapter(abonnementListAdapter);
         listView.setOnItemClickListener(producteurControleur);
 
-        if(listView.getAdapter().getCount() == 0){
-            findViewById(R.id.aucunAbonnement).setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
     public void update(Observable o, Object arg) {
         producteurs = (List<Producteur>) arg;
+        if (producteurs.size() == 0)
+            findViewById(R.id.aucunAbonnement).setVisibility(View.VISIBLE);
         abonnementListAdapter.addAll(producteurs);
         abonnementListAdapter.notifyDataSetChanged();
     }

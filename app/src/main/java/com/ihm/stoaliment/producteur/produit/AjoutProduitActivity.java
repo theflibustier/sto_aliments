@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -220,13 +221,15 @@ public class AjoutProduitActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if(data.getData() != null)
+            if(data != null){
                 image_uri = data.getData();
-            imgView.setImageURI(image_uri);
-            btnCam.getBackground().setAlpha(64);
+                imgView.setImageURI(image_uri);
+                btnCam.getBackground().setAlpha(64);
+            }else{
+                imgView.setImageURI(image_uri);
+                btnCam.getBackground().setAlpha(64);
+            }
         }
-
-        
     }
 
 
@@ -292,17 +295,20 @@ public class AjoutProduitActivity extends AppCompatActivity {
         if(editTextLabel.length() == 0){
             res = false;
             editTextLabel.setError("Entrer le nom du produit");
-        }else if(heureDebut.length() == 0) {
+        }
+        if(heureDebut.length() == 0) {
             res = false;
             heureDebut.setError("Entrer l'heure retrait");
-        }else if(heureFin.length() == 0) {
+        }
+        if(heureFin.length() == 0) {
             res = false;
             heureFin.setError("Entrer l'heure de fin de retrait");
         }
-        else if(prix.length() == 0) {
+        if(prix.length() == 0) {
             res = false;
             prix.setError("Entrer le prix du produit");
-        }else if(editTextQuantity.length() == 0){
+        }
+        if(editTextQuantity.length() == 0){
             res = false;
             editTextQuantity.setError("Entrer la quantité");
         }

@@ -41,7 +41,7 @@
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/tomates" />
+                app:srcCompat="@mipmap/loading" />
 
             <TextView
                 android:id="@+id/textViewNomProducteur"
