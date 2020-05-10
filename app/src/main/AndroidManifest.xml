@@ -22,7 +22,6 @@
             android:windowSoftInputMode="adjustUnspecified" />
         <activity android:name=".consommateur.produit.DisplayProduit" />
         <activity android:name=".authentification.AuthentificationActivity" />
-        <activity android:name=".consommateur.autour.GeolocalisationActivity" />
         <activity android:name=".consommateur.producteur.DetailProducteurActivity" />
         <activity android:name=".producteur.abonneList.AbonneListAdapter" />
         <activity android:name=".controleur.ConsommateurControlleur" />

@@ -1,26 +1,21 @@
 
 package com.ihm.stoaliment.consommateur.autour;
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.preference.PreferenceManager;
 
 import android.os.Bundle;
-import android.util.Log;
-
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toast;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
-import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import java.util.ArrayList;
@@ -28,13 +23,10 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-//import com.example.map.R;
 import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;
-import com.ihm.stoaliment.controleur.AuthentificationControleur;
+import com.ihm.stoaliment.controleur.GeolocalisationControleur;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
-import com.ihm.stoaliment.model.Authentification;
-import com.ihm.stoaliment.model.Consommateur;
 import com.ihm.stoaliment.model.Producteur;
 
 public class AutourActivity extends BaseConsommateurActivity implements Observer {
@@ -45,13 +37,15 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
     ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
 
     private ProducteurControleur producteurControleur;
+    private GeolocalisationControleur geolocalisationControleur;
+    private OverlayItem curPosition;
+    List<OverlayItem> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent=new Intent(AutourActivity.this,GeolocalisationActivity.class);
-        startActivityForResult(intent, 2);// Activity is started with requestCode 2
+        items = new ArrayList<OverlayItem>();
 
         //load/initialize the osmdroid configuration, this can be done
         Configuration.getInstance().load(   getApplicationContext(),
@@ -64,14 +58,11 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
 
         //inflate and create the map
         //setContentView(R.layout.activity_map);
-
-        producteurControleur = new ProducteurControleur(this);
-        producteurControleur.addObserver(this);
-        producteurControleur.loadProducteurs();
-
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);   //render
 
+        mapController = map.getController();
+        mapController.setZoom(18.0);
         /**
          * Zoomable
          */
@@ -81,63 +72,31 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
          * permet de zommer avec 2 doigt
          */
         map.setMultiTouchControls(true);
+        producteurControleur = new ProducteurControleur(this);
+        producteurControleur.addObserver(this);
+        producteurControleur.loadProducteurs();
+
+        geolocalisationControleur = new GeolocalisationControleur(this);
+        geolocalisationControleur.addObserver(this);
+        geolocalisationControleur.loadPosition();
 
 
-        mapController = map.getController();
-        mapController.setZoom(18.0);
+        OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(43.132988,5.993595));
+        Drawable m = home.getMarker(2);
+
+        items.add(home); // Lat/Lon decimal degrees
+        items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(43.131459,5.994371))); // Lat/Lon decimal degrees
+
+        //the Place icons on the map with a click listener
+        mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items, producteurControleur);
+
+
+        mMyLocationOverlay.setFocusItemsOnTap(true);
+        map.getOverlays().add(mMyLocationOverlay);
+
 
 
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        // check if the request code is same as what is passed  here it is 2
-        if(requestCode==2 && data!=null)
-        {
-            lat =data.getExtras().getDouble("latitude");
-            lng =data.getExtras().getDouble("longitude");
-            System.out.println(lat);
-            System.out.println(lng);
-
-            GeoPoint startPoint = new GeoPoint(lat, lng);
-            com.google.firebase.firestore.GeoPoint curPos = new com.google.firebase.firestore.GeoPoint(lat,lng);
-            mapController.setCenter(startPoint);
-
-            Consommateur consommateur = Authentification.consommateur;
-            consommateur.setLocationConsommateur(curPos);
-
-
-            Log.d("info", "id consommateur :  " +  Authentification.consommateur.getId());
-
-            //create a new item to draw on the map
-            //your items
-            List<OverlayItem> items = new ArrayList<OverlayItem>();
-            OverlayItem home = new OverlayItem("Salade / Tomate / Oignon", "Siège social", new GeoPoint(43.132988,5.993595));
-            Drawable m = home.getMarker(2);
-
-            Resources res = getResources();
-
-
-            //Drawable iconMap = res.getDrawable(R.drawable.ic_place_black_24dp);
-            //Drawable iconResized = resize(res, iconMap, 20);
-
-            OverlayItem curPosition = new OverlayItem("Vous etes ici ", "votre position", startPoint);
-
-            items.add(curPosition);
-            items.add(home); // Lat/Lon decimal degrees
-            items.add(new OverlayItem("Jean-Luc l'agriculteur", "bah chez Jean-luc", new GeoPoint(43.131459,5.994371))); // Lat/Lon decimal degrees
-
-            //the Place icons on the map with a click listener
-            mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items, producteurControleur);
-
-
-            mMyLocationOverlay.setFocusItemsOnTap(true);
-            map.getOverlays().add(mMyLocationOverlay);
-        }
-    }
-
 
     @Override
     public void onResume(){
@@ -190,18 +149,33 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
             System.out.println(producteur.getLocation());
         }
     }*/
+
     @Override
     public void update(Observable o , Object arg){
-        if(arg != null && mMyLocationOverlay != null){
-            List<Producteur> producteurs = (List<Producteur>) arg;
-            for(Producteur producteur : producteurs){
-                mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(),producteur.getNom(),producteur.getVille(),new GeoPoint(producteur.getLocation().getLatitude(),producteur.getLocation().getLongitude())));
-                System.out.println(producteur.getNom());
-                System.out.println(producteur.getLocation());
+        if(arg instanceof Location){
+            Location result  = (Location) arg;
+            lng = result.getLongitude();
+            lat = result.getLatitude();
+            System.out.println("///////////////////////////////////////////////"+lng);
+            System.out.println("///////////////////////////////////////////////"+lat);
+            GeoPoint startPoint = new GeoPoint(lat, lng);
+            mapController.setCenter(startPoint);
+            if(curPosition == null){
+                curPosition = new OverlayItem("Vous etes ici ", "votre position", startPoint);
+                items.add(curPosition);
+            }
+            else{
+                System.out.println("index: "+ items.indexOf(curPosition));
+                items.set(items.indexOf(curPosition), new OverlayItem("Vous etes ici ", "votre position", startPoint) );
+                Toast.makeText(getApplicationContext(), "Change", Toast.LENGTH_SHORT).show();
             }
         }
-    }
 
+        if( o instanceof ProducteurControleur && arg != null && mMyLocationOverlay != null){
+            Producteur producteur = (Producteur) arg;
+            mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(),producteur.getNom(),producteur.getVille(),new GeoPoint(producteur.getLocation().getLatitude(),producteur.getLocation().getLongitude())));
+        }
+    }
     public void clearOverlay(){
         map.getOverlay().clear();
     }
