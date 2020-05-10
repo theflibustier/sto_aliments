@@ -40,7 +40,7 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
     private GeolocalisationControleur geolocalisationControleur;
     private OverlayItem curPosition;
     List<OverlayItem> items;
-    private boolean isAlreadySetPosition;
+    private boolean isAlreadySetPosition = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,10 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
          * Zoomable
          */
         map.setBuiltInZoomControls(true);
+        /**
+         * Suppression des boutons zoom avant et arrière
+         */
+        map.setBuiltInZoomControls(false);
 
         /**
          * permet de zommer avec 2 doigt
@@ -146,14 +150,14 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
             lat = result.getLatitude();
             GeoPoint startPoint = new GeoPoint(lat, lng);
             mapController.setCenter(startPoint);
-            if(isAlreadySetPosition && mMyLocationOverlay != null){
+            if(mMyLocationOverlay == null)
+                mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items, producteurControleur);
+            if(isAlreadySetPosition){
                 mMyLocationOverlay.removeItem(curPosition);
                 curPosition = new OverlayItem("Vous etes ici ", "votre position", startPoint);
-                Toast.makeText(getApplicationContext(), "change", Toast.LENGTH_SHORT).show();
                 mMyLocationOverlay.addItem(curPosition);
-            }
-            else if(mMyLocationOverlay != null){
-                isAlreadySetPosition = true;
+            }else{
+                isAlreadySetPosition=true;
                 curPosition = new OverlayItem("Vous etes ici ", "votre position", startPoint);
                 mMyLocationOverlay.addItem(curPosition);
             }
