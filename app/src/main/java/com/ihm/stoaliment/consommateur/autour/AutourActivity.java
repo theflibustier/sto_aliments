@@ -40,6 +40,7 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
     private GeolocalisationControleur geolocalisationControleur;
     private OverlayItem curPosition;
     List<OverlayItem> items;
+    private boolean isAlreadySetPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,12 +146,16 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
             lat = result.getLatitude();
             GeoPoint startPoint = new GeoPoint(lat, lng);
             mapController.setCenter(startPoint);
-            if(curPosition == null){
+            if(isAlreadySetPosition && mMyLocationOverlay != null){
+                mMyLocationOverlay.removeItem(curPosition);
                 curPosition = new OverlayItem("Vous etes ici ", "votre position", startPoint);
-                items.add(curPosition);
+                Toast.makeText(getApplicationContext(), "change", Toast.LENGTH_SHORT).show();
+                mMyLocationOverlay.addItem(curPosition);
             }
-            else{
-                items.set(items.indexOf(curPosition), new OverlayItem("Vous etes ici ", "votre position", startPoint) );
+            else if(mMyLocationOverlay != null){
+                isAlreadySetPosition = true;
+                curPosition = new OverlayItem("Vous etes ici ", "votre position", startPoint);
+                mMyLocationOverlay.addItem(curPosition);
             }
 
         } else if( o instanceof ProducteurControleur){
@@ -168,7 +173,6 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
                     }
                 }
             }
-
         }
     }
 }

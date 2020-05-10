@@ -38,12 +38,11 @@ public class AbonnementListAdapter extends ArrayAdapter {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_row_abonne, null,true);
 
-        TextView infosAbonne =  rowView.findViewById(R.id.RowInfosAbonne);
-        //ImageView image = rowView.findViewById(R.id.RowImageAbonne);
+        TextView NomAbonnement =  rowView.findViewById(R.id.RowInfosAbonne);
 
         //this code sets the values of the objects to values from the arrays
-        Producteur currentConsommateur = producteurs.get(position);
-        infosAbonne.setText(currentConsommateur.getNom());
+        Producteur currentProducteur = producteurs.get(position);
+        NomAbonnement.setText(currentProducteur.getNom() +" - "+ currentProducteur.getCp()+ " - "+ currentProducteur.getVille());
         return rowView;
     }
 
