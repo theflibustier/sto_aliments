@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -36,11 +38,20 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
     List<Producteur> producteurs;
     Location currentlocation;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_accueil_consommateur);
+
+        int distance = this.getIntent().getIntExtra("distance", -1);
+
+
+        Toast.makeText(AccueilConsommateurActivity.this, "la distance : " + distance,
+                Toast.LENGTH_SHORT).show();
+
+        System.out.println("samsung : " + distance);
 
         Toolbar mytoolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(mytoolbar);
@@ -60,11 +71,14 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
         producteurControleur = new ProducteurControleur(this);
         producteurControleur.addObserver(this);
 
+        producteurControleur.setDistance(distance);
+
         geolocalisationControleur = new GeolocalisationControleur(this);
         geolocalisationControleur.addObserver(this);
         geolocalisationControleur.loadPosition();
-        
+
         producteurControleur.onSuccess(currentlocation);
+
 
         NotificationControlleur notificationControlleur = new NotificationControlleur(this);
         notificationControlleur.loadLastNotif(Authentification.consommateur.getId());

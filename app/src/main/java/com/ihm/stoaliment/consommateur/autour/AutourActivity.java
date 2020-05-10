@@ -58,6 +58,8 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
 
         //inflate and create the map
         //setContentView(R.layout.activity_map);
+
+
         map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);   //render
 
@@ -150,21 +152,23 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
             else{
                 items.set(items.indexOf(curPosition), new OverlayItem("Vous etes ici ", "votre position", startPoint) );
             }
-        }
 
-        if( o instanceof ProducteurControleur && arg != null && mMyLocationOverlay != null){
-            Producteur producteur = (Producteur) arg;
-            mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(),producteur.getNom(),producteur.getVille(),new GeoPoint(producteur.getLocation().getLatitude(),producteur.getLocation().getLongitude())));
-        }
-    }
-    public void clearOverlay(){
-        map.getOverlay().clear();
-    }
+        } else if( o instanceof ProducteurControleur){
 
-    public void setFilteredProductors(List<Producteur> productors){
-        for (Producteur p : productors) {
-            mMyLocationOverlay.addItem(new OverlayItem(p.getId(), p.getNom(), p.getVille(), new GeoPoint(p.getLocation().getLatitude(), p.getLocation().getLongitude())));
-        }
+            if(arg != null && mMyLocationOverlay != null){
+                if(arg instanceof Producteur){
+                    Producteur producteur = (Producteur) arg;
+                    mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(), producteur.getNom(), producteur.getVille(),new GeoPoint(producteur.getLocation().getLatitude(), producteur.getLocation().getLongitude())));
+                }else{
+                    List<Producteur> producteurs = (List<Producteur>) arg;
+                    for(Producteur producteur : producteurs){
+                        mMyLocationOverlay.addItem(new OverlayItem(producteur.getId(), producteur.getNom(), producteur.getVille(),new GeoPoint(producteur.getLocation().getLatitude(), producteur.getLocation().getLongitude())));
+                        System.out.println(producteur.getNom());
+                        System.out.println(producteur.getLocation());
+                    }
+                }
+            }
 
+        }
     }
 }

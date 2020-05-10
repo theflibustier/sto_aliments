@@ -25,6 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.ihm.stoaliment.consommateur.accueil.FilterActivity;
 import com.ihm.stoaliment.consommateur.producteur.DetailProducteurActivity;
 import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.model.Producteur;
@@ -52,6 +53,8 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
 
     private int nb_producteur_load;
     private int nb_producteur_to_load;
+
+    private int distance = 999;
 
     public ProducteurControleur(Activity activity){
 
@@ -174,8 +177,24 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
                                         }
                                     });
 
+                                    List<Producteur> newProductors = new ArrayList<>();
+
+                                    if(distance == -1){
+                                        setChanged();
+                                        notifyObservers(producteurs);
+                                        return;
+                                    }
+                                    for (Producteur producteur : producteurs) {
+                                        double distanceBetween = FilterActivity.distance(producteur.getLocation().getLatitude(),
+                                                geoPoint.getLatitude(),
+                                                producteur.getLocation().getLongitude(),
+                                                geoPoint.getLongitude(),0,0);
+
+                                        if(distanceBetween * 0.001 <= distance) newProductors.add(producteur);
+                                    }
+
                                     setChanged();
-                                    notifyObservers(producteurs);
+                                    notifyObservers(newProductors);
                                 }
 
                             }
@@ -256,9 +275,6 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
         });
     }
 
-
-
-
     public void loadProducteur(String id) {
 
         db.collection("producteur").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -326,5 +342,12 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
     public void onSuccess(Location location) {
         if(location!=null)loadProducteursSortedByNearest(new GeoPoint(location.getLatitude(), location.getLongitude()));
         else loadProducteursInOneList();
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 }

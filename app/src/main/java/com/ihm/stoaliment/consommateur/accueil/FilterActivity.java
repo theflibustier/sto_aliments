@@ -26,10 +26,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 
-public class FilterActivity extends AppCompatActivity implements Observer {
+public class FilterActivity extends AppCompatActivity{
     private SeekBar distanceSeekBar;
     private SeekBar priceSeekBar;
     private SeekBar favSeekBar;
+    private AutourActivity autourActivity = new AutourActivity();
 
     public int distance = 0;
     public int price = 0;
@@ -38,18 +39,12 @@ public class FilterActivity extends AppCompatActivity implements Observer {
     List<Producteur> producteursFiltered = new ArrayList<>();
     ProducteurControleur producteurControleur;
 
-    //
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil_filtrer);
-
-        producteurControleur = new ProducteurControleur(this);
-        producteurControleur.addObserver(this);
-        producteurControleur.loadProducteurs();
-
 
         //Revenir à la page précédente
         TextView close = (TextView) findViewById(R.id.close);
@@ -66,15 +61,28 @@ public class FilterActivity extends AppCompatActivity implements Observer {
         priceSeekBar = (SeekBar) findViewById(R.id.priceSeekBar);
         favSeekBar = (SeekBar) findViewById(R.id.favSeekBar);
 
+        Button resetFilters = (Button) findViewById(R.id.removerFilter);
+        resetFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                distanceSeekBar.setProgress(0);
+                distance = -1;
+                priceSeekBar.setProgress(0);
+                favSeekBar.setProgress(0);
+
+                Toast.makeText(FilterActivity.this, "Filtre réinitialisé",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Button valider = (Button) findViewById(R.id.valider);
 
         valider.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AutourActivity autourActivity = new AutourActivity();
-                autourActivity.clearOverlay();
-                notifyAll();
-                autourActivity.setFilteredProductors(producteursFiltered);
+                Intent intent = new Intent(FilterActivity.this, AccueilConsommateurActivity.class);
+                intent.putExtra("distance", distance);
+                startActivity(intent);
             }
         });
 
@@ -93,7 +101,7 @@ public class FilterActivity extends AppCompatActivity implements Observer {
 
             //toast : montre la valeur
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(FilterActivity.this, "Vous avez selectionné : " + distance + "étoile(s)",
+                Toast.makeText(FilterActivity.this, "Vous avez selectionné : " + numberStarsFav + "étoile(s)",
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -131,7 +139,7 @@ public class FilterActivity extends AppCompatActivity implements Observer {
 
             //toast : montre la valeur
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(FilterActivity.this, "Distance : " + numberStarsFav + " km",
+                Toast.makeText(FilterActivity.this, "Distance : " + distance + " km",
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -145,31 +153,8 @@ public class FilterActivity extends AppCompatActivity implements Observer {
         return  false;
     }
 
-    @Override
-    public void update(Observable observable, Object o) {
-
-            Producteur producteur = (Producteur) o;
 
 
-            GeoPoint curCosommateurPosition = Authentification.consommateur.getLocationConsommateur();
-            GeoPoint producteurPosition = producteur.getLocation();
-
-
-            double distanceInMeters = distance(curCosommateurPosition.getLatitude(),
-                    producteurPosition.getLatitude(),
-                    curCosommateurPosition.getLongitude(),
-                    producteurPosition.getLongitude(),
-                    0,0);
-
-            Log.d("info", "id consommateur :  " + Authentification.consommateur.getId());
-
-            Log.d("distance", "distance = " + distance);
-
-            if(distanceInMeters / 0.001 <= distance){
-                producteursFiltered.add(producteur);
-            }
-
-    }
 
     public static double distance(double lat1, double lat2, double lon1, double lon2, double el1, double el2) {
 

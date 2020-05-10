@@ -225,6 +225,8 @@ public class AjoutProduitActivity extends AppCompatActivity {
             imgView.setImageURI(image_uri);
             btnCam.getBackground().setAlpha(64);
         }
+
+        
     }
 
 
@@ -240,23 +242,11 @@ public class AjoutProduitActivity extends AppCompatActivity {
 
 
         if (image_uri == null){
-            Log.d("ERREUR", "iamge nullll");
+            Log.d("ERREUR", "image nullll");
         }else{
-            Log.d("non", "iamge pas du tout null");
+            Log.d("non", "image existante");
         }
-//        intentForTwitter.putExtra(Intent.EXTRA_STREAM, image_uri);
-//        intentForTwitter.setType("image/jpeg");
-        /**/
 
-//            String stringUri = image_uri.toString();
-//
-//            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_uri);
-//
-//            ByteArrayOutputStream bs = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-//            intentForTwitter.putExtra("byteArray", bs.toByteArray());
-
-        /**/
         PackageManager packManager = getPackageManager();
         List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(intentForTwitter, PackageManager.MATCH_DEFAULT_ONLY);
 
