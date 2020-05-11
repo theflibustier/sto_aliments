@@ -20,7 +20,7 @@
         <activity
             android:name=".authentification.inscription.InscriptionActivity"
             android:windowSoftInputMode="adjustUnspecified" />
-        <activity android:name=".consommateur.produit.DisplayProduit" />
+        <activity android:name=".consommateur.produit.DisplayProduitActivity" />
         <activity android:name=".authentification.AuthentificationActivity" />
         <activity android:name=".consommateur.producteur.DetailProducteurActivity" />
         <activity android:name=".producteur.abonneList.AbonneListAdapter" />
