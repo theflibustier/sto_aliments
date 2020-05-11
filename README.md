@@ -20,9 +20,9 @@ git clone https://github.com/rachid-eladlani/sto_aliments.git
 
 
 ## Run the app
-Authentification : 
-  Producteur : frank
-  Consommateur : martin
+**Authentification** : <br>
+- Producteur : frank <br>
+- Consommateur : martin
   
 
 ## Team
