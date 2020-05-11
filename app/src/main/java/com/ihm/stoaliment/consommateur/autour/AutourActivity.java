@@ -92,7 +92,6 @@ public class AutourActivity extends BaseConsommateurActivity implements Observer
         //the Place icons on the map with a click listener
         mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items, producteurControleur);
 
-
         mMyLocationOverlay.setFocusItemsOnTap(true);
         map.getOverlays().add(mMyLocationOverlay);
 
