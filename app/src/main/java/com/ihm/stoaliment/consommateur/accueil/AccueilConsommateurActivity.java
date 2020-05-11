@@ -92,7 +92,6 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
                 startActivity(intent);
             }
         });
-
     }
 
     @Override

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class DisplayProduit extends AppCompatActivity implements Observer {
+public class DisplayProduitActivity extends AppCompatActivity implements Observer {
     private ProduitListAdapter produitListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

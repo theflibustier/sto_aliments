@@ -66,10 +66,12 @@ public class AuthentificationActivity extends AppCompatActivity implements Obser
                 System.out.println(Authentification.consommateur.getNom());
                 Intent intent = new Intent(this, AccueilConsommateurActivity.class);
                 startActivity(intent);
+                finish();
             } else {
                 System.out.println(Authentification.producteur.getNom());
                 Intent intent = new Intent(this, AccueilProducteurActivity.class);
                 startActivity(intent);
+                finish();
             }
         }
     }

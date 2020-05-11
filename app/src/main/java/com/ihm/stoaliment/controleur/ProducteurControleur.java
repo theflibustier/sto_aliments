@@ -28,6 +28,7 @@ import com.google.firebase.storage.StorageReference;
 import com.ihm.stoaliment.consommateur.accueil.FilterActivity;
 import com.ihm.stoaliment.consommateur.producteur.DetailProducteurActivity;
 import com.ihm.stoaliment.model.Authentification;
+import com.ihm.stoaliment.model.Consommateur;
 import com.ihm.stoaliment.model.Producteur;
 
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -211,6 +212,30 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
                 }
             }
         });
+    }
+
+    public void loadAbonnement(String consommateurId){
+        db.collection("producteur").whereArrayContains("listeAbonnes",consommateurId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<Producteur> abonnement = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            final Producteur producteur = document.toObject(Producteur.class);
+                            producteur.setId(document.getId());
+                            abonnement.add(producteur);
+                        }
+                    }
+                    setChanged();
+                    notifyObservers(abonnement);
+                } else {
+                    Log.d(TAG, "Producteurs null ", task.getException());
+                }
+            }
+        });
+
     }
 
     public void loadProducteursInOneList(){
