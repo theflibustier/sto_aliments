@@ -96,6 +96,11 @@ public class ProduitControleur extends Observable implements AdapterView.OnItemC
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
 
+                    if(task.getResult().isEmpty()){
+
+                        Toast.makeText(activity,"Aucun produit trouvé", Toast.LENGTH_SHORT).show();
+                    }
+
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Log.d("DATABASE",document.getId() + " => " + document.getData());
@@ -106,6 +111,8 @@ public class ProduitControleur extends Observable implements AdapterView.OnItemC
 
                         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
                         StorageReference islandRef = firebaseStorage.getReference().child(produit.getImageUrl());
+
+                        System.out.println(produit.getImageUrl());
 
                         File localFile = null;
                         try {

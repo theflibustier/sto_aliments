@@ -71,7 +71,6 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -88,8 +87,6 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
     public void update(Observable o, Object arg) {
 
         if(o instanceof ProducteurControleur) {
-
-
 
             producteurs = (List<Producteur>) arg;
             producteurListAdapter = new ProducteurListAdapter(this, producteurs);

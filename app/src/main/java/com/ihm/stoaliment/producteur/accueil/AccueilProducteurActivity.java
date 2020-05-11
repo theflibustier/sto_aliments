@@ -5,23 +5,30 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.authentification.AuthentificationActivity;
 import com.ihm.stoaliment.R;
-import com.ihm.stoaliment.producteur.abonneList.AfficheAbonneActivity;
-import com.ihm.stoaliment.producteur.produit.AjoutProduitActivity;
 
-public class AccueilProducteurActivity extends AppCompatActivity {
+public class AccueilProducteurActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     ImageView addProduct;
     Button coordonnees;
     Button seeAbonnes;
     Button deconnexion;
+    Button acueilEnTravaux;
+
+    private HomeFragment homeFragment;
+    private ProduitFragment produitFragment;
+    private AbonneFragment abonneFragment;
+    BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -29,33 +36,21 @@ public class AccueilProducteurActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil_producteur);
 
-        addProduct = findViewById(R.id.addProduct);
-        addProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AccueilProducteurActivity.this, AjoutProduitActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        coordonnees = findViewById(R.id.producteurCoordonnees);
-        coordonnees.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("Pas encore fait");
-            }
-        });
-
-        seeAbonnes = findViewById(R.id.seeAbonnes);
-        seeAbonnes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AccueilProducteurActivity.this, AfficheAbonneActivity.class);
-                startActivity(intent);
-            }
-        });
+        bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.getMenu().getItem(1).setChecked(true);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        homeFragment = null;
+        produitFragment = null;
+        abonneFragment = null;
+
+        onNavigationItemSelected(bottomNavigationView.getMenu().findItem(bottomNavigationView.getSelectedItemId()));
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,5 +84,47 @@ public class AccueilProducteurActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        switch (item.getItemId()){
+
+
+            case R.id.navigation_home :
+
+                if(homeFragment == null)
+                    homeFragment = new HomeFragment();
+
+                transaction.replace(R.id.fragment, homeFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                return true;
+
+
+            case R.id.navigation_produit :
+
+                if(produitFragment == null)
+                    produitFragment = new ProduitFragment();
+
+                transaction.replace(R.id.fragment, produitFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                return true;
+
+            case R.id.navigation_abonne :
+
+                if(abonneFragment == null)
+                    abonneFragment = new AbonneFragment();
+
+                transaction.replace(R.id.fragment, abonneFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                return true;
+        }
+
+        return false;
+    }
 }
