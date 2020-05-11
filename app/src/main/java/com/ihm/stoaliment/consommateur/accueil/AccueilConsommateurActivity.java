@@ -2,16 +2,20 @@ package com.ihm.stoaliment.consommateur.accueil;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.location.LocationServices;
+import com.ihm.stoaliment.controleur.GeolocalisationControleur;
 import com.ihm.stoaliment.controleur.NotificationControlleur;
 import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.authentification.AuthentificationActivity;
@@ -19,7 +23,6 @@ import com.ihm.stoaliment.R;
 import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;
 import com.ihm.stoaliment.consommateur.autour.AutourActivity;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
-import com.ihm.stoaliment.model.Notification;
 import com.ihm.stoaliment.model.Producteur;
 
 import java.util.ArrayList;
@@ -31,13 +34,24 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
 
     private ProducteurListAdapter producteurListAdapter;
     private ProducteurControleur producteurControleur;
+    private GeolocalisationControleur geolocalisationControleur;
     List<Producteur> producteurs;
+    Location currentlocation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_accueil_consommateur);
+
+        int distance = this.getIntent().getIntExtra("distance", -1);
+
+
+        Toast.makeText(AccueilConsommateurActivity.this, "la distance : " + distance,
+                Toast.LENGTH_SHORT).show();
+
+        System.out.println("samsung : " + distance);
 
         Toolbar mytoolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(mytoolbar);
@@ -57,7 +71,14 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
         producteurControleur = new ProducteurControleur(this);
         producteurControleur.addObserver(this);
 
-        LocationServices.getFusedLocationProviderClient(this).getLastLocation().addOnSuccessListener(producteurControleur);
+        producteurControleur.setDistance(distance);
+
+        geolocalisationControleur = new GeolocalisationControleur(this);
+        geolocalisationControleur.addObserver(this);
+        geolocalisationControleur.loadPosition();
+
+        producteurControleur.onSuccess(currentlocation);
+
 
         NotificationControlleur notificationControlleur = new NotificationControlleur(this);
         notificationControlleur.loadLastNotif(Authentification.consommateur.getId());
@@ -85,6 +106,10 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
 
     @Override
     public void update(Observable o, Object arg) {
+
+        if(arg instanceof Location){
+            currentlocation = (Location) arg;
+        }
 
         if(o instanceof ProducteurControleur) {
 

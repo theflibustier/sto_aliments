@@ -22,9 +22,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ihm.stoaliment.model.Authentification;
 import com.ihm.stoaliment.model.Consommateur;
+import com.ihm.stoaliment.model.Producteur;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
 

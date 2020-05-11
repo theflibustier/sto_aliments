@@ -25,8 +25,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.ihm.stoaliment.consommateur.accueil.FilterActivity;
 import com.ihm.stoaliment.consommateur.producteur.DetailProducteurActivity;
 import com.ihm.stoaliment.model.Authentification;
+import com.ihm.stoaliment.model.Consommateur;
 import com.ihm.stoaliment.model.Producteur;
 
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -52,6 +54,8 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
 
     private int nb_producteur_load;
     private int nb_producteur_to_load;
+
+    private int distance = 999;
 
     public ProducteurControleur(Activity activity){
 
@@ -174,6 +178,108 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
                                         }
                                     });
 
+                                    List<Producteur> newProductors = new ArrayList<>();
+
+                                    if(distance == -1){
+                                        setChanged();
+                                        notifyObservers(producteurs);
+                                        return;
+                                    }
+                                    for (Producteur producteur : producteurs) {
+                                        double distanceBetween = FilterActivity.distance(producteur.getLocation().getLatitude(),
+                                                geoPoint.getLatitude(),
+                                                producteur.getLocation().getLongitude(),
+                                                geoPoint.getLongitude(),0,0);
+
+                                        if(distanceBetween * 0.001 <= distance) newProductors.add(producteur);
+                                    }
+
+                                    setChanged();
+                                    notifyObservers(newProductors);
+                                }
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                // Handle any errors
+                            }
+                        });
+                    }
+
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void loadAbonnement(String consommateurId){
+        db.collection("producteur").whereArrayContains("listeAbonnes",consommateurId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<Producteur> abonnement = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.exists()) {
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            final Producteur producteur = document.toObject(Producteur.class);
+                            producteur.setId(document.getId());
+                            abonnement.add(producteur);
+                        }
+                    }
+                    setChanged();
+                    notifyObservers(abonnement);
+                } else {
+                    Log.d(TAG, "Producteurs null ", task.getException());
+                }
+            }
+        });
+
+    }
+
+    public void loadProducteursInOneList(){
+
+        final List<Producteur> producteurs = new ArrayList<>();
+
+        db.collection("producteur").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Log.d(TAG,document.getId() + " => " + document.getData());
+
+                        final Producteur producteur = document.toObject(Producteur.class);
+                        producteur.setId(document.getId());
+                        producteurs.add(producteur);
+                    }
+
+                    nb_producteur_to_load = producteurs.size();
+                    nb_producteur_load = 0;
+
+                    for(final Producteur producteur : producteurs){
+
+                        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                        StorageReference islandRef = firebaseStorage.getReference().child(producteur.getImageUrl());
+
+                        File localFile = null;
+                        try {
+                            localFile = File.createTempFile("images", "jpg");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        final File finalLocalFile = localFile;
+                        islandRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                // Local temp file has been created
+                                Bitmap bitmap = BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath());
+
+                                producteur.setImage(bitmap);
+
+                                nb_producteur_load++;
+                                if(nb_producteur_load == nb_producteur_to_load){
                                     setChanged();
                                     notifyObservers(producteurs);
                                 }
@@ -193,9 +299,6 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
             }
         });
     }
-
-
-
 
     public void loadProducteur(String id) {
 
@@ -262,6 +365,14 @@ public class ProducteurControleur extends Observable implements AdapterView.OnIt
 
     @Override
     public void onSuccess(Location location) {
-        loadProducteursSortedByNearest(new GeoPoint(location.getLatitude(), location.getLongitude()));
+        if(location!=null)loadProducteursSortedByNearest(new GeoPoint(location.getLatitude(), location.getLongitude()));
+        else loadProducteursInOneList();
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 }

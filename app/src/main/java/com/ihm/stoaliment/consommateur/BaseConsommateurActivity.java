@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ihm.stoaliment.R;
+import com.ihm.stoaliment.consommateur.abonnement.DisplayAbonnementActivity;
 import com.ihm.stoaliment.consommateur.accueil.AccueilConsommateurActivity;
 import com.ihm.stoaliment.consommateur.autour.AutourActivity;
+import com.ihm.stoaliment.consommateur.abonnement.DisplayAbonnementActivity;
 
 public abstract class BaseConsommateurActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -62,8 +64,7 @@ public abstract class BaseConsommateurActivity extends AppCompatActivity impleme
 
                 // Favoris
                 else if (id == R.id.action_fav)
-                    // TODO
-                    ;
+                    activity = DisplayAbonnementActivity.class;
 
                 // Profil
                 else if (id == R.id.action_user)

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view_inscription"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".producteur.CoordonneesActivity">
+
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/header_inscription"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView_inscription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="36dp"
+            android:text="Modifier ses coordonnées"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="189dp"
+            android:layout_height="87dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            app:srcCompat="@mipmap/logo" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/header_inscription">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_layout_identifiant_modif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="20dp"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_identifiant_modif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Identifiant"
+                android:singleLine="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_layout_nom_modif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:errorEnabled="true"
+            android:layout_below="@id/text_layout_identifiant">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_nom_modif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nom"
+                android:singleLine="true" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_layout_adresse_modif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:errorEnabled="true"
+            android:layout_below="@id/text_layout_nom">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_adresse_modif"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Adresse"
+                android:singleLine="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_ville_modif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal"
+            android:layout_below="@id/text_layout_adresse_modif">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_layout_ville_modif"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:layout_weight=".65"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_ville_modif"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Ville"
+                    android:singleLine="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_layout_cp_modif"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".35"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_cp_modif"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="CP"
+                    android:inputType="numberSigned|textPostalAddress"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_valider_modification"
+            android:layout_width="165dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="162dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="162dp"
+            android:layout_marginBottom="20dp"
+            android:text="Enregistrer"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+</ScrollView>

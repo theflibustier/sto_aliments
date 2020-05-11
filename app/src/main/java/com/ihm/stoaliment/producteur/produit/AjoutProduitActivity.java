@@ -9,6 +9,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -30,7 +33,15 @@ import com.ihm.stoaliment.controleur.ProduitControleur;
 import com.ihm.stoaliment.model.Producteur;
 import com.ihm.stoaliment.model.Produit;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +50,10 @@ public class AjoutProduitActivity extends AppCompatActivity {
 
     private static final int PERMISSION_CODE = 1000;
     private static final int IMAGE_CAPTURE_CODE = 1001;
+    private static final int GALLERY_INTENT = 2;
     private static final String TAG = "testttos";
     Button btnCam;
+    Button btnInsert;
     Button btnValid;
     ImageView imgView;
     Spinner spinner2;
@@ -64,6 +77,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
 
         imgView = findViewById(R.id.imageView);
         btnCam = findViewById(R.id.btnCapture);
+        btnInsert = findViewById(R.id.btnInsert);
         btnValid = findViewById(R.id.valide);
         editTextQuantity = findViewById(R.id.edit_quantity);
         editTextLabel = findViewById(R.id.productName);
@@ -80,12 +94,16 @@ public class AjoutProduitActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(requiredInputs()){
-                    shareOnTwitterWithPost("J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
-                            + " sont enfin disponible de " + heureDebut.getText().toString() + "h à "
-                            + heureFin.getText().toString() + " h."
-                            + "\n\n" + "Quantité limitée à " + editTextQuantity.getText().toString()
-                            + " kg à " + prix.getText().toString() + " € le kilo."
-                            + "\n\n" + "N'hésitez surtout pas et venez nombreux !");
+                    try {
+                        shareOnTwitterWithPost("J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
+                                + " sont enfin disponible de " + heureDebut.getText().toString() + "h à "
+                                + heureFin.getText().toString() + " h."
+                                + "\n\n" + "Quantité limitée à " + editTextQuantity.getText().toString()
+                                + " kg à " + prix.getText().toString() + " € le kilo."
+                                + "\n\n" + "N'hésitez surtout pas et venez nombreux !");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -110,7 +128,19 @@ public class AjoutProduitActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnInsert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY_INTENT);
+            }
+        });
+
         addItemsOnSpinner();
+
+
 
         btnValid.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +174,8 @@ public class AjoutProduitActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     //add items into spinner dynamically
@@ -189,20 +221,35 @@ public class AjoutProduitActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            imgView.setImageURI(image_uri);
-            btnCam.getBackground().setAlpha(64);
+            if(data != null){
+                image_uri = data.getData();
+                imgView.setImageURI(image_uri);
+                btnCam.getBackground().setAlpha(64);
+            }else{
+                imgView.setImageURI(image_uri);
+                btnCam.getBackground().setAlpha(64);
+            }
         }
     }
 
 
-    private void shareOnTwitterWithPost(String message) {
+    private void shareOnTwitterWithPost(String message) throws IOException {
 
         Intent intentForTwitter = new Intent(Intent.ACTION_SEND);
         Bundle extra = new Bundle();
         
         intentForTwitter.putExtra(Intent.EXTRA_TEXT, message);
-        intentForTwitter.setType("text/plain");
-        
+
+        intentForTwitter.putExtra(Intent.EXTRA_STREAM, image_uri);
+        intentForTwitter.setType("image/jpeg");
+
+
+        if (image_uri == null){
+            Log.d("ERREUR", "image nullll");
+        }else{
+            Log.d("non", "image existante");
+        }
+
         PackageManager packManager = getPackageManager();
         List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(intentForTwitter, PackageManager.MATCH_DEFAULT_ONLY);
 
@@ -248,22 +295,81 @@ public class AjoutProduitActivity extends AppCompatActivity {
         if(editTextLabel.length() == 0){
             res = false;
             editTextLabel.setError("Entrer le nom du produit");
-        }else if(heureDebut.length() == 0) {
+        }
+        if(heureDebut.length() == 0) {
             res = false;
             heureDebut.setError("Entrer l'heure retrait");
-        }else if(heureFin.length() == 0) {
+        }
+        if(heureFin.length() == 0) {
             res = false;
             heureFin.setError("Entrer l'heure de fin de retrait");
         }
-        else if(prix.length() == 0) {
+        if(prix.length() == 0) {
             res = false;
             prix.setError("Entrer le prix du produit");
-        }else if(editTextQuantity.length() == 0){
+        }
+        if(editTextQuantity.length() == 0){
             res = false;
             editTextQuantity.setError("Entrer la quantité");
         }
 
         return res;
+    }
+
+    public byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
+    public Bitmap loadBitmap(String url)
+    {
+        Bitmap bm = null;
+        InputStream is = null;
+        BufferedInputStream bis = null;
+        try
+        {
+            URLConnection conn = new URL(url).openConnection();
+            conn.connect();
+            is = conn.getInputStream();
+            bis = new BufferedInputStream(is, 8192);
+            bm = BitmapFactory.decodeStream(bis);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        finally {
+            if (bis != null)
+            {
+                try
+                {
+                    bis.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            if (is != null)
+            {
+                try
+                {
+                    is.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return bm;
     }
 
 }

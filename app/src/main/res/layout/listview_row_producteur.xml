@@ -17,6 +17,17 @@
         android:textStyle="bold"
         android:layout_marginTop="15dp"/>
 
+    <TextView
+        android:id="@+id/textViewProducteurDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text=""
+        android:textColor="#ffc837"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+
     <ImageView
         android:layout_marginTop="10dp"
         android:id="@+id/imageViewImageProducteur"
