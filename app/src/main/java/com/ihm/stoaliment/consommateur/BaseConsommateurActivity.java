@@ -13,6 +13,7 @@ import com.ihm.stoaliment.consommateur.abonnement.DisplayAbonnementActivity;
 import com.ihm.stoaliment.consommateur.accueil.AccueilConsommateurActivity;
 import com.ihm.stoaliment.consommateur.autour.AutourActivity;
 import com.ihm.stoaliment.consommateur.abonnement.DisplayAbonnementActivity;
+import com.ihm.stoaliment.consommateur.profil.ProfilActivity;
 
 public abstract class BaseConsommateurActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -63,13 +64,17 @@ public abstract class BaseConsommateurActivity extends AppCompatActivity impleme
                     activity = AutourActivity.class;
 
                 // Favoris
+                else if (id == R.id.action_fav){
+                    // TODO
+                }
+
                 else if (id == R.id.action_fav)
                     activity = DisplayAbonnementActivity.class;
 
                 // Profil
-                else if (id == R.id.action_user)
-                    // TODO
-                    ;
+                else if (id == R.id.action_user){
+                    activity = ProfilActivity.class;
+                }
 
 //                if (activity != null &&  (currentActivity == null ||  !currentActivity.getSimpleName().equals(activity.getSimpleName())) ) {
                 if (activity != null) {

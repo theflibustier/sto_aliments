@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -94,16 +95,12 @@ public class AjoutProduitActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(requiredInputs()){
-                    try {
-                        shareOnTwitterWithPost("J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
-                                + " sont enfin disponible de " + heureDebut.getText().toString() + "h à "
-                                + heureFin.getText().toString() + " h."
-                                + "\n\n" + "Quantité limitée à " + editTextQuantity.getText().toString()
-                                + " kg à " + prix.getText().toString() + " € le kilo."
-                                + "\n\n" + "N'hésitez surtout pas et venez nombreux !");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    shareOnTwitter(AjoutProduitActivity.this,"J'ai le plaisir de vous annoncer que les " + editTextLabel.getText().toString()
+                            + " sont enfin disponible de " + heureDebut.getText().toString() + "h à "
+                            + heureFin.getText().toString() + " h."
+                            + "\n\n" + "Quantité limitée à " + editTextQuantity.getText().toString()
+                            + " kg à " + prix.getText().toString() + " € le kilo."
+                            + "\n\n" + "N'hésitez surtout pas et venez nombreux !", image_uri);
                 }
             }
         });
@@ -232,17 +229,42 @@ public class AjoutProduitActivity extends AppCompatActivity {
         }
     }
 
+    public  void shareOnTwitter(AppCompatActivity act, String messagePost, Uri img) {
+        Intent intentTwitter = new Intent(Intent.ACTION_SEND);
+        intentTwitter.setType("text/plain");
+        intentTwitter.setPackage("com.twitter.android");
+        intentTwitter.putExtra(Intent.EXTRA_TEXT,!TextUtils.isEmpty(messagePost) ? messagePost : "");
 
-    private void shareOnTwitterWithPost(String message) throws IOException {
+        if (img != null) {
+            intentTwitter.putExtra(Intent.EXTRA_STREAM, img);
+            intentTwitter.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intentTwitter.setType("image/*");
+        }
+
+        try {
+            act.startActivity(intentTwitter);
+        } catch (android.content.ActivityNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "L'application twitter n'a pas été trouvée", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    private void shareOnTwitterWithPost(AppCompatActivity appCompatActivity, String message, Uri image) throws IOException {
 
         Intent intentForTwitter = new Intent(Intent.ACTION_SEND);
+        intentForTwitter.setType("text/plain");
         Bundle extra = new Bundle();
         
         intentForTwitter.putExtra(Intent.EXTRA_TEXT, message);
 
-        intentForTwitter.putExtra(Intent.EXTRA_STREAM, image_uri);
-        intentForTwitter.setType("image/jpeg");
+        intentForTwitter.setPackage("com.twitter.android");
 
+        if (image != null) {
+            intentForTwitter.putExtra(Intent.EXTRA_STREAM, image);
+            intentForTwitter.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intentForTwitter.setType("image/*");
+        }
 
         if (image_uri == null){
             Log.d("ERREUR", "image nullll");
@@ -266,7 +288,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
         }
 
         if (resolved) {
-            startActivity(intentForTwitter);
+            appCompatActivity.startActivity(intentForTwitter);
         } else {
             Intent intent = new Intent();
             //ajout du message
@@ -275,7 +297,7 @@ public class AjoutProduitActivity extends AppCompatActivity {
             intent.setAction(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("https://twitter.com/intent/tweet?text=" + urlEncode(message)));
             //on lance l'activité
-            startActivity(intent);
+            appCompatActivity.startActivity(intent);
             //application non trouvée
             Toast.makeText(this, "L'application twitter n'a pas été trouvée", Toast.LENGTH_LONG).show();
         }
