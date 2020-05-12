@@ -34,6 +34,7 @@ public class Produit extends Observable implements Serializable {
         this.prix = prix;
     }
 
+    @Exclude
     public Bitmap getImage() {
         return image;
     }
@@ -42,6 +43,7 @@ public class Produit extends Observable implements Serializable {
         this.image = image;
     }
 
+    @Exclude
     public String getId() {
         return id;
     }

@@ -4,29 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".producteur.ui.abonne.AbonneFragment">
+    tools:context=".producteur.accueil.AccueilProducteurActivity">
 
-    <ListView
-        android:id="@+id/listViewAbonnes"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_load"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.426"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/abonneList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Liste de vos abonnés"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.158" />
+        <ProgressBar
+            android:id="@+id/load"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layout_abonnees"
+        android:visibility="invisible">
+
+
+        <ListView
+            android:id="@+id/listViewAbonnes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.426"
+            tools:layout_editor_absoluteX="0dp" />
+
+        <TextView
+            android:id="@+id/abonneList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Liste de vos abonnés"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.158" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

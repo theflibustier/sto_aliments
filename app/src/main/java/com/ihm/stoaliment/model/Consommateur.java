@@ -15,7 +15,6 @@ public class Consommateur implements Serializable {
     private String cp;
     private List<String> producteursSuivis;
     private String id;
-    private GeoPoint locationConsommateur;
 
     public Consommateur(String nom, String adresse, String ville, String cp) {
         this.nom = nom;
@@ -68,12 +67,5 @@ public class Consommateur implements Serializable {
     }
     public void setCp(String cp) {
         this.cp = cp;
-    }
-
-    public GeoPoint getLocationConsommateur() {
-        return locationConsommateur;
-    }
-    public void setLocationConsommateur(GeoPoint locationConsommateur) {
-        this.locationConsommateur = locationConsommateur;
     }
 }

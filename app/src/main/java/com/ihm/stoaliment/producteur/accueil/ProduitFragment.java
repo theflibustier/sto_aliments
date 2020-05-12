@@ -31,13 +31,13 @@ public class ProduitFragment extends Fragment implements Observer {
     private ProduitListAdapter produitListAdapter;
     private View root;
 
-
+    ProduitControleur produitControleur;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        ProduitControleur produitControleur = new ProduitControleur(getActivity());
+        produitControleur = new ProduitControleur(getActivity());
         produitControleur.addObserver(this);
         produitControleur.loadProduits(String.valueOf(Authentification.authentification.getRef()));
 
@@ -59,6 +59,7 @@ public class ProduitFragment extends Fragment implements Observer {
         }
 
         ListView listView = root.findViewById(R.id.listViewProduitProducteur);
+        listView.setOnItemClickListener(produitControleur);
         listView.setAdapter(produitListAdapter);
 
         root.findViewById(R.id.floatingActionButton_add_product).setOnClickListener(new View.OnClickListener() {

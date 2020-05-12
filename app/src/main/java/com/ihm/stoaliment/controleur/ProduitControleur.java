@@ -99,6 +99,8 @@ public class ProduitControleur extends Observable implements AdapterView.OnItemC
                     if(task.getResult().isEmpty()){
 
                         Toast.makeText(activity,"Aucun produit trouvé", Toast.LENGTH_SHORT).show();
+                        setChanged();
+                        notifyObservers(null);
                     }
 
 

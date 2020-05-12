@@ -49,10 +49,17 @@ public class DisplayProduitActivity extends AppCompatActivity implements Observe
     @Override
     public void update(Observable o, Object arg) {
 
-        produitListAdapter.add(arg);
-        produitListAdapter.notifyDataSetChanged();
 
         View load = findViewById(R.id.load);
         load.setVisibility(View.GONE);
+
+        if(arg != null){
+
+            produitListAdapter.add(arg);
+            produitListAdapter.notifyDataSetChanged();
+        }
+        else finish();
+
+
     }
 }
