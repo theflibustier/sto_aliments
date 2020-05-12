@@ -245,6 +245,15 @@ public class AjoutProduitActivity extends AppCompatActivity {
             act.startActivity(intentTwitter);
         } catch (android.content.ActivityNotFoundException e) {
             e.printStackTrace();
+            Intent intent = new Intent();
+            //ajout du message
+            intent.putExtra(Intent.EXTRA_TEXT, messagePost);
+            // intent.putExtra("imageProduit", image_uri);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://twitter.com/intent/tweet?text=" + urlEncode(messagePost)));
+            //on lance l'activité
+            startActivity(intent);
+            //application non trouvée
             Toast.makeText(this, "L'application twitter n'a pas été trouvée", Toast.LENGTH_LONG).show();
         }
     }
