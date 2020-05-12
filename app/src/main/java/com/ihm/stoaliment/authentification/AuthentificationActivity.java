@@ -61,9 +61,7 @@ public class AuthentificationActivity extends AppCompatActivity implements Obser
                 authentificationControleur.saveAuthentification();
             }
 
-            System.out.println(Authentification.userType);
             if (Authentification.userType.equals(Authentification.CONSOMMATEUR_TYPE)) {
-                System.out.println(Authentification.consommateur.getNom());
                 Intent intent = new Intent(this, AccueilConsommateurActivity.class);
                 startActivity(intent);
                 finish();

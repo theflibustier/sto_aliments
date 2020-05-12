@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,36 +7,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="10dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/retourALaPagePrecedente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:drawableLeft="@drawable/ic_keyboard_arrow_left_black_24dp"
-        android:text="retour"
-        tools:ignore="PrivateResource" />
+        <Button
+            android:id="@+id/retourALaPagePrecedente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_keyboard_arrow_left_black_24dp"
+            android:text="retour"
+            tools:ignore="PrivateResource" />
 
     </LinearLayout>
 
-
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="9dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
-            <ImageView
-                android:id="@+id/imageProfil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:src="@drawable/ic_account_circle_black_24dp" />
+        <ImageView
+            android:id="@+id/imageProfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:src="@drawable/ic_account_circle_black_24dp" />
 
 
         <LinearLayout
@@ -53,11 +60,10 @@
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nom"
-                    android:textSize="22dp"
                     android:layout_marginStart="20dp"
+                    android:text="Nom"
                     android:textColor="#32CD32"
-                    />
+                    android:textSize="22dp" />
 
                 <TextView
                     android:id="@+id/nom"
@@ -72,25 +78,25 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="40dp">
+                android:layout_marginTop="40dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/firstname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Prénom"
-                    android:textSize="22dp"
                     android:layout_marginStart="20dp"
-                    android:textColor="#32CD32"/>
+                    android:text="Prénom"
+                    android:textColor="#32CD32"
+                    android:textSize="22dp" />
 
                 <TextView
                     android:id="@+id/prenom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
                     android:text="test"
-                    android:textSize="22dp"
-                    android:layout_marginStart="50dp"/>
+                    android:textSize="22dp" />
 
             </LinearLayout>
 
@@ -99,11 +105,16 @@
 
     </LinearLayout>
 
+
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
-        android:layout_marginTop="35dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="48dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <TextView
             android:id="@+id/addresse"
@@ -111,8 +122,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:text="Adresse"
-            android:textSize="22dp"
-            android:textColor="#32CD32"/>
+            android:textColor="#32CD32"
+            android:textSize="22dp" />
 
         <TextView
             android:id="@+id/adresse"
@@ -124,21 +135,24 @@
 
     </LinearLayout>
 
-
     <LinearLayout
+        android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="36dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
             android:id="@+id/tel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Téléphone"
-            android:textSize="22dp"
             android:layout_marginLeft="15dp"
-            android:textColor="#32CD32"/>
+            android:text="Téléphone"
+            android:textColor="#32CD32"
+            android:textSize="22dp" />
 
         <TextView
             android:id="@+id/telephone"
@@ -153,61 +167,48 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
         <TextView
             android:id="@+id/mail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mail"
-            android:textSize="22dp"
             android:layout_marginLeft="15dp"
-            android:textColor="#32CD32"/>
+            android:text="Mail"
+            android:textColor="#32CD32"
+            android:textSize="22dp" />
 
         <TextView
             android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="89dp"
             android:text="test"
-            android:textSize="22dp"
-            android:layout_marginLeft="89dp"/>
+            android:textSize="22dp" />
 
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/link"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lier son compte"
-            android:textSize="22dp"
-            android:gravity="center"/>
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:gravity="bottom"
         android:orientation="horizontal"
-        android:layout_marginBottom="0dp"
-        android:gravity="bottom">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <include
+            android:id="@+id/include"
+            layout="@layout/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

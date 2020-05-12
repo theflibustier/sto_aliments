@@ -63,11 +63,6 @@ public abstract class BaseConsommateurActivity extends AppCompatActivity impleme
                 else if (id == R.id.action_autour)
                     activity = AutourActivity.class;
 
-                // Favoris
-                else if (id == R.id.action_fav){
-                    // TODO
-                }
-
                 else if (id == R.id.action_fav)
                     activity = DisplayAbonnementActivity.class;
 

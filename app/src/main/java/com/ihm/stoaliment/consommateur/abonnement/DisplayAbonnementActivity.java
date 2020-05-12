@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ihm.stoaliment.consommateur.BaseConsommateurActivity;
 import com.ihm.stoaliment.consommateur.accueil.AbonnementListAdapter;
 import com.ihm.stoaliment.controleur.AbonneControleur;
 import com.ihm.stoaliment.controleur.ProducteurControleur;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-public class DisplayAbonnementActivity extends AppCompatActivity implements Observer {
+public class DisplayAbonnementActivity extends BaseConsommateurActivity implements Observer {
 
     private List<Producteur> producteurs = new ArrayList<>();
     private AbonnementListAdapter abonnementListAdapter;
@@ -38,6 +39,16 @@ public class DisplayAbonnementActivity extends AppCompatActivity implements Obse
         listView.setAdapter(abonnementListAdapter);
         listView.setOnItemClickListener(producteurControleur);
 
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_affiche_abonnement;
+    }
+
+    @Override
+    public int getBottomNavigationMenuItemId() {
+        return R.id.action_fav;
     }
 
     @Override

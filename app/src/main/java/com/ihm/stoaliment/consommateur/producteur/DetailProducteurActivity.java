@@ -85,6 +85,8 @@ public class DetailProducteurActivity extends AppCompatActivity implements Obser
             ((Button)findViewById(R.id.btnAbonne)).setText( (abonner)? "Se désabonner" : "S'abonner");
         }
         if(o instanceof ConsommateurControlleur){
+
+            System.out.println("FAIT PAS LE FOU" + Authentification.consommateur);
             Authentification.consommateur = (Consommateur) arg;
         }
 

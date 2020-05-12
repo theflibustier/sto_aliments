@@ -83,8 +83,8 @@ public class ConsommateurControlleur extends Observable implements AdapterView.O
                            abonnes.add(consommateur);
                        }
                    }
-                    setChanged();
-                    notifyObservers(abonnes);
+                   setChanged();
+                   notifyObservers(abonnes);
                 } else {
                     Log.d(TAG, "Consommateur n'existe pas ", task.getException());
                 }
