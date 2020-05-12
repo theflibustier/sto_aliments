@@ -33,6 +33,7 @@ import com.ihm.stoaliment.controleur.NotificationControlleur;
 import com.ihm.stoaliment.controleur.ProduitControleur;
 import com.ihm.stoaliment.model.Producteur;
 import com.ihm.stoaliment.model.Produit;
+import com.ihm.stoaliment.producteur.accueil.AccueilProducteurActivity;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -163,9 +164,10 @@ public class AjoutProduitActivity extends AppCompatActivity {
                     if(!hf.isEmpty())produit.setHeureFin(Integer.parseInt(hf));
                     ProduitControleur produitControleur = new ProduitControleur(AjoutProduitActivity.this);
                     produitControleur.addProduit(produit, image_uri);
-                    if(!switchNotif.isChecked()) return;
-
-                    notificationControlleur.sendNotifToAlertNewProduct(produit,producteur, producteur.getListeAbonnes());
+                    if(switchNotif.isChecked()) notificationControlleur.sendNotifToAlertNewProduct(produit,producteur, producteur.getListeAbonnes());
+                    Intent intent = new Intent(getApplicationContext(), AccueilProducteurActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
 
 

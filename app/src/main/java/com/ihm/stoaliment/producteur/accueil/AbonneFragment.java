@@ -47,13 +47,20 @@ public class AbonneFragment extends Fragment implements Observer {
 
         if(!consommateurs.isEmpty()){
 
-            root.findViewById(R.id.layout_load).setVisibility(View.GONE);
-            root.findViewById(R.id.layout_abonnees).setVisibility(View.VISIBLE);
+
+
 
             abonnesListAdapter = new AbonneListAdapter(getActivity(), consommateurs);
         }
 
-        ListView listView = root.findViewById(R.id.listViewAbonnes);
+        if(Authentification.producteur.getListeAbonnes().isEmpty()){
+
+            root.findViewById(R.id.layout_load).setVisibility(View.GONE);
+            root.findViewById(R.id.layout_abonnees).setVisibility(View.VISIBLE);
+        }
+
+
+            ListView listView = root.findViewById(R.id.listViewAbonnes);
         listView.setAdapter(abonnesListAdapter);
         listView.setOnItemClickListener(consommateurControlleur);
         return root;

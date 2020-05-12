@@ -45,7 +45,7 @@ public class NotificationControlleur extends Observable {
     }
 
     public void sendNotifToAlertNewProduct(Produit produit, Producteur producteur, List<String> abonnesId){
-        String message = "Venez chez moi "+producteur.getNom() + "entre " + produit.getHeureDebut() + "h et " + produit.getHeureFin() + "h pour récupérer mes " + produit.getQuantite() + " kg de " + produit.getLabel();
+        String message = "Venez chez moi "+producteur.getNom() + " entre " + produit.getHeureDebut() + "h et " + produit.getHeureFin() + "h pour récupérer mes " + produit.getQuantite() + " kg de " + produit.getLabel();
         addNotifToDB(new Notification(producteur.getId(),abonnesId,message));
         //sendNotificationOnChannel("Oyé oyé", _message, CHANNEL_ID, NotificationCompat.PRIORITY_HIGH);
     }

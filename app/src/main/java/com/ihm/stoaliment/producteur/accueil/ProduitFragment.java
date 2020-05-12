@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -76,9 +77,17 @@ public class ProduitFragment extends Fragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        Produit produit = (Produit) arg;
-        produits.add(produit);
-        produitListAdapter.notifyDataSetChanged();
+        if(arg == null){
+            Toast.makeText(getContext(), "Pas de produit...", Toast.LENGTH_SHORT).show();
+        }
+        else{
+
+            Produit produit = (Produit) arg;
+            produits.add(produit);
+            produitListAdapter.notifyDataSetChanged();
+        }
+
+
         root.findViewById(R.id.layout_load).setVisibility(View.GONE);
         root.findViewById(R.id.layout_produit).setVisibility(View.VISIBLE);
     }

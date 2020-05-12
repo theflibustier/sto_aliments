@@ -148,8 +148,8 @@ public class InscriptionControlleur extends Observable implements View.OnClickLi
                 else{
 
                     Producteur producteur = new Producteur(nom.getEditText().getText().toString(),
-                            adresse.getEditText().getText().toString(), ville.getEditText().getText().toString(),
-                            cp.getEditText().getText().toString(), location);
+                            cp.getEditText().getText().toString(), ville.getEditText().getText().toString(),
+                            adresse.getEditText().getText().toString(), location);
 
                     inscription(producteur, identifiant.getEditText().getText().toString(), Authentification.PRODUCTEUR_TYPE);
                 }
