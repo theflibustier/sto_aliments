@@ -77,7 +77,8 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
         geolocalisationControleur.addObserver(this);
         geolocalisationControleur.loadPosition();
 
-        producteurControleur.onSuccess(currentlocation);
+        if(currentlocation != null)
+            producteurControleur.onSuccess(currentlocation);
 
 
         NotificationControlleur notificationControlleur = new NotificationControlleur(this);
@@ -106,9 +107,16 @@ public class AccueilConsommateurActivity extends BaseConsommateurActivity implem
 
     @Override
     public void update(Observable o, Object arg) {
-
-        if(arg instanceof Location){
-            currentlocation = (Location) arg;
+        if(o instanceof GeolocalisationControleur){
+                if(arg instanceof Location){
+                    currentlocation = (Location) arg;
+                }
+                if(arg instanceof Boolean){
+                    boolean hasGps = (boolean) arg;
+                    if(hasGps){
+                        geolocalisationControleur.loadPosition();
+                    }
+                }
         }
 
         if(o instanceof ProducteurControleur) {
